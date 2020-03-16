@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29905.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDEE", "SDEE\SDEE.csproj", "{EC220BC8-5B47-42B4-B71F-44D324C4481F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDEE Editor", "SDEE Editor\SDEE Editor.csproj", "{3D92ADD4-0712-4F88-873C-57A7E0D00796}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EC220BC8-5B47-42B4-B71F-44D324C4481F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC220BC8-5B47-42B4-B71F-44D324C4481F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC220BC8-5B47-42B4-B71F-44D324C4481F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC220BC8-5B47-42B4-B71F-44D324C4481F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D92ADD4-0712-4F88-873C-57A7E0D00796}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D92ADD4-0712-4F88-873C-57A7E0D00796}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D92ADD4-0712-4F88-873C-57A7E0D00796}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D92ADD4-0712-4F88-873C-57A7E0D00796}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DAD7D9C9-0278-49C7-8882-FAF62CC812ED}
+	EndGlobalSection
+EndGlobal
