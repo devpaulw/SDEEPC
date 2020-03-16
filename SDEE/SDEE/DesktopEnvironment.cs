@@ -29,10 +29,12 @@ namespace SDEE
                 IntPtr hWnd = window.SystemHandle;
                 //User.SetWindowLong(hWnd, User.GWL_EXSTYLE, User.GetWindowLong(hWnd, User.GWL_EXSTYLE) & ~User.WS_EX_TOPMOST);
                 //User.SetWindowLong(hWnd,
-                  //  User.GWL_STYLE, User.GetWindowLong(hWnd, User.GWL_STYLE) & ~User.WS_OVERLAPPEDWINDOW);
+                //  User.GWL_STYLE, User.GetWindowLong(hWnd, User.GWL_STYLE) & ~User.WS_OVERLAPPEDWINDOW);
                 //User.SetWindowPos(hWnd, new IntPtr(1), 0, 0, 0, 0, User.SWP_NOSIZE | User.SWP_NOMOVE | User.SWP_NOACTIVATE);
 
                 #endregion
+
+                
 
                 window.Closed += (s, e) => window.Close();
 
@@ -46,6 +48,7 @@ namespace SDEE
                         window.Clear(Wallpaper);
 
                         DrawGuiElements();
+
 
                         window.Display();
                     }
