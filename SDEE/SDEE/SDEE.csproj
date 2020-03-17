@@ -61,11 +61,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DesktopEnvironment.cs" />
-    <Compile Include="MyTaskbar.cs" />
+    <Compile Include="MessageBoxIcon.cs" />
+    <Compile Include="Sfml\Control.cs" />
+    <Compile Include="Sfml\GraphicControl.cs" />
+    <Compile Include="Sfml\Taskbar\MyTaskbar.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SfmlDesktopEnvironment.cs" />
-    <Compile Include="SfW32DEWindow.cs" />
+    <Compile Include="Sfml\DesktopEnvironment.cs" />
+    <Compile Include="Sfml\SfW32DEWindow.cs" />
+    <Compile Include="Sfml\Taskbar\TaskbarElement.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -5,13 +5,13 @@ using System.Runtime.InteropServices;
 using Win32;
 using static Win32.User;
 
-namespace SDEE
+namespace SDEE.Sfml
 {
     /// <summary>
     /// A class that manages well the relations between Win32 and SFML,
     /// suited for a SDEE Desktop Environment
     /// </summary>
-    public class SfW32DEWindow : RenderWindow
+    internal class SfW32DEWindow : RenderWindow
     {
         public SfW32DEWindow() : base(GetHandleWindow())
         {
@@ -38,7 +38,7 @@ namespace SDEE
 
         private delegate IntPtr WndProc(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
 
-        private static readonly WndProc MyWndProcDelegate = MyWndProc;
+        private static readonly WndProc myWndProcDelegate = MyWndProc;
 
         private static IntPtr MyWndProc(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam)
         {
@@ -72,7 +72,7 @@ namespace SDEE
             {
                 cbSize = Marshal.SizeOf(typeof(WNDCLASSEX)),
                 style = 0,
-                lpfnWndProc = (int)Marshal.GetFunctionPointerForDelegate(MyWndProcDelegate),
+                lpfnWndProc = (int)Marshal.GetFunctionPointerForDelegate(myWndProcDelegate),
                 cbClsExtra = 0,
                 cbWndExtra = 0,
                 hInstance = hInstance,
