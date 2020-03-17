@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Win32;
+using static Win32.User;
 
 namespace SDEE
 {
@@ -24,7 +25,7 @@ namespace SDEE
 
         public override void Start()
         {
-            using (RenderWindow window = new RenderWindow(VideoMode.DesktopMode, null, Styles.None))
+            using (RenderWindow window = new RenderWindow(VideoMode.DesktopMode, null, Styles.Default))
             {
                 #region Win32 conf
                 const int WS_EX_TOOLWINDOW = 0x80,
@@ -55,11 +56,20 @@ namespace SDEE
 
                 void MainLoop()
                 {
+                    MSG msg = new MSG();
+
                     while (window.IsOpen)
                     {
                         window.DispatchEvents();
 
-                        BringWindowsOnTop();
+                        if (PeekMessage(ref msg, window.SystemHandle, 0, 0, PM_REMOVE) != 0) 
+                        {
+                            Console.WriteLine(msg.message);
+                        }
+
+                        //User.SetWindowPos(window.SystemHandle, new User().HWND_BOTTOM, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE |SWP_NOZORDER);
+                        //BringWindowsOnTop();
+                        //SetWindowPos(window.SystemHandle, IntPtr.Zero, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOZORDER);
 
                         window.Clear(Wallpaper);
 
@@ -80,7 +90,8 @@ namespace SDEE
                     {
                         foreach (IntPtr hWnd in hWnds)
                         {
-                            User.BringWindowToTop(hWnd);
+                            BringWindowToTop(hWnd);
+                            //SetWindowPos(hWnd, window.SystemHandle, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOZORDER);
                             //Console.WriteLine(hWnd);
                             //User.SetWindowLong(testHWnd, User.GWL_EXSTYLE, User.WS_EX_TOPMOST);
                         }
@@ -89,7 +100,7 @@ namespace SDEE
 
                 void KeyPressed(object sender, KeyEventArgs e)
                 {
-                    for (int i = 0; i < 4; i++)
+                    for (int i = 0; i < 3; i++)
                     {
                         if (e.Code == Keyboard.Key.K)
                         {
@@ -99,7 +110,7 @@ namespace SDEE
                                 process.Start();
 
                                 //User.SetWindowLong(process.MainWindowHandle, User.GWL_EXSTYLE, User.WS_EX_TOPMOST);
-
+                                
                                 while (!process.HasExited)
                                 {
                                     process.Refresh();
