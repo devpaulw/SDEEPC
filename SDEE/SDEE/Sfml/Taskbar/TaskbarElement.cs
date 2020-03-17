@@ -1,4 +1,5 @@
 ﻿using SFML.Graphics;
+using SFML.System;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +8,18 @@ using System.Threading.Tasks;
 
 namespace SDEE.Sfml
 {
-    class TaskbarElement : Drawable
+    class TaskbarElement : GraphicControl
     {
-        public void Draw(RenderTarget target, RenderStates states)
+        public TaskbarElement(MyTaskbar parentTaskbar) : base(parentTaskbar)
         {
-            throw new NotImplementedException();
+
+        } 
+
+        public override void Draw(RenderTarget target, RenderStates states)
+        {
+            // UNDONE
+
+            base.Draw(target, states);
         }
     }
 }

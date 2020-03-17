@@ -60,7 +60,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DesktopEnvironment.cs" />
     <Compile Include="MessageBoxIcon.cs" />
     <Compile Include="Sfml\Control.cs" />
     <Compile Include="Sfml\GraphicControl.cs" />

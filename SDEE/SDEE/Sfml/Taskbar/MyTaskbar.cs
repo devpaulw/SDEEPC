@@ -17,26 +17,19 @@ namespace SDEE.Sfml
         /// </summary>
         public float Height { get; set; }
         public Color Color { get; set; }
+        //public Collection<TaskbarElement> Elements {
+        //    get {
+        //        return (Collection<TaskbarElement>)
+        //            from control in Controls
+        //            where control is TaskbarElement
+        //            select control as TaskbarElement;
+        //    }
+        //}
 
         public MyTaskbar(DesktopEnvironment de, float height, Color color) : base(de)
         {
             Height = height;
             Color = color;
-        }
-
-        protected override void OnKeyPressed(KeyEventArgs e)
-        {
-            if (e.Code == Keyboard.Key.B) // TEMP
-                StartExe(@"C:\Users\BluePaul\Downloads\MonoGameSetup.exe");
-            
-            base.OnKeyPressed(e);
-        }
-
-        protected override void OnMouseButtonPressed(MouseButtonEventArgs e)
-        {
-            MessageBox("Tu viens de cliquer sur le bouton " + e.Button + " de ta souris.\nFrom " + GetType(), "SDEE test", MessageBoxIcon.Information); // TEMP
-
-            base.OnMouseButtonPressed(e);
         }
 
         public override void Draw(RenderTarget target, RenderStates states)
@@ -49,6 +42,25 @@ namespace SDEE.Sfml
             };
 
             target.Draw(rs);
+
+            base.Draw(target, states);
+        }
+
+        protected override void OnKeyPressed(KeyEventArgs e)
+        {
+            if (e.Code == Keyboard.Key.B) // TEMP
+                StartExe(@"C:\Windows\notepad.exe");
+
+            base.OnKeyPressed(e);
+        }
+
+        protected override void OnMouseButtonPressed(MouseButtonEventArgs e)
+        {
+            if (e.Button != Mouse.Button.Left)
+                MessageBox("Tu viens de cliquer sur le bouton " + e.Button + " de ta souris.\nFrom " + GetType(),
+                    "SDEE test", MessageBoxIcon.Information); // TEMP
+
+            base.OnMouseButtonPressed(e);
         }
     }
 }

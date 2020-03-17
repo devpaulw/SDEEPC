@@ -47,11 +47,11 @@ namespace SDEE.Sfml
                 case WM_SETFOCUS: // When we try to focus the DE (whereas others windows might be above)
                     SetWindowPos(hWnd, new IntPtr(1), 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);// | SWP_NOOWNERZORDER);
                     break;
-                ////case WM_WINDOWPOSCHANGING: // Second solution of, but lags : When we try to focus the DE (whereas others windows might be above)
-                ////    var windowPos = Marshal.PtrToStructure<WINDOWPOS>(lParam);
-                ////    windowPos.flags |= SWP_NOZORDER;
-                ////    Marshal.StructureToPtr(windowPos, lParam, false);
-                ////    break;
+                //case WM_WINDOWPOSCHANGING: // Second solution of, but lags : When we try to focus the DE (whereas others windows might be above)
+                //    var windowPos = Marshal.PtrToStructure<WINDOWPOS>(lParam);
+                //    windowPos.flags |= SWP_NOZORDER;
+                //    Marshal.StructureToPtr(windowPos, lParam, false);
+                //    break;
                 case WM_CLOSE:
                     DestroyWindow(hWnd);
                     break;
@@ -95,10 +95,11 @@ namespace SDEE.Sfml
                 WS_EX_TOOLWINDOW, // Remove window from Alt Tab
                 szClassName,
                 null,
-                WS_POPUP,//WS_OVERLAPPEDWINDOW,
+                WS_POPUPWINDOW,// DOLATER Remove borders without disturb good mecanism
                 0, 0,
                 (int)VideoMode.DesktopMode.Width, (int)VideoMode.DesktopMode.Height,
                 IntPtr.Zero, IntPtr.Zero, hInstance, IntPtr.Zero);
+
 
             if (hWnd == IntPtr.Zero)
             {
