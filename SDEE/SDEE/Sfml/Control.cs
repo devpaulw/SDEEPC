@@ -13,9 +13,9 @@ namespace SDEE.Sfml
 {
     abstract class Control
     {
-        public Collection<Control> Controls { get; } = new Collection<Control>();
-        public Control Parent { get; }
-        public DesktopEnvironment DesktopEnvironment {
+        public ControlCollection Controls { get; }
+        public Control Parent { get; set; }
+        public DesktopEnvironment DesktopEnvironment { // TODO DE No longer a GraphicControl
             get {
                 Control parent = this;
                 while (parent != null)
@@ -27,12 +27,9 @@ namespace SDEE.Sfml
             }
         }
 
-        public Control(Control parent)
+        public Control() 
         {
-            Parent = parent;
-
-            DesktopEnvironment.KeyPressed += (s, e) => OnKeyPressed(e);
-            DesktopEnvironment.MouseButtonPressed += (s, e) => OnMouseButtonPressed(e);
+            Controls = new ControlCollection(this);
         }
 
         public void MessageBox(string text, string caption, MessageBoxIcon icon) =>
@@ -67,7 +64,24 @@ namespace SDEE.Sfml
         }
 
         protected virtual void OnKeyPressed(KeyEventArgs e) { }
-        protected virtual void OnMouseButtonPressed(MouseButtonEventArgs e) { }
+        protected virtual void OnMouseButtonPressed(MouseButtonEventArgs e) { Console.WriteLine("mb"); }
+
+        /// <summary>
+        /// Deeply initializes every controls so that they get filled events from DE
+        /// </summary>
+        protected void InitEvents()
+        {
+            if (DesktopEnvironment == null)
+                throw new NoDEImplementedException();
+
+            DesktopEnvironment.KeyPressed += (s, e) => OnKeyPressed(e);
+            DesktopEnvironment.MouseButtonPressed += (s, e) => OnMouseButtonPressed(e);
+
+            for (int i = 0; i < Controls.Count; i++)
+            {
+                Controls[i].InitEvents();
+            }
+        }
     }
 
 }

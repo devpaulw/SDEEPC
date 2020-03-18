@@ -10,12 +10,11 @@ using System.Threading.Tasks;
 
 namespace SDEE.Sfml
 {
-    class MyTaskbar : GraphicControl
+    class MyTaskbar : Taskbar
     {
         /// <summary>
         /// The height of the taskbar in percentage between 0.0 and 1.0
         /// </summary>
-        public float Height { get; set; }
         public Color Color { get; set; }
         //public Collection<TaskbarElement> Elements {
         //    get {
@@ -26,9 +25,8 @@ namespace SDEE.Sfml
         //    }
         //}
 
-        public MyTaskbar(DesktopEnvironment de, float height, Color color) : base(de)
+        public MyTaskbar(float height, Color color) : base(height)
         {
-            Height = height;
             Color = color;
         }
 

@@ -60,14 +60,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NoDEImplementedException.cs" />
     <Compile Include="MessageBoxIcon.cs" />
     <Compile Include="Sfml\Control.cs" />
+    <Compile Include="Sfml\ControlCollection.cs" />
     <Compile Include="Sfml\GraphicControl.cs" />
     <Compile Include="Sfml\Taskbar\MyTaskbar.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sfml\DesktopEnvironment.cs" />
     <Compile Include="Sfml\SfW32DEWindow.cs" />
+    <Compile Include="Sfml\Taskbar\Taskbar.cs" />
     <Compile Include="Sfml\Taskbar\TaskbarElement.cs" />
   </ItemGroup>
   <ItemGroup>

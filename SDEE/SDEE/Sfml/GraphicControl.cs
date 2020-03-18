@@ -14,11 +14,14 @@ namespace SDEE.Sfml
 {
     abstract class GraphicControl : Control, Drawable
     {
-        public GraphicControl(GraphicControl parent) : base(parent)
+        public RenderTarget RenderTarget 
+            => DesktopEnvironment.RenderTarget;
+
+        public GraphicControl()
         {
         }
 
-        public  virtual void Draw(RenderTarget target, RenderStates states)
+        public virtual void Draw(RenderTarget target, RenderStates states)
         {
             foreach (var control in Controls)
                 if (control is GraphicControl drawableControl)

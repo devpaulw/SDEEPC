@@ -21,8 +21,8 @@ namespace SDEE
         {
             var de = new DesktopEnvironment(new Color(0, 0x80, 0b10000000));
 
-            MyTaskbar myTaskbar = new MyTaskbar(de, 0.05f, new Color(0xC0, 0xC0, 0xC0));
-            TaskbarElement testTe = new TaskbarElement(myTaskbar);
+            MyTaskbar myTaskbar = new MyTaskbar(0.05f, new Color(0xC0, 0xC0, 0xC0));
+            TaskbarElement testTe = new TaskbarElement();
             myTaskbar.Controls.Add(testTe);
 
             de.Controls.Add(myTaskbar);

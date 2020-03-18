@@ -15,8 +15,9 @@ namespace SDEE.Sfml
     class DesktopEnvironment : GraphicControl
     {
         public Color Wallpaper { get; set; }
+        public new RenderTarget RenderTarget { get; private set; }
 
-        public DesktopEnvironment(Color wallpaper) : base(null)
+        public DesktopEnvironment(Color wallpaper)
         {
             Wallpaper = wallpaper;
         }
@@ -25,6 +26,9 @@ namespace SDEE.Sfml
         {
             using (var window = new SfW32DEWindow())
             {
+                RenderTarget = window;
+                InitEvents(); // Init control events
+
                 window.Closed += (s, e) => window.Close();
                 window.KeyPressed += KeyPressed;
                 window.MouseButtonPressed += MouseButtonPressed;
