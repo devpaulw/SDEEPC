@@ -15,7 +15,7 @@ namespace SDEE.Sfml
 {
     abstract class GraphicControl : Control, Drawable
     {
-        public abstract Shape Shape { get; }
+        protected abstract Shape Shape { get; }
 
         public Vector2i Position { get; set; }
         public Vector2i Size { get; set; }
@@ -26,6 +26,16 @@ namespace SDEE.Sfml
             => from control in Children
                where control is GraphicControl
                select control as GraphicControl;
+
+        public void Draw(RenderTarget target, RenderStates states)
+        {
+            if (Shape != null)
+                target.Draw(Shape);
+
+            foreach (var control in Children)
+                if (control is GraphicControl drawableControl)
+                    target.Draw(drawableControl);
+        }
 
         protected override void OnMouseButtonPressed(MouseButtonEventArgs e)
         {
@@ -40,14 +50,11 @@ namespace SDEE.Sfml
 
         protected virtual void OnClick(MouseButtonEventArgs e) { }
 
-        public void Draw(RenderTarget target, RenderStates states)
-        {
-            if (Shape != null)
-                target.Draw(Shape);
 
-            foreach (var control in Children)
-                if (control is GraphicControl drawableControl)
-                    target.Draw(drawableControl);
-        }
+        /// /// <summary>
+        /// Init your Position, Size when Desktop Environment starts
+        /// </summary>
+        protected override void Init()
+            => base.Init();
     }
 }

@@ -22,9 +22,15 @@ namespace SDEE
             var de = new DesktopEnvironment(new Color(0, 0x80, 0b10000000));
             
             MyTaskbar myTaskbar = new MyTaskbar(0.05f, new Color(0xC0, 0xC0, 0xC0));
-            TaskbarExecutableElement testTe = new TaskbarExecutableElement(@"c:\windows\system32\cmd.exe", Color.Black);
+            TaskbarExecutableElement testTe = new TaskbarExecutableElement(@"c:\windows\system32\cmd.exe");
             myTaskbar.Children.Add(testTe);
-            myTaskbar.Children.Add(new TaskbarExecutableElement(@"c:\windows\notepad.exe", Color.Blue));
+            myTaskbar.Children.Add(new TaskbarExecutableElement(@"C:\Program Files (x86)\Microsoft Office\root\Office16\EXCEL.EXE"));
+            myTaskbar.Children.Add(new TaskbarExecutableElement(@"C:\Program Files (x86)\Microsoft Office\root\Office16\WINWORD.EXE"));
+            myTaskbar.Children.Add(new TaskbarExecutableElement(@"C:\Program Files (x86)\Microsoft Office\root\Office16\OUTLOOK.EXE"));
+            myTaskbar.Children.Add(new TaskbarExecutableElement(@"C:\Program Files (x86)\Microsoft Office\root\Office16\POWERPNT.EXE"));
+            myTaskbar.Children.Add(new TaskbarExecutableElement(@"C:\Program Files (x86)\Minecraft\MinecraftLauncher.exe"));
+            myTaskbar.Children.Add(new TaskbarExecutableElement(@"c:\windows\notepad.exe"));
+            
 
             de.Children.Add(myTaskbar);
 

@@ -17,7 +17,7 @@ namespace SDEE.Sfml
     {
         public Color Wallpaper { get; set; }
 
-        public override Shape Shape => null;
+        protected override Shape Shape { get; }
 
         public DesktopEnvironment(Color wallpaper)
         {

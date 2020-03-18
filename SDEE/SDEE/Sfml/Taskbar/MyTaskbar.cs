@@ -18,13 +18,14 @@ namespace SDEE.Sfml
         public float Height { get; }
         public Color Color { get; set; }
 
-        public override Shape Shape
-            => new RectangleShape()
+        protected override Shape Shape {
+            get => new RectangleShape()
             {
                 Position = (Vector2f)Position,
                 Size = (Vector2f)Size,
                 FillColor = Color
             };
+        }
 
         public MyTaskbar(float height, Color color)
         {
@@ -39,20 +40,6 @@ namespace SDEE.Sfml
 
             base.Init();
         }
-
-        //public override void Draw(RenderTarget target, RenderStates states)
-        //{
-        //    RectangleShape rs = new RectangleShape()
-        //    {
-        //        Position = (Vector2f)Position,
-        //        Size = (Vector2f)Size,
-        //        FillColor = Color
-        //    };
-
-        //    target.Draw(rs);
-
-        //    base.Draw(target, states);
-        //}
 
         protected override void OnKeyPressed(KeyEventArgs e)
         {
