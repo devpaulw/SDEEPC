@@ -1,4 +1,5 @@
 ﻿using SFML.Graphics;
+using SFML.System;
 using SFML.Window;
 using System;
 using System.Collections.Generic;
@@ -14,16 +15,37 @@ namespace SDEE.Sfml
 {
     abstract class GraphicControl : Control, Drawable
     {
-        public RenderTarget RenderTarget 
-            => DesktopEnvironment.RenderTarget;
+        public abstract Shape Shape { get; }
 
-        public GraphicControl()
+        public Vector2i Position { get; set; }
+        public Vector2i Size { get; set; }
+
+        protected GraphicControl() { }
+
+        public IEnumerable<GraphicControl> GetGraphicControls()
+            => from control in Children
+               where control is GraphicControl
+               select control as GraphicControl;
+
+        protected override void OnMouseButtonPressed(MouseButtonEventArgs e)
         {
+            if (e.X >= Position.X && e.X <= Position.X + Size.X
+                && e.Y >= Position.Y && e.Y <= Position.Y + Size.Y)
+            {
+                OnClick(e);
+            }
+
+            base.OnMouseButtonPressed(e);
         }
 
-        public virtual void Draw(RenderTarget target, RenderStates states)
+        protected virtual void OnClick(MouseButtonEventArgs e) { }
+
+        public void Draw(RenderTarget target, RenderStates states)
         {
-            foreach (var control in Controls)
+            if (Shape != null)
+                target.Draw(Shape);
+
+            foreach (var control in Children)
                 if (control is GraphicControl drawableControl)
                     target.Draw(drawableControl);
         }

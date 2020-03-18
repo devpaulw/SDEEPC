@@ -1,4 +1,5 @@
-﻿using SFML.Window;
+﻿using SFML.Graphics;
+using SFML.Window;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,9 +14,9 @@ namespace SDEE.Sfml
 {
     abstract class Control
     {
-        public ControlCollection Controls { get; }
+        public ControlCollection Children { get; }
         public Control Parent { get; set; }
-        public DesktopEnvironment DesktopEnvironment { // TODO DE No longer a GraphicControl
+        public DesktopEnvironment DeskEnv {
             get {
                 Control parent = this;
                 while (parent != null)
@@ -29,8 +30,16 @@ namespace SDEE.Sfml
 
         public Control() 
         {
-            Controls = new ControlCollection(this);
+            Children = new ControlCollection(this);
         }
+
+        //public new void Draw(RenderTarget target, RenderStates states)
+        //{
+        //    base.Draw(target, states);
+
+        //    foreach (var child in Children)
+        //        target.Draw(child);
+        //}
 
         public void MessageBox(string text, string caption, MessageBoxIcon icon) =>
             User.MessageBox(IntPtr.Zero, text, caption, (int)icon);
@@ -69,16 +78,16 @@ namespace SDEE.Sfml
         /// <summary>
         /// Deeply initializes every controls so that they get filled events from DE
         /// </summary>
-        protected void InitEvents()
+        protected virtual void Init()
         {
-            if (DesktopEnvironment == null)
+            if (DeskEnv == null)
                 throw new NoDEImplementedException();
 
-            DesktopEnvironment.KeyPressed += (s, e) => OnKeyPressed(e);
-            DesktopEnvironment.MouseButtonPressed += (s, e) => OnMouseButtonPressed(e);
+            DeskEnv.KeyPressed += (s, e) => OnKeyPressed(e);
+            DeskEnv.MouseButtonPressed += (s, e) => OnMouseButtonPressed(e);
 
-            foreach (Control child in Controls)
-                child.InitEvents();
+            foreach (Control child in Children)
+                child.Init();
         }
     }
 

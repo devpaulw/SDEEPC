@@ -1,4 +1,5 @@
 ﻿using SFML.Graphics;
+using SFML.System;
 using SFML.Window;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,8 @@ namespace SDEE.Sfml
     class DesktopEnvironment : GraphicControl
     {
         public Color Wallpaper { get; set; }
-        public new RenderTarget RenderTarget { get; private set; }
+
+        public override Shape Shape => null;
 
         public DesktopEnvironment(Color wallpaper)
         {
@@ -26,13 +28,15 @@ namespace SDEE.Sfml
         {
             using (var window = new SfW32DEWindow())
             {
-                RenderTarget = window;
-                InitEvents(); // Init control events
+                Position = window.Position;
+                Size = (Vector2i)window.Size;
+
+                Init(); // Init control events
 
                 window.Closed += (s, e) => window.Close();
                 window.KeyPressed += KeyPressed;
                 window.MouseButtonPressed += MouseButtonPressed;
-
+                
                 while (window.IsOpen) // MAIN LOOP
                 {
                     window.DispatchSystemMessage();
@@ -41,16 +45,6 @@ namespace SDEE.Sfml
                     window.Draw(this);
                     window.Display();
                 }
-            }
-        }
-
-        public override void Draw(RenderTarget target, RenderStates states)
-        {
-            // Draw every elements on the DE
-            foreach (var child in Controls)
-            {
-                if (child is GraphicControl graphicChild)
-                    target.Draw(graphicChild);
             }
         }
 

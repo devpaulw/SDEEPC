@@ -20,12 +20,13 @@ namespace SDEE
         static void Main(string[] args)
         {
             var de = new DesktopEnvironment(new Color(0, 0x80, 0b10000000));
-
+            
             MyTaskbar myTaskbar = new MyTaskbar(0.05f, new Color(0xC0, 0xC0, 0xC0));
-            TaskbarElement testTe = new TaskbarElement();
-            myTaskbar.Controls.Add(testTe);
+            TaskbarExecutableElement testTe = new TaskbarExecutableElement(@"c:\windows\system32\cmd.exe", Color.Black);
+            myTaskbar.Children.Add(testTe);
+            myTaskbar.Children.Add(new TaskbarExecutableElement(@"c:\windows\notepad.exe", Color.Blue));
 
-            de.Controls.Add(myTaskbar);
+            de.Children.Add(myTaskbar);
 
             de.Start();
         }

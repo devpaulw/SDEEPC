@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SFML.Graphics;
+using SFML.System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,13 +8,10 @@ using System.Threading.Tasks;
 
 namespace SDEE.Sfml
 {
-    class Taskbar : GraphicControl
+    abstract class Taskbar : GraphicControl
     {
-        public float Height { get; set; }
-
-        public Taskbar(float height)
+        public Taskbar()
         {
-            Height = height;
         }
     }
 }

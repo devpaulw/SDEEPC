@@ -48,6 +48,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -71,7 +72,7 @@
     <Compile Include="Sfml\DesktopEnvironment.cs" />
     <Compile Include="Sfml\SfW32DEWindow.cs" />
     <Compile Include="Sfml\Taskbar\Taskbar.cs" />
-    <Compile Include="Sfml\Taskbar\TaskbarElement.cs" />
+    <Compile Include="Sfml\Taskbar\TaskbarExecutableElement.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

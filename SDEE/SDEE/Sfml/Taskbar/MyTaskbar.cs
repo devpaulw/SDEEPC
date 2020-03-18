@@ -15,34 +15,44 @@ namespace SDEE.Sfml
         /// <summary>
         /// The height of the taskbar in percentage between 0.0 and 1.0
         /// </summary>
+        public float Height { get; }
         public Color Color { get; set; }
-        //public Collection<TaskbarElement> Elements {
-        //    get {
-        //        return (Collection<TaskbarElement>)
-        //            from control in Controls
-        //            where control is TaskbarElement
-        //            select control as TaskbarElement;
-        //    }
-        //}
 
-        public MyTaskbar(float height, Color color) : base(height)
-        {
-            Color = color;
-        }
-
-        public override void Draw(RenderTarget target, RenderStates states)
-        {
-            RectangleShape rs = new RectangleShape()
+        public override Shape Shape
+            => new RectangleShape()
             {
-                Size = new Vector2f(target.Size.X, target.Size.Y * Height),
-                Position = new Vector2f(0, target.Size.Y * (1 - Height)),
+                Position = (Vector2f)Position,
+                Size = (Vector2f)Size,
                 FillColor = Color
             };
 
-            target.Draw(rs);
-
-            base.Draw(target, states);
+        public MyTaskbar(float height, Color color)
+        {
+            Height = height;
+            Color = color;
         }
+
+        protected override void Init()
+        {
+            Position = new Vector2i(0, (int)(DeskEnv.Size.Y * (1 - Height)));
+            Size = new Vector2i(DeskEnv.Size.X, (int)(DeskEnv.Size.Y * Height));
+
+            base.Init();
+        }
+
+        //public override void Draw(RenderTarget target, RenderStates states)
+        //{
+        //    RectangleShape rs = new RectangleShape()
+        //    {
+        //        Position = (Vector2f)Position,
+        //        Size = (Vector2f)Size,
+        //        FillColor = Color
+        //    };
+
+        //    target.Draw(rs);
+
+        //    base.Draw(target, states);
+        //}
 
         protected override void OnKeyPressed(KeyEventArgs e)
         {
