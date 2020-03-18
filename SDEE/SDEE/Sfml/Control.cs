@@ -64,7 +64,7 @@ namespace SDEE.Sfml
         }
 
         protected virtual void OnKeyPressed(KeyEventArgs e) { }
-        protected virtual void OnMouseButtonPressed(MouseButtonEventArgs e) { Console.WriteLine("mb"); }
+        protected virtual void OnMouseButtonPressed(MouseButtonEventArgs e) { }
 
         /// <summary>
         /// Deeply initializes every controls so that they get filled events from DE
@@ -77,10 +77,8 @@ namespace SDEE.Sfml
             DesktopEnvironment.KeyPressed += (s, e) => OnKeyPressed(e);
             DesktopEnvironment.MouseButtonPressed += (s, e) => OnMouseButtonPressed(e);
 
-            for (int i = 0; i < Controls.Count; i++)
-            {
-                Controls[i].InitEvents();
-            }
+            foreach (Control child in Controls)
+                child.InitEvents();
         }
     }
 
