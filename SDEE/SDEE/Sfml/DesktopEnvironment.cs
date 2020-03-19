@@ -13,11 +13,12 @@ using System.Threading.Tasks;
 
 namespace SDEE.Sfml
 {
-    class DesktopEnvironment : GraphicControl
+    class DesktopEnvironment : Control
     {
+
         public Color Wallpaper { get; set; }
 
-        protected override Shape Shape { get; }
+        protected override Shape Shape => null;
 
         public DesktopEnvironment(Color wallpaper)
         {
@@ -48,8 +49,8 @@ namespace SDEE.Sfml
             }
         }
 
-        internal event EventHandler<KeyEventArgs> KeyPressed;
-        internal event EventHandler<MouseButtonEventArgs> MouseButtonPressed;
+        internal new event EventHandler<KeyEventArgs> KeyPressed;
+        internal new event EventHandler<MouseButtonEventArgs> MouseButtonPressed;
         // ... TO ADD Needed EventHandlers
     }
 }

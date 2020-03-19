@@ -1,4 +1,5 @@
 ﻿using SFML.Graphics;
+using SFML.System;
 using SFML.Window;
 using System;
 using System.Collections.Generic;
@@ -12,9 +13,14 @@ using Win32;
 
 namespace SDEE.Sfml
 {
-    abstract class Control
+    abstract class Control : Drawable
     {
-        public ControlCollection Children { get; }
+        protected abstract Shape Shape { get; }
+
+        public Vector2i Position { get; set; }
+        public Vector2i Size { get; set; }
+
+        public ControlCollection Controls { get; }
         public Control Parent { get; set; }
         public DesktopEnvironment DeskEnv {
             get {
@@ -30,7 +36,7 @@ namespace SDEE.Sfml
 
         public Control() 
         {
-            Children = new ControlCollection(this);
+            Controls = new ControlCollection(this);
         }
 
         //public new void Draw(RenderTarget target, RenderStates states)
@@ -72,8 +78,14 @@ namespace SDEE.Sfml
 
         }
 
-        protected virtual void OnKeyPressed(KeyEventArgs e) { }
-        protected virtual void OnMouseButtonPressed(MouseButtonEventArgs e) { }
+        public void Draw(RenderTarget target, RenderStates states)
+        {
+            if (Shape != null)
+                target.Draw(Shape);
+
+            foreach (var control in Controls)
+                target.Draw(control);
+        }
 
         /// <summary>
         /// Deeply initializes every controls so that they get filled events from DE
@@ -83,12 +95,47 @@ namespace SDEE.Sfml
             if (DeskEnv == null)
                 throw new NoDEImplementedException();
 
-            DeskEnv.KeyPressed += (s, e) => OnKeyPressed(e);
-            DeskEnv.MouseButtonPressed += (s, e) => OnMouseButtonPressed(e);
+            #region Assign event to virtual functions
+            KeyPressed += (s, e) => OnKeyPressed(e);
+            MouseButtonPressed += (s, e) => OnMouseButtonPressed(e);
+            Click += (s, e) => OnClick(e);
+            #endregion
 
-            foreach (Control child in Children)
+            #region Get DE Events
+            DeskEnv.KeyPressed += KeyPressed;
+            DeskEnv.MouseButtonPressed += MouseButtonPressed;
+            #endregion
+
+            #region Init Children
+            foreach (Control child in Controls)
                 child.Init();
+            #endregion
+
+            InitChildren();
         }
+
+
+        protected virtual void InitChildren()
+        {
+            foreach (Control child in Controls)
+                child.InitChildren();
+        }
+
+        protected virtual void OnKeyPressed(KeyEventArgs e) { }
+        protected virtual void OnMouseButtonPressed(MouseButtonEventArgs e)
+        {
+            if (e.X >= Position.X && e.X <= Position.X + Size.X
+                && e.Y >= Position.Y && e.Y <= Position.Y + Size.Y)
+            {
+                Click(this, e);
+            }
+        }
+
+        protected virtual void OnClick(MouseButtonEventArgs e) { }
+
+        public event EventHandler<KeyEventArgs> KeyPressed;
+        public event EventHandler<MouseButtonEventArgs> MouseButtonPressed;
+        public event EventHandler<MouseButtonEventArgs> Click;
     }
 
 }

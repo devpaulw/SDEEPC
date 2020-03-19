@@ -10,19 +10,18 @@ using System.Threading.Tasks;
 
 namespace SDEE.Sfml
 {
-    class MyTaskbar : Taskbar
+    class MyTaskbar : Control
     {
         /// <summary>
         /// The height of the taskbar in percentage between 0.0 and 1.0
         /// </summary>
         public float Height { get; }
         public Color Color { get; set; }
+        public virtual int BorderLength => 10;
 
-        protected override Shape Shape {
-            get => new RectangleShape()
+        protected override Shape Shape { // TODO A function to get this with an easier way (preconfigured shape with graphicControl values)
+            get => new RectangleShape(this.GetBasicShape())
             {
-                Position = (Vector2f)Position,
-                Size = (Vector2f)Size,
                 FillColor = Color
             };
         }
@@ -39,6 +38,19 @@ namespace SDEE.Sfml
             Size = new Vector2i(DeskEnv.Size.X, (int)(DeskEnv.Size.Y * Height));
 
             base.Init();
+        }
+
+        protected override void InitChildren()
+        {
+            #region Sort taskbar elements
+            for (int i = 0, tbX = BorderLength / 2; i < Controls.Count; i++)
+            {
+                Controls[i].Position = new Vector2i(tbX, Position.Y);
+                tbX += Controls[i].Size.X + BorderLength;
+            }
+            #endregion
+
+            base.InitChildren();
         }
 
         protected override void OnKeyPressed(KeyEventArgs e)

@@ -65,5 +65,33 @@ namespace SDEE.Sfml
         {
             return controls.GetEnumerator();
         }
+
+        public List<TType> GetEachFiltered<TType>() where TType : Control
+            => (from control in this
+               where control is TType
+               select control as TType).ToList();
+
+        //public void ForeachFiltered<TType>(Action<TType> action) where TType : Control
+        //{
+
+        //}
+
+        public void SetFiltered<TType>(int index, TType item) where TType : Control
+        {
+            for (int i = 0, filteredI = 0; i < controls.Count; i++)
+                if (controls[i] is TType)
+                    if (filteredI == index) 
+                        controls[i] = item;
+                    else 
+                        filteredI++;
+        }
+
+        //public void SetFilteredWhere<TType>(Predicate<TType> predicate, TType item) where TType : Control
+        //{
+        //    for (int i = 0; i < controls.Count; i++)
+        //        if (controls[i] is TType control)
+        //            if (predicate(control))
+        //                controls[i] = item;
+        //}
     }
 }

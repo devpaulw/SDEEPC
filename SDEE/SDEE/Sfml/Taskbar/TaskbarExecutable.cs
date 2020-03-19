@@ -9,22 +9,20 @@ using System.Threading.Tasks;
 
 namespace SDEE.Sfml
 {
-    class TaskbarExecutableElement : GraphicControl
+    class TaskbarExecutable : Control
     {
         private readonly Texture iconTexture;
 
+        public MyTaskbar Taskbar => Parent as MyTaskbar;
         public string ExecutablePath { get; set; }
-        public Taskbar Taskbar => Parent as Taskbar;
 
-        protected override Shape Shape 
-            => new RectangleShape()
+        protected override Shape Shape
+            => new RectangleShape(this.GetBasicShape())
             {
-                Position = (Vector2f)Position,
-                Size = (Vector2f)Size,
                 Texture = iconTexture
             };
 
-        public TaskbarExecutableElement(string executablePath)
+        public TaskbarExecutable(string executablePath)
         {
             ExecutablePath = executablePath;
             iconTexture = new Texture(ExtractAssociatedIcon(ExecutablePath));
@@ -32,15 +30,10 @@ namespace SDEE.Sfml
 
         protected override void Init()
         {
-            #region Position and Size
-            int freeXpos = (from control in Taskbar.GetGraphicControls()
-                            orderby control.Position.X descending
-                            select control.Position.X + control.Size.X)
-                            .FirstOrDefault();
+            if (!(Parent is MyTaskbar))
+                throw new Exception("This taskbar executable should be used only on taskbars"); // DOLATER Create managed exceptions
 
-            Position = new Vector2i(freeXpos, Taskbar.Position.Y);
             Size = new Vector2i(Taskbar.Size.Y, Taskbar.Size.Y);
-            #endregion
 
             base.Init();
         }
@@ -49,7 +42,6 @@ namespace SDEE.Sfml
         {
             if (e.Button == Mouse.Button.Left)
             {
-
                 StartExe(ExecutablePath);
             }
 
