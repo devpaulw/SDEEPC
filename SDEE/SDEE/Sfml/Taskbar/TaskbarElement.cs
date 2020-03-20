@@ -1,6 +1,5 @@
 ﻿using SFML.Graphics;
 using SFML.System;
-using SFML.Window;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,38 +8,41 @@ using System.Threading.Tasks;
 
 namespace SDEE.Sfml
 {
-    class TaskbarElement : GraphicControl
-    {
-        public Taskbar Taskbar => Parent as Taskbar;
+    //abstract class TaskbarElement : Control
+    //{
+    //    public MyTaskbar Taskbar => Parent as MyTaskbar;
+    //    //internal int TaskbarPosition { get; set; }
+    //    //public virtual int Width { get; set; }
+    //    public override Vector2i Position
+    //    public override Vector2i Size => new Vector2i(Width, Taskbar.Size.Y);
 
-        public TaskbarElement()
-        {
+    //    //protected override void Init()
+    //    //{
+    //    //    //tbPos = GetFreeTaskbarPos();
 
-        } 
+    //    //    //base.Init();
 
-        public override void Draw(RenderTarget target, RenderStates states)
-        {
-            RectangleShape exeIcon = new RectangleShape()
-            {
-                Size = new Vector2f(20, 20),
-                Position = new Vector2f(50, target.Size.Y * Taskbar.Height + 4),
-                FillColor = Color.Black
-            };
+    //    //    //int GetFreeTaskbarPos()
+    //    //    //{
+    //    //    //    int freeXPos = 0;
+    //    //    //    int move = 0;
 
-            target.Draw(exeIcon);
+    //    //    //    do
+    //    //    //    {
+    //    //    //        move = (from control in Taskbar.Children.GetEachFiltered<TaskbarElement>()
+    //    //    //                orderby control.Position.X ascending
+    //    //    //                where control.Position.X >= freeXPos
+    //    //    //                && control.Position.X + control.Size.X <= freeXPos + Size.X
+    //    //    //                && control != this // Can stay if it's alone
+    //    //    //                select control.Size.X)
+    //    //    //                .FirstOrDefault();
 
-            base.Draw(target, states);
-        }
+    //    //    //        freeXPos += move;
+    //    //    //    }
+    //    //    //    while (move != 0);
 
-        protected override void OnMouseButtonPressed(MouseButtonEventArgs e)
-        {
-            if (e.X >= 50 && e.X <= 70 
-                && e.Y >= RenderTarget.Size.Y * Taskbar.Height + 4 && e.Y <= RenderTarget.Size.Y * Taskbar.Height + 4 + 20)
-            {
-                StartExe(@"C:\Windows\system32\cmd.exe");
-            }
-
-            base.OnMouseButtonPressed(e);
-        }
-    }
+    //    //    //    return freeXPos;
+    //    //    //}
+    //    //}
+    //}
 }

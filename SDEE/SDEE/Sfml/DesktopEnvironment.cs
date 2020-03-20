@@ -1,4 +1,5 @@
 ﻿using SFML.Graphics;
+using SFML.System;
 using SFML.Window;
 using System;
 using System.Collections.Generic;
@@ -12,15 +13,14 @@ using System.Threading.Tasks;
 
 namespace SDEE.Sfml
 {
-    class DesktopEnvironment : GraphicControl
+    public class DesktopEnvironment : Control
     {
-        public Color Wallpaper { get; set; }
-        public new RenderTarget RenderTarget { get; private set; }
 		private KeyboardShortcutComponent keyboardShortcuts;
 
-        public DesktopEnvironment(Color wallpaper) : base()
+        protected override Shape Shape => null;
+
+        public DesktopEnvironment() : base(null)
         {
-            Wallpaper = wallpaper;
 			keyboardShortcuts = new KeyboardShortcutComponent();
 		}
 
@@ -28,18 +28,21 @@ namespace SDEE.Sfml
         {
             using (var window = new SfW32DEWindow())
             {
-                RenderTarget = window;
-                InitEvents(); // Init control events
+                Position = window.Position;
+                Size = (Vector2i)window.Size;
+
+                Load(); // Init control events
 
                 window.Closed += (s, e) => window.Close();
-                window.KeyPressed += KeyPressed;
-                window.MouseButtonPressed += MouseButtonPressed;
+                window.KeyPressed += (s, e) => OnKeyPressed(e);
+                window.MouseButtonPressed += (s, e) => OnMouseButtonPressed(e);
+                // ... TO ADD Needed EventHandlers
 
 				while (window.IsOpen) // MAIN LOOP
 				{
 					window.DispatchSystemMessage();
 					window.DispatchEvents();
-					window.Clear(Wallpaper);
+					window.Clear();
 					window.Draw(this);
 					window.Display();
 				}
@@ -56,18 +59,5 @@ namespace SDEE.Sfml
 			base.OnKeyPressed(e);
 		}
 
-		public override void Draw(RenderTarget target, RenderStates states)
-		{
-			// Draw every elements on the DE
-			foreach (var child in Controls)
-			{
-				if (child is GraphicControl graphicChild)
-					target.Draw(graphicChild);
-			}
-		}
-
-		internal event EventHandler<KeyEventArgs> KeyPressed;
-		internal event EventHandler<MouseButtonEventArgs> MouseButtonPressed;
-		// ... TO ADD Needed EventHandlers
 	}
 }

@@ -12,6 +12,7 @@ using static Win32.User;
 using static Win32.Kernel;
 using System.Runtime.InteropServices;
 using SDEE.Sfml;
+using SFML.System;
 
 namespace SDEE
 {
@@ -19,14 +20,7 @@ namespace SDEE
     {
         static void Main(string[] args)
         {
-            var de = new DesktopEnvironment(new Color(0, 0x80, 0b10000000));
-
-            MyTaskbar myTaskbar = new MyTaskbar(0.05f, new Color(0xC0, 0xC0, 0xC0));
-            TaskbarElement testTe = new TaskbarElement();
-            myTaskbar.Controls.Add(testTe);
-
-            de.Controls.Add(myTaskbar);
-
+            MyDesktopEnvironment de = new MyDesktopEnvironment();
             de.Start();
         }
     }

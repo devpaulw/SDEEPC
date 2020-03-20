@@ -7,63 +7,93 @@ using System.Threading.Tasks;
 
 namespace SDEE.Sfml
 {
-
-    class ControlCollection : ICollection<Control>
+    public abstract partial class Control
     {
-        readonly List<Control> controls;
-
-        public Control Owner { get; }
-
-        public ControlCollection(Control owner)
+        public class ControlCollection : ICollection<Control>
         {
-            Owner = owner;
+            readonly List<Control> controls;
 
-            controls = new List<Control>();
-        }
+            public Control Owner { get; }
 
-        public Control this[int index] {
-            get => controls[index];
-            set => controls[index] = value;
-        }
+            public ControlCollection(Control owner)
+            {
+                Owner = owner;
 
-        public int Count => controls.Count;
+                controls = new List<Control>();
+            }
 
-        public bool IsReadOnly => false;
+            public Control this[int index] {
+                get => controls[index];
+                set => controls[index] = value;
+            }
 
-        public void Add(Control item)
-        {
-            item.Parent = Owner; // Set parent of the item just added
-            controls.Add(item);
-        }
+            public int Count => controls.Count;
 
-        public void Clear()
-        {
-            controls.Clear();
-        }
+            public bool IsReadOnly => false;
 
-        public bool Contains(Control item)
-        {
-            return controls.Contains(item);
-        }
+            public void Add(Control item)
+            {
+                Owner.OnControlAdded(item);
+                controls.Add(item);
+            }
 
-        public void CopyTo(Control[] array, int arrayIndex)
-        {
-            controls.CopyTo(array, arrayIndex);
-        }
+            public void Clear()
+            {
+                controls.Clear();
+            }
 
-        public IEnumerator<Control> GetEnumerator()
-        {
-            return controls.GetEnumerator();
-        }
+            public bool Contains(Control item)
+            {
+                return controls.Contains(item);
+            }
 
-        public bool Remove(Control item)
-        {
-            return controls.Remove(item);
-        }
+            public void CopyTo(Control[] array, int arrayIndex)
+            {
+                controls.CopyTo(array, arrayIndex);
+            }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return controls.GetEnumerator();
+            public IEnumerator<Control> GetEnumerator()
+            {
+                return controls.GetEnumerator();
+            }
+
+            public bool Remove(Control item)
+            {
+                return controls.Remove(item);
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return controls.GetEnumerator();
+            }
+
+            //public List<TType> GetEachFiltered<TType>() where TType : Control
+            //    => (from control in this
+            //       where control is TType
+            //       select control as TType).ToList();
+
+            ////public void ForeachFiltered<TType>(Action<TType> action) where TType : Control
+            ////{
+
+            ////}
+
+            //public void SetFiltered<TType>(int index, TType item) where TType : Control
+            //{
+            //    for (int i = 0, filteredI = 0; i < controls.Count; i++)
+            //        if (controls[i] is TType)
+            //            if (filteredI == index) 
+            //                controls[i] = item;
+            //            else 
+            //                filteredI++;
+            //}
+
+            //public void SetFilteredWhere<TType>(Predicate<TType> predicate, TType item) where TType : Control
+            //{
+            //    for (int i = 0; i < controls.Count; i++)
+            //        if (controls[i] is TType control)
+            //            if (predicate(control))
+            //                controls[i] = item;
+            //}
         }
     }
 }
