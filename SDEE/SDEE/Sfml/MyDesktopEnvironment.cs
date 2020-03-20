@@ -21,22 +21,20 @@ namespace SDEE.Sfml
         {
         }
 
-        protected override void Init()
+        protected override void Load()
         {
-            MyTaskbar myTaskbar = new MyTaskbar(this, 0.05f, new Color(0xC0, 0xC0, 0xC0));
-            TaskbarExecutable testTe = new TaskbarExecutable(myTaskbar, @"c:\windows\system32\cmd.exe");
-            //myTaskbar.Controls.Add(new SimpleRectControl() { Color = Color.Blue, Size = new Vector2i(100, 100) });
-            myTaskbar.Controls.Add(testTe);
-            myTaskbar.Controls.Add(new TaskbarExecutable(myTaskbar, @"C:\Program Files (x86)\Microsoft Office\root\Office16\EXCEL.EXE"));
-            myTaskbar.Controls.Add(new TaskbarExecutable(myTaskbar, @"C:\Program Files (x86)\Microsoft Office\root\Office16\WINWORD.EXE"));
-            myTaskbar.Controls.Add(new TaskbarExecutable(myTaskbar, @"C:\Program Files (x86)\Microsoft Office\root\Office16\OUTLOOK.EXE"));
-            myTaskbar.Controls.Add(new TaskbarExecutable(myTaskbar, @"C:\Program Files (x86)\Microsoft Office\root\Office16\POWERPNT.EXE"));
-            myTaskbar.Controls.Add(new TaskbarExecutable(myTaskbar, @"C:\Program Files (x86)\Minecraft\MinecraftLauncher.exe"));
-            myTaskbar.Controls.Add(new TaskbarExecutable(myTaskbar, @"c:\windows\notepad.exe"));
+            MyTaskbar myTaskbar = new MyTaskbar(this, new Color(0xC0, 0xC0, 0xC0));
+
+            MyStartMenu myStartMenu = new MyStartMenu(this);
+            myStartMenu.Position = new Vector2i(myStartMenu.Position.X, myStartMenu.Position.Y - myTaskbar.Size.Y);
+            myStartMenu.IsEnabled = false;
+
+            myTaskbar.ToggleStartMenu += (s, e) => { myStartMenu.IsEnabled ^= true; };
 
             Controls.Add(myTaskbar);
+            Controls.Add(myStartMenu);
 
-            base.Init();
+            base.Load();
         }
     }
 }

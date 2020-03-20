@@ -12,41 +12,50 @@ namespace SDEE.Sfml
 {
     class MyTaskbar : Control
     {
-        /// <summary>
-        /// The height of the taskbar in percentage between 0.0 and 1.0
-        /// </summary>
-        public float Height { get; }
         public Color Color { get; set; }
-        public virtual int BorderLength => 10;
 
-        protected override Shape Shape { // TODO A function to get this with an easier way (preconfigured shape with graphicControl values)
+        protected override Shape Shape {
             get => new RectangleShape(this.GetBasicShape())
             {
                 FillColor = Color
             };
         }
 
-        public MyTaskbar(DesktopEnvironment parent, float height, Color color) : base(parent)
+        public MyTaskbar(DesktopEnvironment parent, Color color) : base(parent)
         {
-            Height = height;
             Color = color;
 
-            Position = new Vector2i(0, (int)(parent.Size.Y * (1 - Height)));
-            Size = new Vector2i(parent.Size.X, (int)(parent.Size.Y * Height));
+            Position = new Vector2i(0, (parent.Size.Y - 30));
+            Size = new Vector2i(parent.Size.X, 30);
         }
 
-        protected override void Init()
+        protected override void Load()
         {
-            // TODO Create container
-            #region Sort taskbar elements
-            for (int i = 0, tbX = BorderLength / 2; i < Controls.Count; i++)
-            {
-                Controls[i].Position = new Vector2i(tbX, Position.Y);
-                tbX += Controls[i].Size.X + BorderLength;
-            }
-            #endregion
+            int borderLength = 5;
 
-            base.Init();
+            var startMenuButton = new SimpleRectControl(this)
+            {
+                Color = Color.Blue,
+                Size = new Vector2i(Size.Y, Size.Y),
+                Position = new Vector2i(borderLength, Position.Y)
+            };
+            startMenuButton.Click += (s, e) => ToggleStartMenu(s, e);
+
+            Controls.Add(startMenuButton);
+
+            var erc = new ExtensibleRowContainer(this, borderLength);
+            erc.Position = new Vector2i(startMenuButton.Size.X + startMenuButton.Position.X + borderLength, Position.Y); // TODO Put an e.r.c. in a e.r.c. to avoid this ugly
+            //myTaskbar.Controls.Add(new TaskbarExecutable(myTaskbar, @"C:\Program Files (x86)\Microsoft Office\root\Office16\EXCEL.EXE"));
+            //myTaskbar.Controls.Add(new TaskbarExecutable(myTaskbar, @"C:\Program Files (x86)\Microsoft Office\root\Office16\WINWORD.EXE"));
+            //myTaskbar.Controls.Add(new TaskbarExecutable(myTaskbar, @"C:\Program Files (x86)\Microsoft Office\root\Office16\OUTLOOK.EXE"));
+            //myTaskbar.Controls.Add(new TaskbarExecutable(myTaskbar, @"C:\Program Files (x86)\Microsoft Office\root\Office16\POWERPNT.EXE"));
+            //myTaskbar.Controls.Add(new TaskbarExecutable(myTaskbar, @"C:\Program Files (x86)\Minecraft\MinecraftLauncher.exe"));
+            erc.Controls.Add(new TaskbarExecutable(this, @"c:\windows\system32\cmd.exe"));
+            erc.Controls.Add(new TaskbarExecutable(this, @"c:\windows\notepad.exe"));
+
+            Controls.Add(erc);
+
+            base.Load();
         }
 
         protected override void OnKeyPressed(KeyEventArgs e)
@@ -65,5 +74,7 @@ namespace SDEE.Sfml
 
             base.OnMouseButtonPressed(e);
         }
+
+        public event EventHandler ToggleStartMenu;
     }
 }

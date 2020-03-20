@@ -2,10 +2,12 @@
 using SFML.System;
 using SFML.Window;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,15 +15,16 @@ using Win32;
 
 namespace SDEE.Sfml
 {
-    abstract class Control : Drawable
+    public abstract partial class Control : Drawable
     {
-        protected abstract Shape Shape { get; }
+        protected virtual Shape Shape { get => null; }
 
         public Vector2i Position { get; set; }
         public Vector2i Size { get; set; }
+        public bool IsEnabled { get; set; } = true;
 
         public ControlCollection Controls { get; }
-        public Control Parent { get; internal set; }
+        public Control Parent { get; }
         public DesktopEnvironment DeskEnv {
             get {
                 Control parent = this;
@@ -34,24 +37,13 @@ namespace SDEE.Sfml
             }
         }
 
-        public Control(Control parent) 
+        public Control(Control parent)
         {
             Controls = new ControlCollection(this);
             Parent = parent;
 
             if (DeskEnv == null)
                 throw new NoDEImplementedException();
-
-            #region Assign event to virtual functions
-            KeyPressed += (s, e) => OnKeyPressed(e);
-            MouseButtonPressed += (s, e) => OnMouseButtonPressed(e);
-            Click += (s, e) => OnClick(e);
-            #endregion
-
-            #region Get DE Events
-            DeskEnv.KeyPressed += KeyPressed;
-            DeskEnv.MouseButtonPressed += MouseButtonPressed;
-            #endregion
         }
 
         //public new void Draw(RenderTarget target, RenderStates states)
@@ -95,6 +87,9 @@ namespace SDEE.Sfml
 
         public void Draw(RenderTarget target, RenderStates states)
         {
+            if (!IsEnabled)
+                return;
+
             if (Shape != null)
                 target.Draw(Shape);
 
@@ -106,11 +101,11 @@ namespace SDEE.Sfml
         /// Once DE started and every controls linked, there might be other things to do.
         /// Deeply initializes every controls so that they get filled events from DE
         /// </summary>
-        protected virtual void Init()
+        protected virtual void Load() // TODO Is this method really useful or do I let it only in DE?
         {
             #region Init Children
             foreach (Control child in Controls)
-                child.Init();
+                child.Load();
             #endregion
 
             //InitChildren();
@@ -123,21 +118,56 @@ namespace SDEE.Sfml
         //        child.InitChildren();
         //}
 
-        protected virtual void OnKeyPressed(KeyEventArgs e) { }
+        protected virtual void OnKeyPressed(KeyEventArgs e)
+        {
+            if (!IsEnabled)
+                return;
+
+            KeyPressed?.Invoke(this, e ?? throw new ArgumentNullException(nameof(e)));
+            foreach (var child in Controls) child.OnKeyPressed(e);
+        }
         protected virtual void OnMouseButtonPressed(MouseButtonEventArgs e)
         {
-            if (e.X >= Position.X && e.X <= Position.X + Size.X
-                && e.Y >= Position.Y && e.Y <= Position.Y + Size.Y)
-            {
-                Click(this, e);
-            }
-        }
+            if (!IsEnabled)
+                return;
 
-        protected virtual void OnClick(MouseButtonEventArgs e) { }
+            if (e.X >= Position.X && e.X <= Position.X + Size.X
+                && e.Y >= Position.Y && e.Y <= Position.Y + Size.Y
+                && e.Button == Mouse.Button.Left)
+            {
+                OnClick(e);
+            }
+
+            MouseButtonPressed?.Invoke(this, e ?? throw new ArgumentNullException(nameof(e)));
+            foreach (var child in Controls) child.OnMouseButtonPressed(e);
+        }
+        protected virtual void OnClick(MouseButtonEventArgs e)
+        {
+            if (!IsEnabled)
+                return;
+
+            Click?.Invoke(this, e ?? throw new ArgumentNullException(nameof(e)));
+        }
+        protected virtual void OnControlAdded(Control control)
+        {
+            if (!IsEnabled)
+                return;
+
+            ControlAdded?.Invoke(this, control ?? throw new ArgumentNullException(nameof(control)));
+        }
 
         public event EventHandler<KeyEventArgs> KeyPressed;
         public event EventHandler<MouseButtonEventArgs> MouseButtonPressed;
         public event EventHandler<MouseButtonEventArgs> Click;
-    }
+        public event EventHandler<Control> ControlAdded;
 
+        //public event EventHandler<KeyEventArgs> KeyPressed {
+        //    add => DeskEnv.KeyPressed += value;
+        //    remove => DeskEnv.KeyPressed -= value;
+        //}
+        //public event EventHandler<MouseButtonEventArgs> MouseButtonPressed {
+        //    add => DeskEnv.MouseButtonPressed += value;
+        //    remove => DeskEnv.MouseButtonPressed -= value;
+        //}
+    }
 }

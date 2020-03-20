@@ -1,4 +1,5 @@
 ﻿using SFML.Graphics;
+using SFML.System;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,22 +8,20 @@ using System.Threading.Tasks;
 
 namespace SDEE.Sfml
 {
-    class SimpleRectControl : Control
+    class MyStartMenu : Control
     {
-        public SimpleRectControl(Control parent) : base(parent)
-        {
-        }
-
         protected override Shape Shape
             => new RectangleShape(this.GetBasicShape())
             {
-                FillColor = Color,
-                Texture = Texture
+                FillColor = new Color(120, 120, 120)
             };
 
+        public MyStartMenu(DesktopEnvironment de) : base(de)
+        {
+            Position = new Vector2i(0, de.Size.Y - 400);
+            Size = new Vector2i(300, 400);
+        } 
 
-        public Texture Texture { get; set; }
 
-        public Color Color { get; set; }
     }
 }

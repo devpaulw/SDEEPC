@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SDEE
 {
-    enum MessageBoxIcon
+    public enum MessageBoxIcon
     {
         Stop = 16,
         Question = 32,

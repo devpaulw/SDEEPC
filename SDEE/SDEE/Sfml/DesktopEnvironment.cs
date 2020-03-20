@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace SDEE.Sfml
 {
-    class DesktopEnvironment : Control
+    public class DesktopEnvironment : Control
     {
 
         protected override Shape Shape => null;
@@ -29,12 +29,13 @@ namespace SDEE.Sfml
                 Position = window.Position;
                 Size = (Vector2i)window.Size;
 
-                Init(); // Init control events
+                Load(); // Init control events
 
                 window.Closed += (s, e) => window.Close();
-                window.KeyPressed += KeyPressed;
-                window.MouseButtonPressed += MouseButtonPressed;
-                
+                window.KeyPressed += (s, e) => OnKeyPressed(e);
+                window.MouseButtonPressed += (s, e) => OnMouseButtonPressed(e);
+                // ... TO ADD Needed EventHandlers
+
                 while (window.IsOpen) // MAIN LOOP
                 {
                     window.DispatchSystemMessage();
@@ -45,9 +46,5 @@ namespace SDEE.Sfml
                 }
             }
         }
-
-        internal new event EventHandler<KeyEventArgs> KeyPressed;
-        internal new event EventHandler<MouseButtonEventArgs> MouseButtonPressed;
-        // ... TO ADD Needed EventHandlers
     }
 }

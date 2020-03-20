@@ -95,7 +95,7 @@ namespace SDEE.Sfml
                 WS_EX_TOOLWINDOW, // Remove window from Alt Tab
                 szClassName,
                 null,
-                WS_POPUPWINDOW,// DOLATER Remove borders without disturb good mecanism
+                WS_POPUPWINDOW, // TODO Make rather a fake fullscreen windowed (without border)s // DOLATER Remove borders without disturb good mecanism
                 0, 0,
                 (int)VideoMode.DesktopMode.Width, (int)VideoMode.DesktopMode.Height,
                 IntPtr.Zero, IntPtr.Zero, hInstance, IntPtr.Zero);
