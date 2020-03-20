@@ -16,13 +16,10 @@ namespace SDEE.Sfml
     class DesktopEnvironment : Control
     {
 
-        public Color Wallpaper { get; set; }
-
         protected override Shape Shape => null;
 
-        public DesktopEnvironment(Color wallpaper)
+        public DesktopEnvironment()
         {
-            Wallpaper = wallpaper;
         }
 
         public void Start()
@@ -42,7 +39,7 @@ namespace SDEE.Sfml
                 {
                     window.DispatchSystemMessage();
                     window.DispatchEvents();
-                    window.Clear(Wallpaper);
+                    window.Clear();
                     window.Draw(this);
                     window.Display();
                 }

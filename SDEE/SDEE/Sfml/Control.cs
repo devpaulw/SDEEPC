@@ -21,7 +21,7 @@ namespace SDEE.Sfml
         public Vector2i Size { get; set; }
 
         public ControlCollection Controls { get; }
-        public Control Parent { get; set; }
+        public Control Parent { get; internal set; }
         public DesktopEnvironment DeskEnv {
             get {
                 Control parent = this;
