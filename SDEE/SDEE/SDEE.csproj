@@ -60,6 +60,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DesktopEnvironmentCommand\DesktopEnvironmentCommand.cs" />
+    <Compile Include="DesktopEnvironmentCommand\ExecuteProgramCommand.cs" />
+    <Compile Include="KeyboardShortcuts\KeyboardShortcutComponent.cs" />
+    <Compile Include="KeyboardShortcuts\KeyCombination.cs" />
+    <Compile Include="KeyboardShortcuts\KeyCombinationFactory.cs" />
     <Compile Include="MessageBoxIcon.cs" />
     <Compile Include="Sfml\Control.cs" />
     <Compile Include="Sfml\GraphicControl.cs" />

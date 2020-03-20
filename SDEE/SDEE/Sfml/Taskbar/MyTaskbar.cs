@@ -48,8 +48,6 @@ namespace SDEE.Sfml
 
         protected override void OnKeyPressed(KeyEventArgs e)
         {
-            if (e.Code == Keyboard.Key.B) // TEMP
-                StartExe(@"C:\Windows\notepad.exe");
 
             base.OnKeyPressed(e);
         }
