@@ -18,7 +18,7 @@ namespace SDEE.Sfml
         public new RenderTarget RenderTarget { get; private set; }
 		private KeyboardShortcutComponent keyboardShortcuts;
 
-        public DesktopEnvironment(Color wallpaper) : base(null)
+        public DesktopEnvironment(Color wallpaper) : base()
         {
             Wallpaper = wallpaper;
 			keyboardShortcuts = new KeyboardShortcutComponent();
