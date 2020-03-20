@@ -32,7 +32,7 @@ namespace SDEE.Sfml
 
         public void Add(Control item)
         {
-            item.Parent = Owner; // Set parent of the item just added
+            //item.Parent = Owner; // Set parent of the item just added
             controls.Add(item);
         }
 

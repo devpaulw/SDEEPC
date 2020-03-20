@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace SDEE.Sfml
 {
-    class SimpleRectControl : Control
-    {
-        protected override Shape Shape
-            => new RectangleShape(this.GetBasicShape())
-            {
-                FillColor = Color,
-                Texture = Texture
-            };
+//    class SimpleRectControl : Control
+//    {
+//        protected override Shape Shape
+//            => new RectangleShape(this.GetBasicShape())
+//            {
+//                FillColor = Color,
+//                Texture = Texture
+//            };
 
 
-        public Texture Texture { get; set; }
+//        public Texture Texture { get; set; }
 
-        public Color Color { get; set; }
-    }
+//        public Color Color { get; set; }
+//    }
 }

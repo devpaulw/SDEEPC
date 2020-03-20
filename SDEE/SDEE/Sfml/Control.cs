@@ -34,9 +34,24 @@ namespace SDEE.Sfml
             }
         }
 
-        public Control() 
+        public Control(Control parent) 
         {
             Controls = new ControlCollection(this);
+            Parent = parent;
+
+            if (DeskEnv == null)
+                throw new NoDEImplementedException();
+
+            #region Assign event to virtual functions
+            KeyPressed += (s, e) => OnKeyPressed(e);
+            MouseButtonPressed += (s, e) => OnMouseButtonPressed(e);
+            Click += (s, e) => OnClick(e);
+            #endregion
+
+            #region Get DE Events
+            DeskEnv.KeyPressed += KeyPressed;
+            DeskEnv.MouseButtonPressed += MouseButtonPressed;
+            #endregion
         }
 
         //public new void Draw(RenderTarget target, RenderStates states)
@@ -88,38 +103,25 @@ namespace SDEE.Sfml
         }
 
         /// <summary>
+        /// Once DE started and every controls linked, there might be other things to do.
         /// Deeply initializes every controls so that they get filled events from DE
         /// </summary>
         protected virtual void Init()
         {
-            if (DeskEnv == null)
-                throw new NoDEImplementedException();
-
-            #region Assign event to virtual functions
-            KeyPressed += (s, e) => OnKeyPressed(e);
-            MouseButtonPressed += (s, e) => OnMouseButtonPressed(e);
-            Click += (s, e) => OnClick(e);
-            #endregion
-
-            #region Get DE Events
-            DeskEnv.KeyPressed += KeyPressed;
-            DeskEnv.MouseButtonPressed += MouseButtonPressed;
-            #endregion
-
             #region Init Children
             foreach (Control child in Controls)
                 child.Init();
             #endregion
 
-            InitChildren();
+            //InitChildren();
         }
 
 
-        protected virtual void InitChildren()
-        {
-            foreach (Control child in Controls)
-                child.InitChildren();
-        }
+        //protected virtual void InitChildren()
+        //{
+        //    foreach (Control child in Controls)
+        //        child.InitChildren();
+        //}
 
         protected virtual void OnKeyPressed(KeyEventArgs e) { }
         protected virtual void OnMouseButtonPressed(MouseButtonEventArgs e)

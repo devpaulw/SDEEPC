@@ -23,17 +23,16 @@ namespace SDEE.Sfml
 
         protected override void Init()
         {
-            MyTaskbar myTaskbar = new MyTaskbar(0.05f, new Color(0xC0, 0xC0, 0xC0));
-            TaskbarExecutable testTe = new TaskbarExecutable(@"c:\windows\system32\cmd.exe");
+            MyTaskbar myTaskbar = new MyTaskbar(this, 0.05f, new Color(0xC0, 0xC0, 0xC0));
+            TaskbarExecutable testTe = new TaskbarExecutable(myTaskbar, @"c:\windows\system32\cmd.exe");
             //myTaskbar.Controls.Add(new SimpleRectControl() { Color = Color.Blue, Size = new Vector2i(100, 100) });
             myTaskbar.Controls.Add(testTe);
-            myTaskbar.Controls.Add(new TaskbarExecutable(@"C:\Program Files (x86)\Microsoft Office\root\Office16\EXCEL.EXE"));
-            myTaskbar.Controls.Add(new TaskbarExecutable(@"C:\Program Files (x86)\Microsoft Office\root\Office16\WINWORD.EXE"));
-            myTaskbar.Controls.Add(new TaskbarExecutable(@"C:\Program Files (x86)\Microsoft Office\root\Office16\OUTLOOK.EXE"));
-            myTaskbar.Controls.Add(new TaskbarExecutable(@"C:\Program Files (x86)\Microsoft Office\root\Office16\POWERPNT.EXE"));
-            myTaskbar.Controls.Add(new TaskbarExecutable(@"C:\Program Files (x86)\Minecraft\MinecraftLauncher.exe"));
-            myTaskbar.Controls.Add(new TaskbarExecutable(@"c:\windows\notepad.exe"));
-
+            myTaskbar.Controls.Add(new TaskbarExecutable(myTaskbar, @"C:\Program Files (x86)\Microsoft Office\root\Office16\EXCEL.EXE"));
+            myTaskbar.Controls.Add(new TaskbarExecutable(myTaskbar, @"C:\Program Files (x86)\Microsoft Office\root\Office16\WINWORD.EXE"));
+            myTaskbar.Controls.Add(new TaskbarExecutable(myTaskbar, @"C:\Program Files (x86)\Microsoft Office\root\Office16\OUTLOOK.EXE"));
+            myTaskbar.Controls.Add(new TaskbarExecutable(myTaskbar, @"C:\Program Files (x86)\Microsoft Office\root\Office16\POWERPNT.EXE"));
+            myTaskbar.Controls.Add(new TaskbarExecutable(myTaskbar, @"C:\Program Files (x86)\Minecraft\MinecraftLauncher.exe"));
+            myTaskbar.Controls.Add(new TaskbarExecutable(myTaskbar, @"c:\windows\notepad.exe"));
 
             Controls.Add(myTaskbar);
 

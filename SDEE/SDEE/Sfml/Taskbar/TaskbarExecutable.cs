@@ -22,20 +22,11 @@ namespace SDEE.Sfml
                 Texture = iconTexture
             };
 
-        public TaskbarExecutable(string executablePath)
+        public TaskbarExecutable(MyTaskbar parent, string executablePath) : base(parent)
         {
             ExecutablePath = executablePath;
             iconTexture = new Texture(ExtractAssociatedIcon(ExecutablePath));
-        }
-
-        protected override void Init()
-        {
-            if (!(Parent is MyTaskbar))
-                throw new Exception("This taskbar executable should be used only on taskbars"); // DOLATER Create managed exceptions
-
             Size = new Vector2i(Taskbar.Size.Y, Taskbar.Size.Y);
-
-            base.Init();
         }
 
         protected override void OnClick(MouseButtonEventArgs e)

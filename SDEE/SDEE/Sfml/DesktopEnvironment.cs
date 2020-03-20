@@ -18,7 +18,7 @@ namespace SDEE.Sfml
 
         protected override Shape Shape => null;
 
-        public DesktopEnvironment()
+        public DesktopEnvironment() : base(null)
         {
         }
 

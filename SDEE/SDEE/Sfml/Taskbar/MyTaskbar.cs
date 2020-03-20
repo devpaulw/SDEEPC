@@ -26,22 +26,18 @@ namespace SDEE.Sfml
             };
         }
 
-        public MyTaskbar(float height, Color color)
+        public MyTaskbar(DesktopEnvironment parent, float height, Color color) : base(parent)
         {
             Height = height;
             Color = color;
+
+            Position = new Vector2i(0, (int)(parent.Size.Y * (1 - Height)));
+            Size = new Vector2i(parent.Size.X, (int)(parent.Size.Y * Height));
         }
 
         protected override void Init()
         {
-            Position = new Vector2i(0, (int)(DeskEnv.Size.Y * (1 - Height)));
-            Size = new Vector2i(DeskEnv.Size.X, (int)(DeskEnv.Size.Y * Height));
-
-            base.Init();
-        }
-
-        protected override void InitChildren()
-        {
+            // TODO Create container
             #region Sort taskbar elements
             for (int i = 0, tbX = BorderLength / 2; i < Controls.Count; i++)
             {
@@ -50,7 +46,7 @@ namespace SDEE.Sfml
             }
             #endregion
 
-            base.InitChildren();
+            base.Init();
         }
 
         protected override void OnKeyPressed(KeyEventArgs e)
