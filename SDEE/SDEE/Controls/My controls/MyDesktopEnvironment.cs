@@ -32,6 +32,20 @@ namespace SDEE
 
             myTaskbar.ToggleStartMenu += (s, e) => myStartMenu.IsEnabled ^= true;
 
+            #region Tests
+
+            var tc = new TableContainer(this, 4, 4, 50, 50, 10);
+            tc.Controls.Add(new SimpleRectControl(tc) { Color = Color.Black, Size = new Vector2i(50, 50) },
+                new Vector2u(0, 0));
+            tc.Controls.Add(new SimpleRectControl(tc) { Color = Color.Black, Size = new Vector2i(50, 50) },
+                new Vector2u(0, 1));
+            tc.Controls.Add(new SimpleRectControl(tc) { Color = Color.Black, Size = new Vector2i(50, 50) },
+                new Vector2u(1, 0));
+            tc.Controls.Add(new SimpleRectControl(tc) { Color = Color.Black, Size = new Vector2i(50, 50) },
+                new Vector2u(1, 1));
+            Controls.Add(tc);
+            #endregion
+
             Controls.Add(myTaskbar);
             Controls.Add(myStartMenu);
 

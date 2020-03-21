@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SDEE
 {
-    class TaskbarExecutable : Control
+    class TaskbarExecutable : Control // TODO Make it a SimpleRectControl
     {
         private readonly Texture iconTexture;
 
@@ -26,7 +26,7 @@ namespace SDEE
         {
             ExecutablePath = executablePath;
             iconTexture = new Texture(ExtractAssociatedIcon(ExecutablePath));
-            Size = new Vector2i(Taskbar.Size.Y, Taskbar.Size.Y);
+            Size = new Vector2i(Taskbar.Size.Y, Taskbar.Size.Y); // TODO Don't do this here because this class will because a normal executable
         }
 
         protected override void OnClick(MouseButtonEventArgs e)

@@ -22,7 +22,7 @@ namespace SDEE
                 controls = new List<Control>();
             }
 
-            public Control this[int index] {
+            public virtual Control this[int index] {
                 get => controls[index];
                 set => controls[index] = value;
             }
@@ -31,7 +31,7 @@ namespace SDEE
 
             public bool IsReadOnly => false;
 
-            public void Add(Control item)
+            public virtual void Add(Control item)
             {
                 Owner.OnControlAdded(item);
                 controls.Add(item);

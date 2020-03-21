@@ -61,6 +61,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\TableContainer.cs" />
+    <Compile Include="Controls\TableControlCollection.cs" />
     <Compile Include="DesktopEnvironmentCommand\DesktopEnvironmentCommand.cs" />
     <Compile Include="DesktopEnvironmentCommand\ExecuteProgramCommand.cs" />
     <Compile Include="KeyboardShortcuts\KeyboardShortcutComponent.cs" />
