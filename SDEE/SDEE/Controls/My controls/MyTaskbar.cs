@@ -40,18 +40,16 @@ namespace SDEE
                 Position = new Vector2i(borderLength, Position.Y)
             };
             startMenuButton.Click += (s, e) => ToggleStartMenu(s, e);
-
+            
             Controls.Add(startMenuButton);
 
             var erc = new ExtensibleRowContainer(this, borderLength);
             erc.Position = new Vector2i(startMenuButton.Size.X + startMenuButton.Position.X + borderLength, Position.Y); // TODO Put an e.r.c. in a e.r.c. to avoid this ugly
-            //myTaskbar.Controls.Add(new TaskbarExecutable(myTaskbar, @"C:\Program Files (x86)\Microsoft Office\root\Office16\EXCEL.EXE"));
-            //myTaskbar.Controls.Add(new TaskbarExecutable(myTaskbar, @"C:\Program Files (x86)\Microsoft Office\root\Office16\WINWORD.EXE"));
-            //myTaskbar.Controls.Add(new TaskbarExecutable(myTaskbar, @"C:\Program Files (x86)\Microsoft Office\root\Office16\OUTLOOK.EXE"));
-            //myTaskbar.Controls.Add(new TaskbarExecutable(myTaskbar, @"C:\Program Files (x86)\Microsoft Office\root\Office16\POWERPNT.EXE"));
+
+            var iconsSize = new Vector2i(Size.Y, Size.Y);
             //myTaskbar.Controls.Add(new TaskbarExecutable(myTaskbar, @"C:\Program Files (x86)\Minecraft\MinecraftLauncher.exe"));
-            erc.Controls.Add(new TaskbarExecutable(this, @"c:\windows\system32\cmd.exe"));
-            erc.Controls.Add(new TaskbarExecutable(this, @"c:\windows\notepad.exe"));
+            erc.Controls.Add(new Executable(this, @"c:\windows\system32\cmd.exe") { Size = iconsSize }); // TODO Do an auto size prop
+            erc.Controls.Add(new Executable(this, @"c:\windows\notepad.exe") { Size = iconsSize });
 
             Controls.Add(erc);
 

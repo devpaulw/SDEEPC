@@ -27,8 +27,6 @@ namespace SDEE
                 (int)position.Y * Container.BorderSize * 2 + Container.BorderSize);// DOLATER Don't allow if outside table, too big for the box and not autosize, 
 
             Owner.Controls.Add(control);
-
-            base.Add(control);
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿
-using SFML.Graphics;
+﻿using SFML.Graphics;
 using SFML.System;
 using System;
 using System.Collections.Generic;
@@ -34,15 +33,12 @@ namespace SDEE
 
             #region Tests
 
-            var tc = new TableContainer(this, 4, 4, 50, 50, 10);
-            tc.Controls.Add(new SimpleRectControl(tc) { Color = Color.Black, Size = new Vector2i(50, 50) },
-                new Vector2u(0, 0));
-            tc.Controls.Add(new SimpleRectControl(tc) { Color = Color.Black, Size = new Vector2i(50, 50) },
-                new Vector2u(0, 1));
-            tc.Controls.Add(new SimpleRectControl(tc) { Color = Color.Black, Size = new Vector2i(50, 50) },
-                new Vector2u(1, 0));
-            tc.Controls.Add(new SimpleRectControl(tc) { Color = Color.Black, Size = new Vector2i(50, 50) },
-                new Vector2u(1, 1));
+            var tc = new TableContainer(this, 4, 4, 50, 50, 5);
+            var executablesSize = new Vector2i(50, 50);
+            tc.Controls.Add(new Executable(tc, @"c:\windows\notepad.exe") { Size = executablesSize }, new Vector2u(0, 0));
+            tc.Controls.Add(new Executable(tc, @"c:\windows\system32\cmd.exe") { Size = executablesSize }, new Vector2u(1, 0));
+            tc.Controls.Add(new Executable(tc, @"c:\windows\regedit.exe") { Size = executablesSize }, new Vector2u(0, 1));
+            tc.Controls.Add(new Executable(tc, @"c:\windows\system32\winver.exe") { Size = executablesSize }, new Vector2u(1, 1));
             Controls.Add(tc);
             #endregion
 

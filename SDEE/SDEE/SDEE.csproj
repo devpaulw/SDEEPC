@@ -82,7 +82,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controls\DesktopEnvironment.cs" />
     <Compile Include="Miscellaneous\SfW32DEWindow.cs" />
-    <Compile Include="Controls\Taskbar\TaskbarExecutable.cs" />
+    <Compile Include="Controls\Executable.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
