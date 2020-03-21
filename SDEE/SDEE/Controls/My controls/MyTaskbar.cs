@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SDEE.Sfml
+namespace SDEE
 {
     class MyTaskbar : Control
     {

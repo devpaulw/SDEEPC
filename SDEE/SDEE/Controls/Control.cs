@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Win32;
 
-namespace SDEE.Sfml
+namespace SDEE
 {
     public abstract partial class Control : Drawable
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SDEE.Sfml
+namespace SDEE
 {
     public abstract partial class Control
     {

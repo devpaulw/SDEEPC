@@ -11,7 +11,6 @@ using Win32;
 using static Win32.User;
 using static Win32.Kernel;
 using System.Runtime.InteropServices;
-using SDEE.Sfml;
 using SFML.System;
 
 namespace SDEE

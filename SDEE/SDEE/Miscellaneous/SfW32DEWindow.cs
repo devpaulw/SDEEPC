@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using Win32;
 using static Win32.User;
 
-namespace SDEE.Sfml
+namespace SDEE
 {
     /// <summary>
     /// A class that manages well the relations between Win32 and SFML,

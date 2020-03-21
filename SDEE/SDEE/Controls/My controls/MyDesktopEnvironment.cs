@@ -1,4 +1,5 @@
-﻿using SFML.Graphics;
+﻿
+using SFML.Graphics;
 using SFML.System;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SDEE.Sfml
+namespace SDEE
 {
     class MyDesktopEnvironment : DesktopEnvironment
     {
@@ -29,7 +30,7 @@ namespace SDEE.Sfml
             myStartMenu.Position = new Vector2i(myStartMenu.Position.X, myStartMenu.Position.Y - myTaskbar.Size.Y);
             myStartMenu.IsEnabled = false;
 
-            myTaskbar.ToggleStartMenu += (s, e) => { myStartMenu.IsEnabled ^= true; };
+            myTaskbar.ToggleStartMenu += (s, e) => myStartMenu.IsEnabled ^= true;
 
             Controls.Add(myTaskbar);
             Controls.Add(myStartMenu);
