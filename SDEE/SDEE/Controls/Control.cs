@@ -67,9 +67,10 @@ namespace SDEE
                 {
                     process.Start();
                 }
-                catch (Win32Exception ex) // Should appear when execution cancelled
+                catch (Win32Exception) // Should appear when execution cancelled
                 {
-                    MessageBox(ex.Message, ex.NativeErrorCode.ToString(), MessageBoxIcon.Exclamation);
+                    // DO NOTHING (not important)
+                    //MessageBox(ex.Message, ex.NativeErrorCode.ToString(), MessageBoxIcon.Exclamation);
                 }
 
                 //while (!process.HasExited) // FOR LATER
