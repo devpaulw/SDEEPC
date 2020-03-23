@@ -15,13 +15,13 @@ namespace SDEE
 {
     public class DesktopEnvironment : Control
     {
-		private KeyboardShortcutComponent keyboardShortcuts;
+		private readonly KeyboardShortcutCollection keyboardShortcuts;
 
         protected override Shape Shape => null;
 
         public DesktopEnvironment() : base(null)
         {
-			keyboardShortcuts = new KeyboardShortcutComponent();
+			keyboardShortcuts = new KeyboardShortcutCollection(this);
 		}
 
         public void Start()
@@ -52,12 +52,8 @@ namespace SDEE
 		protected override void OnKeyPressed(KeyEventArgs e)
 		{
 			DesktopEnvironmentCommand command = keyboardShortcuts.GetCommand(KeyCombinationFactory.FromKeyEventArgs(e));
-			if (command is null)
-				return;
-			if (command is ExecuteProgramCommand concreteCommand)
-				StartExe(concreteCommand.ExecutablePath);
+			command?.Execute();
 			base.OnKeyPressed(e);
 		}
-
 	}
 }

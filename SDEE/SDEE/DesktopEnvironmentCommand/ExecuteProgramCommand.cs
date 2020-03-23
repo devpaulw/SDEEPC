@@ -11,23 +11,19 @@ namespace SDEE
 	{
 		public string ExecutablePath { get; private set; }
 
-		public ExecuteProgramCommand(string executablePath)
+		public ExecuteProgramCommand(DesktopEnvironment desktopEnvironment, string executablePath) : base(desktopEnvironment)
 		{
 			ExecutablePath = executablePath;
 		}
 
 		public override void Execute()
 		{
-			using (Process pProcess = new Process())
-			{
-				pProcess.StartInfo.FileName = ExecutablePath;
-				pProcess.Start();
-			}
+			DesktopEnvironment.StartExe(ExecutablePath);
 		}
 
 		public override string ToString()
 		{
-			return $"Execute {ExecutablePath}";
+			return $"Executing {ExecutablePath}...";
 		}
 	}
 }

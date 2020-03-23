@@ -35,16 +35,16 @@
   <ItemGroup>
     <Reference Include="PresentationFramework" />
     <Reference Include="SFML.Audio, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SFML.Audio.2.5.0\lib\netstandard2.0\SFML.Audio.dll</HintPath>
+      <HintPath>..\..\..\SDEE\SDEE\SDEE\bin\Debug\SFML.Audio.dll</HintPath>
     </Reference>
     <Reference Include="SFML.Graphics, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SFML.Graphics.2.5.0\lib\netstandard2.0\SFML.Graphics.dll</HintPath>
+      <HintPath>..\..\..\SDEE\SDEE\SDEE\bin\Debug\SFML.Graphics.dll</HintPath>
     </Reference>
     <Reference Include="SFML.System, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SFML.System.2.5.0\lib\netstandard2.0\SFML.System.dll</HintPath>
+      <HintPath>..\..\..\SDEE\SDEE\SDEE\bin\Debug\SFML.System.dll</HintPath>
     </Reference>
     <Reference Include="SFML.Window, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SFML.Window.2.5.0\lib\netstandard2.0\SFML.Window.dll</HintPath>
+      <HintPath>..\..\..\SDEE\SDEE\SDEE\bin\Debug\SFML.Window.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -63,7 +63,7 @@
   <ItemGroup>
     <Compile Include="DesktopEnvironmentCommand\DesktopEnvironmentCommand.cs" />
     <Compile Include="DesktopEnvironmentCommand\ExecuteProgramCommand.cs" />
-    <Compile Include="KeyboardShortcuts\KeyboardShortcutComponent.cs" />
+    <Compile Include="KeyboardShortcuts\KeyboardShortcutCollection.cs" />
     <Compile Include="KeyboardShortcuts\KeyCombination.cs" />
     <Compile Include="KeyboardShortcuts\KeyCombinationFactory.cs" />
     <Compile Include="Miscellaneous\MessageBoxIcon.cs" />

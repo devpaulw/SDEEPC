@@ -8,12 +8,14 @@ using System.Threading.Tasks;
 
 namespace SDEE
 {
-	class KeyboardShortcutComponent
+	class KeyboardShortcutCollection
 	{
 		private readonly Dictionary<KeyCombination, DesktopEnvironmentCommand> keyboardShortcuts = new Dictionary<KeyCombination, DesktopEnvironmentCommand>();
+		private readonly DesktopEnvironment desktopEnvironment;
 
-		public KeyboardShortcutComponent()
+		public KeyboardShortcutCollection(DesktopEnvironment desktopEnvironment)
 		{
+			this.desktopEnvironment = desktopEnvironment;
 			Initialize();
 		}
 
@@ -38,7 +40,7 @@ namespace SDEE
 			{
 				// ASSUME : there is not the same key combination more than one time
 				string[] split = line.Split(new char[] { dataSeparator }, 2);
-				keyboardShortcuts.Add(KeyCombinationFactory.ParseString(split[0]), new ExecuteProgramCommand(split[1]));
+				keyboardShortcuts.Add(KeyCombinationFactory.ParseString(split[0]), new ExecuteProgramCommand(desktopEnvironment, split[1])); ;
 			}
 
 			file.Close();
