@@ -161,6 +161,10 @@ namespace SDEE
         public event EventHandler<MouseButtonEventArgs> Click;
         public event EventHandler<Control> ControlAdded;
 
+
+        public virtual Dictionary<string, string> GetXmlAttributes()
+            => new Dictionary<string, string>();
+
         //public event EventHandler<KeyEventArgs> KeyPressed {
         //    add => DeskEnv.KeyPressed += value;
         //    remove => DeskEnv.KeyPressed -= value;

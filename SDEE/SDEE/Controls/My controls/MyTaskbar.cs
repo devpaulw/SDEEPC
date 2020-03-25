@@ -10,7 +10,8 @@ using System.Threading.Tasks;
 
 namespace SDEE
 {
-    class MyTaskbar : Control
+    // TEMP : public to test some things
+    public class MyTaskbar : Control
     {
         public Color Color { get; set; }
 
@@ -20,6 +21,7 @@ namespace SDEE
                 FillColor = Color
             };
         }
+
 
         public MyTaskbar(DesktopEnvironment parent, Color color) : base(parent)
         {
@@ -71,6 +73,19 @@ namespace SDEE
                     "SDEE test", MessageBoxIcon.Information); // TEMP
 
             base.OnMouseButtonPressed(e);
+        }
+        public override Dictionary<string, string> GetXmlAttributes()
+        {
+            return new Dictionary<string, string>()
+            {
+                {  $"{nameof(Size)}.{nameof(Size.X)}", $"{Size.X}" },
+                {  $"{nameof(Size)}.{nameof(Size.Y)}", $"{Size.Y}" },
+                {  $"{nameof(Color)}.{nameof(Color.R)}", $"{Color.R}" },
+                {  $"{nameof(Color)}.{nameof(Color.G)}", $"{Color.G}" },
+                {  $"{nameof(Color)}.{nameof(Color.B)}", $"{Color.B}" },
+                {  $"{nameof(Position)}.{nameof(Position.X)}", $"{Position.X}" },
+                {  $"{nameof(Position)}.{nameof(Position.Y)}", $"{Position.Y}" },
+            };
         }
 
         public event EventHandler ToggleStartMenu;
