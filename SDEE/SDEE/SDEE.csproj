@@ -61,8 +61,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\ControlType.cs" />
     <Compile Include="Controls\DesktopEnvironment\CustomDesktopEnvironment.cs" />
-    <Compile Include="Controls\DesktopEnvironment\DesktopEnvironmentLoader.cs" />
+    <Compile Include="Controls\DesktopEnvironment\DesktopEnvironmentXml.cs" />
     <Compile Include="DesktopEnvironmentCommand\DesktopEnvironmentCommand.cs" />
     <Compile Include="DesktopEnvironmentCommand\ExecuteProgramCommand.cs" />
     <Compile Include="KeyboardShortcuts\KeyboardShortcutCollection.cs" />

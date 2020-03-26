@@ -17,9 +17,10 @@ namespace SDEE
     {
 		private readonly KeyboardShortcutCollection keyboardShortcuts;
 
-        protected override Shape Shape => null;
+		protected override Shape Shape => null;
+		public override ControlType Type => ControlType.DesktopEnvironment;
 
-        public DesktopEnvironment() : base(null)
+		public DesktopEnvironment() : base(null)
         {
 			keyboardShortcuts = new KeyboardShortcutCollection(this);
 		}
@@ -31,7 +32,7 @@ namespace SDEE
                 Position = window.Position;
                 Size = (Vector2i)window.Size;
 
-                Load(); // Init control events
+				Load(); // Init control events
 
                 window.Closed += (s, e) => window.Close();
                 window.KeyPressed += (s, e) => OnKeyPressed(e);

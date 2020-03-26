@@ -1,14 +1,13 @@
-﻿using SDEE;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SDEE_Editor
+namespace SDEE
 {
-	class EditableDesktopEnvironment : DesktopEnvironment
+	public enum ControlType
 	{
-		
+		DesktopEnvironment, Taskbar, NotSavable
 	}
 }

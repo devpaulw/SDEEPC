@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 namespace SDEE
 {
     // TEMP : public to test some things
+    // BBTODO: create a true taskbar type
     public class MyTaskbar : Control
     {
         public Color Color { get; set; }
@@ -20,6 +21,24 @@ namespace SDEE
             {
                 FillColor = Color
             };
+        }
+
+        public override ControlType Type => ControlType.Taskbar;
+        public override Dictionary<string, string> XmlAttributes
+        {
+            get
+            {
+                return new Dictionary<string, string>()
+                {
+                    {  $"{nameof(Size)}{DesktopEnvironmentXml.AttributeSeparator}{nameof(Size.X)}", $"{Size.X}" },
+                    {  $"{nameof(Size)}{DesktopEnvironmentXml.AttributeSeparator}{nameof(Size.Y)}", $"{Size.Y}" },
+                    {  $"{nameof(Color)}{DesktopEnvironmentXml.AttributeSeparator}{nameof(Color.R)}", $"{Color.R}" },
+                    {  $"{nameof(Color)}{DesktopEnvironmentXml.AttributeSeparator}{nameof(Color.G)}", $"{Color.G}" },
+                    {  $"{nameof(Color)}{DesktopEnvironmentXml.AttributeSeparator}{nameof(Color.B)}", $"{Color.B}" },
+                    {  $"{nameof(Position)}{DesktopEnvironmentXml.AttributeSeparator}{nameof(Position.X)}", $"{Position.X}" },
+                    {  $"{nameof(Position)}{DesktopEnvironmentXml.AttributeSeparator}{nameof(Position.Y)}", $"{Position.Y}" },
+                };
+            }
         }
 
 
@@ -74,19 +93,7 @@ namespace SDEE
 
             base.OnMouseButtonPressed(e);
         }
-        public override Dictionary<string, string> GetXmlAttributes()
-        {
-            return new Dictionary<string, string>()
-            {
-                {  $"{nameof(Size)}.{nameof(Size.X)}", $"{Size.X}" },
-                {  $"{nameof(Size)}.{nameof(Size.Y)}", $"{Size.Y}" },
-                {  $"{nameof(Color)}.{nameof(Color.R)}", $"{Color.R}" },
-                {  $"{nameof(Color)}.{nameof(Color.G)}", $"{Color.G}" },
-                {  $"{nameof(Color)}.{nameof(Color.B)}", $"{Color.B}" },
-                {  $"{nameof(Position)}.{nameof(Position.X)}", $"{Position.X}" },
-                {  $"{nameof(Position)}.{nameof(Position.Y)}", $"{Position.Y}" },
-            };
-        }
+
 
         public event EventHandler ToggleStartMenu;
     }

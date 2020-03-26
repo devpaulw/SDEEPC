@@ -15,12 +15,14 @@ using SFML.System;
 
 namespace SDEE
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            MyDesktopEnvironment de = new MyDesktopEnvironment();
-            de.Start();
-        }
-    }
+	class Program
+	{
+		static void Main(string[] args)
+		{
+			//CustomDesktopEnvironment de = DesktopEnvironmentLoader.Load("config1");
+			CustomDesktopEnvironment de = new CustomDesktopEnvironment("config1");
+			de.Start();
+			//MyDesktopEnvironment de = new MyDesktopEnvironment();
+		}
+	}
 }

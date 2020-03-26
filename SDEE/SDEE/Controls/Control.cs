@@ -18,6 +18,8 @@ namespace SDEE
     public abstract partial class Control : Drawable
     {
         protected virtual Shape Shape { get => null; }
+        public virtual ControlType Type { get => ControlType.NotSavable; }
+        public virtual Dictionary<string, string> XmlAttributes { get => new Dictionary<string, string>(); }
 
         public Vector2i Position { get; set; }
         public Vector2i Size { get; set; }
@@ -162,8 +164,6 @@ namespace SDEE
         public event EventHandler<Control> ControlAdded;
 
 
-        public virtual Dictionary<string, string> GetXmlAttributes()
-            => new Dictionary<string, string>();
 
         //public event EventHandler<KeyEventArgs> KeyPressed {
         //    add => DeskEnv.KeyPressed += value;

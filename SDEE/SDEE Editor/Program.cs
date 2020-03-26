@@ -20,8 +20,8 @@ namespace SDEE_Editor
             configurationName = Console.ReadLine();
             */
 			Console.WriteLine($"[Configuration: {configurationName}]");
-
-			var de = new EditableDesktopEnvironment();
+			
+			var de = new DesktopEnvironment();
 
 			while (true)
 			{
@@ -43,7 +43,6 @@ namespace SDEE_Editor
 			}
 
 			DesktopEnvironmentSaver.Save(configurationName, de);
-			
 		}
 
 		static class Syntax
