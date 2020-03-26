@@ -14,6 +14,8 @@ namespace SDEE
 
         public int BorderLength { get; set; }
 
+        public override ControlDrawing Drawing => null;
+
         public ExtensibleRowContainer(Control parent, int borderLength) : base(parent)
         {
             BorderLength = borderLength;
@@ -23,7 +25,7 @@ namespace SDEE
 
         protected override void OnControlAdded(Control control)
         {
-            control.Position = new Vector2i(freeXpos + Position.X, Position.Y);
+            control.Position = new Vector2i(freeXpos, 0);
             freeXpos += control.Size.X + BorderLength * 2;
 
             base.OnControlAdded(control);

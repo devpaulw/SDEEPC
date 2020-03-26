@@ -1,4 +1,5 @@
-﻿using SFML.System;
+﻿using SFML.Graphics;
+using SFML.System;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,8 @@ namespace SDEE
         public int BorderSize { get; set; }
 
         public new TableControlCollection Controls { get; }
+
+        public override ControlDrawing Drawing => null;
 
         public TableContainer(Control parent, int rowCount, int columnCount, int rowWidth, int columnHeight, int borderSize) : base(parent)
         {

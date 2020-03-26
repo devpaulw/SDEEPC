@@ -2,12 +2,9 @@
 using SFML.System;
 using SFML.Window;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,16 +12,44 @@ using Win32;
 
 namespace SDEE
 {
-    public abstract partial class Control : Drawable
+    public abstract class Control
     {
-        protected virtual Shape Shape { get => null; }
+        public Control(Control parent)
+        {
+            Controls = new ControlCollection(this);
 
+            Parent = parent;
+
+            if (DeskEnv == null)
+                throw new NoDEImplementedException();
+        }
+
+        /// <summary>
+        /// Position of the control relative to the parent
+        /// </summary>
         public Vector2i Position { get; set; }
         public Vector2i Size { get; set; }
         public bool IsEnabled { get; set; } = true;
 
         public ControlCollection Controls { get; }
         public Control Parent { get; }
+
+        /// <summary>
+        /// Position of the control relative to the Desktop Environment or ZControl
+        /// </summary>
+        public Vector2i AbsolutePosition {
+            get {
+                Control parent = this;
+                Vector2i sp = default;
+                while (parent != null)
+                {
+                    sp += parent.Position;
+                    parent = parent.Parent;
+                }
+                return sp;
+            }
+        }
+
         public DesktopEnvironment DeskEnv {
             get {
                 Control parent = this;
@@ -36,23 +61,7 @@ namespace SDEE
                 return null;
             }
         }
-
-        public Control(Control parent)
-        {
-            Controls = new ControlCollection(this);
-            Parent = parent;
-
-            if (DeskEnv == null)
-                throw new NoDEImplementedException();
-        }
-
-        //public new void Draw(RenderTarget target, RenderStates states)
-        //{
-        //    base.Draw(target, states);
-
-        //    foreach (var child in Children)
-        //        target.Draw(child);
-        //}
+        public abstract ControlDrawing Drawing { get; }
 
         public void MessageBox(string text, string caption, MessageBoxIcon icon) =>
             User.MessageBox(IntPtr.Zero, text, caption, (int)icon);
@@ -66,58 +75,40 @@ namespace SDEE
                 try
                 {
                     process.Start();
+
+                    //while (!process.HasExited) // FOR LATER
+                    //{
+                    //    process.Refresh();
+                    //    if (process.MainWindowHandle.ToInt32() != 0)
+                    //    {
+                    //        IntPtr hWnd = process.MainWindowHandle;
+                    //        //DeskEnv.Controls.Add(new Window(DeskEnv, hWnd));
+                    //        new WindowCustomizer(hWnd).StartCustomization();
+                    //        break;
+                    //    }
+                    //}
                 }
                 catch (Win32Exception) // Should appear when execution cancelled
                 {
                     // DO NOTHING (not important)
                     //MessageBox(ex.Message, ex.NativeErrorCode.ToString(), MessageBoxIcon.Exclamation);
                 }
-
-                //while (!process.HasExited) // FOR LATER
-                //{
-                //    process.Refresh();
-                //    if (process.MainWindowHandle.ToInt32() != 0)
-                //    {
-                //        IntPtr hWnd = process.MainWindowHandle;
-                //        break;
-                //    }
-                //}
             }
 
         }
 
-        public void Draw(RenderTarget target, RenderStates states)
+        /// <summary>
+        /// TOFILL
+        /// </summary>
+        public virtual void Load()
         {
-            if (!IsEnabled)
+            if (Parent == null || this is ZControl)
                 return;
 
-            if (Shape != null)
-                target.Draw(Shape);
-
-            foreach (var control in Controls)
-                target.Draw(control);
+            Parent.MouseButtonPressed += (s, e) => OnMouseButtonPressed(new MouseButtonEventArgs(new MouseButtonEvent() { X = e.X - Position.X, Y = e.Y - Position.Y })); ;
+            Parent.KeyPressed += (s, e) => OnKeyPressed(e);
+            Parent.MouseMoved += (s, e) => OnMouseMoved(e);
         }
-
-        /// <summary>
-        /// Once DE started and every controls linked, there might be other things to do.
-        /// Deeply initializes every controls so that they get filled events from DE
-        /// </summary>
-        protected virtual void Load() // TODO Is this method really useful or do I let it only in DE?
-        {
-            #region Init Children
-            foreach (Control child in Controls)
-                child.Load();
-            #endregion
-
-            //InitChildren();
-        }
-
-
-        //protected virtual void InitChildren()
-        //{
-        //    foreach (Control child in Controls)
-        //        child.InitChildren();
-        //}
 
         protected virtual void OnKeyPressed(KeyEventArgs e)
         {
@@ -125,22 +116,20 @@ namespace SDEE
                 return;
 
             KeyPressed?.Invoke(this, e ?? throw new ArgumentNullException(nameof(e)));
-            foreach (var child in Controls) child.OnKeyPressed(e);
         }
         protected virtual void OnMouseButtonPressed(MouseButtonEventArgs e)
         {
             if (!IsEnabled)
                 return;
 
-            if (e.X >= Position.X && e.X <= Position.X + Size.X
-                && e.Y >= Position.Y && e.Y <= Position.Y + Size.Y
+            if (e.X >= 0 && e.X <= Size.X
+                && e.Y >= 0 && e.Y <= Size.Y
                 && e.Button == Mouse.Button.Left)
             {
                 OnClick(e);
             }
 
             MouseButtonPressed?.Invoke(this, e ?? throw new ArgumentNullException(nameof(e)));
-            foreach (var child in Controls) child.OnMouseButtonPressed(e);
         }
         protected virtual void OnClick(MouseButtonEventArgs e)
         {
@@ -156,19 +145,20 @@ namespace SDEE
 
             ControlAdded?.Invoke(this, control ?? throw new ArgumentNullException(nameof(control)));
         }
+        protected virtual void OnMouseMoved(MouseMoveEventArgs e)
+        {
+            if (!IsEnabled)
+                return;
+
+            MouseMoved?.Invoke(this, e ?? throw new ArgumentNullException(nameof(e)));
+        }
+
+        internal void RaiseControlAdded(Control controlEventArgs) => OnControlAdded(controlEventArgs);
 
         public event EventHandler<KeyEventArgs> KeyPressed;
         public event EventHandler<MouseButtonEventArgs> MouseButtonPressed;
+        public event EventHandler<MouseMoveEventArgs> MouseMoved;
         public event EventHandler<MouseButtonEventArgs> Click;
         public event EventHandler<Control> ControlAdded;
-
-        //public event EventHandler<KeyEventArgs> KeyPressed {
-        //    add => DeskEnv.KeyPressed += value;
-        //    remove => DeskEnv.KeyPressed -= value;
-        //}
-        //public event EventHandler<MouseButtonEventArgs> MouseButtonPressed {
-        //    add => DeskEnv.MouseButtonPressed += value;
-        //    remove => DeskEnv.MouseButtonPressed -= value;
-        //}
     }
 }

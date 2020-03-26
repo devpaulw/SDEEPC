@@ -9,17 +9,16 @@ using System.Threading.Tasks;
 
 namespace SDEE
 {
-    class Executable : Control // TODO Make it a SimpleRectControl
+    public sealed class Executable : Control // TODO Make it a SimpleRectControl
     {
         private readonly Texture iconTexture;
 
         public string ExecutablePath { get; set; }
 
-        protected override Shape Shape
-            => new RectangleShape(this.GetBasicShape())
-            {
-                Texture = iconTexture
-            };
+        public override ControlDrawing Drawing => new ControlDrawing(this, new RectangleShape()
+        {
+            Texture = iconTexture
+        });
 
         public Executable(Control parent, string executablePath) : base(parent)
         {

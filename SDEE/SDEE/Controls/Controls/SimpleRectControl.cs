@@ -1,4 +1,6 @@
 ﻿using SFML.Graphics;
+using SFML.System;
+using SFML.Window;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,13 +15,16 @@ namespace SDEE
         {
         }
 
-        protected override Shape Shape
-            => new RectangleShape(this.GetBasicShape())
-            {
-                FillColor = Color,
-                Texture = Texture
-            };
+        public override ControlDrawing Drawing => new ControlDrawing(this, new RectangleShape()
+        {
+            FillColor = Color,
+            Texture = Texture
+        });
 
+        protected override void OnClick(MouseButtonEventArgs e)
+        {
+            base.OnClick(e);
+        }
 
         public Texture Texture { get; set; }
 

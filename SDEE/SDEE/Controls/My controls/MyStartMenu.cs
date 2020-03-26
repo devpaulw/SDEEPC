@@ -9,13 +9,12 @@ using System.Threading.Tasks;
 
 namespace SDEE
 {
-    class MyStartMenu : Control
+    class MyStartMenu : ZControl
     {
-        protected override Shape Shape
-            => new RectangleShape(this.GetBasicShape())
-            {
-                FillColor = new Color(120, 120, 120)
-            };
+        public override ControlDrawing Drawing => new ControlDrawing(this, new RectangleShape() 
+        {
+            FillColor = new Color(120, 120, 120)
+        });
 
         public MyStartMenu(DesktopEnvironment parent) : base(parent)
         {

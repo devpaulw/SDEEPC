@@ -47,6 +47,7 @@ namespace SDEE
                 case WM_SETFOCUS: // When we try to focus the DE (whereas others windows might be above)
                     SetWindowPos(hWnd, new IntPtr(1), 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);// | SWP_NOOWNERZORDER);
                     break;
+
                 //case WM_WINDOWPOSCHANGING: // Second solution of, but lags : When we try to focus the DE (whereas others windows might be above)
                 //    var windowPos = Marshal.PtrToStructure<WINDOWPOS>(lParam);
                 //    windowPos.flags |= SWP_NOZORDER;

@@ -10,26 +10,23 @@ using System.Threading.Tasks;
 
 namespace SDEE
 {
-    class MyTaskbar : Control
+    class MyTaskbar : ZControl
     {
         public Color Color { get; set; }
 
-        protected override Shape Shape {
-            get => new RectangleShape(this.GetBasicShape())
-            {
-                FillColor = Color
-            };
-        }
+        public override ControlDrawing Drawing => new ControlDrawing(this, new RectangleShape()
+        {
+            FillColor = Color
+        });
 
         public MyTaskbar(DesktopEnvironment parent, Color color) : base(parent)
         {
             Color = color;
-
-            Position = new Vector2i(0, (parent.Size.Y - 30));
-            Size = new Vector2i(parent.Size.X, 30);
+            Position = new Vector2i(0, (Parent.Size.Y - 30));
+            Size = new Vector2i(Parent.Size.X, 30);
         }
 
-        protected override void Load()
+        public override void Load()
         {
             int borderLength = 5;
 
@@ -37,19 +34,19 @@ namespace SDEE
             {
                 Color = Color.Blue,
                 Size = new Vector2i(Size.Y, Size.Y),
-                Position = new Vector2i(borderLength, Position.Y)
+                Position = new Vector2i(borderLength, 0)
             };
-            startMenuButton.Click += (s, e) => ToggleStartMenu(s, e);
+            startMenuButton.Click += (s, e) => ToggleStartMenu(s, EventArgs.Empty);
             
             Controls.Add(startMenuButton);
 
             var erc = new ExtensibleRowContainer(this, borderLength);
-            erc.Position = new Vector2i(startMenuButton.Size.X + startMenuButton.Position.X + borderLength, Position.Y); // TODO Put an e.r.c. in a e.r.c. to avoid this ugly
+            erc.Position = new Vector2i(startMenuButton.Size.X + borderLength * 2, 0); // TODO Put an e.r.c. in a e.r.c. to avoid this ugly
 
             var iconsSize = new Vector2i(Size.Y, Size.Y);
             //myTaskbar.Controls.Add(new TaskbarExecutable(myTaskbar, @"C:\Program Files (x86)\Minecraft\MinecraftLauncher.exe"));
-            erc.Controls.Add(new Executable(this, @"c:\windows\system32\cmd.exe") { Size = iconsSize }); // TODO Do an auto size prop
-            erc.Controls.Add(new Executable(this, @"c:\windows\notepad.exe") { Size = iconsSize });
+            erc.Controls.Add(new Executable(erc, @"c:\windows\system32\cmd.exe") { Size = iconsSize }); // TODO Do an auto size prop
+            erc.Controls.Add(new Executable(erc, @"c:\windows\notepad.exe") { Size = iconsSize });
 
             Controls.Add(erc);
 
@@ -58,8 +55,12 @@ namespace SDEE
 
         protected override void OnKeyPressed(KeyEventArgs e)
         {
-
             base.OnKeyPressed(e);
+        }
+
+        protected override void OnClick(MouseButtonEventArgs e)
+        {
+            base.OnClick(e);
         }
 
         protected override void OnMouseButtonPressed(MouseButtonEventArgs e)

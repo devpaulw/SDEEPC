@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SDEE
 {
-    public class TableControlCollection : Control.ControlCollection
+    public class TableControlCollection : ControlCollection
     {
 
 

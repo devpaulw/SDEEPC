@@ -19,8 +19,10 @@ namespace SDEE
     {
         static void Main(string[] args)
         {
-            MyDesktopEnvironment de = new MyDesktopEnvironment();
-            de.Start();
+            using (MyDesktopEnvironment de = new MyDesktopEnvironment())
+            {
+                de.Start();
+            }
         }
     }
 }

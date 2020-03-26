@@ -10,12 +10,12 @@ namespace SDEE
 {
     static class BasicShapes
     {
-        public static RectangleShape GetBasicShape(this Control graphicControl)
+        public static RectangleShape GetBasicShape(this Control ctrl)
         {
             return new RectangleShape()
             {
-                Position = (Vector2f)graphicControl.Position,
-                Size = (Vector2f)graphicControl.Size
+                Position = (Vector2f)ctrl.AbsolutePosition,
+                Size = (Vector2f)ctrl.Size
             };
         }
     }
