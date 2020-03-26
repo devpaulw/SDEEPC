@@ -12,12 +12,14 @@ namespace SDEE
 {
 	public class CustomDesktopEnvironment : DesktopEnvironment
 	{
-		public readonly static char AttributeSeparator = '-';
 		public string ConfigurationName { get; private set; }
+		public string CurrentConfigurationDirectory { get => Path.Combine(DesktopEnvironmentStorage.ConfigurationDirectory, ConfigurationName); }
+		private readonly KeyboardShortcutCollection keyboardShortcuts;
 
 		public CustomDesktopEnvironment(string configurationName)
 		{
 			ConfigurationName = configurationName;
+			keyboardShortcuts = new KeyboardShortcutCollection(this);
 		}
 
 		protected override Shape Shape => new RectangleShape(this.GetBasicShape())
@@ -27,8 +29,9 @@ namespace SDEE
 
 		protected override void Load()
 		{
+			string path = Path.Combine(DesktopEnvironmentStorage.ConfigurationDirectory, ConfigurationName, "de0.xml");
 			XmlReaderSettings settings = new XmlReaderSettings();
-			XmlReader reader = XmlReader.Create(Path.Combine(DesktopEnvironmentXml.ConfigurationDirectory, $"{ConfigurationName}.xml"), settings);
+			XmlReader reader = XmlReader.Create(path, settings);
 
 			ReadDesktopEnvironment(reader);
 
@@ -37,7 +40,7 @@ namespace SDEE
 				if (reader.NodeType == XmlNodeType.Element)
 				{
 					if (!Enum.TryParse(reader.Name, out ControlType type))
-						throw new FileLoadException(Path.Combine(DesktopEnvironmentXml.ConfigurationDirectory, $"{ConfigurationName}.xml"));
+						throw new FileLoadException(path);
 
 					switch (type)
 					{
@@ -71,11 +74,18 @@ namespace SDEE
 		private static MyTaskbar ReadTaskbar(XmlReader reader, DesktopEnvironment de)
 		{
 			Color color = new Color(
-				byte.Parse(reader.GetAttribute($"{nameof(MyTaskbar.Color)}{DesktopEnvironmentXml.AttributeSeparator}{nameof(MyTaskbar.Color.R)}")),
-				byte.Parse(reader.GetAttribute($"{nameof(MyTaskbar.Color)}{DesktopEnvironmentXml.AttributeSeparator}{nameof(MyTaskbar.Color.G)}")),
-				byte.Parse(reader.GetAttribute($"{nameof(MyTaskbar.Color)}{DesktopEnvironmentXml.AttributeSeparator}{nameof(MyTaskbar.Color.B)}")));
+				byte.Parse(reader.GetAttribute($"{nameof(MyTaskbar.Color)}{DesktopEnvironmentStorage.XmlAttributeSeparator}{nameof(MyTaskbar.Color.R)}")),
+				byte.Parse(reader.GetAttribute($"{nameof(MyTaskbar.Color)}{DesktopEnvironmentStorage.XmlAttributeSeparator}{nameof(MyTaskbar.Color.G)}")),
+				byte.Parse(reader.GetAttribute($"{nameof(MyTaskbar.Color)}{DesktopEnvironmentStorage.XmlAttributeSeparator}{nameof(MyTaskbar.Color.B)}")));
 
 			return new MyTaskbar(de, color);
+		}
+
+		protected override void OnKeyPressed(KeyEventArgs e)
+		{
+			DesktopEnvironmentCommand command = keyboardShortcuts.GetCommand(KeyCombinationFactory.FromKeyEventArgs(e));
+			command?.Execute();
+			base.OnKeyPressed(e);
 		}
 	}
 }

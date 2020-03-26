@@ -30,13 +30,13 @@ namespace SDEE
             {
                 return new Dictionary<string, string>()
                 {
-                    {  $"{nameof(Size)}{DesktopEnvironmentXml.AttributeSeparator}{nameof(Size.X)}", $"{Size.X}" },
-                    {  $"{nameof(Size)}{DesktopEnvironmentXml.AttributeSeparator}{nameof(Size.Y)}", $"{Size.Y}" },
-                    {  $"{nameof(Color)}{DesktopEnvironmentXml.AttributeSeparator}{nameof(Color.R)}", $"{Color.R}" },
-                    {  $"{nameof(Color)}{DesktopEnvironmentXml.AttributeSeparator}{nameof(Color.G)}", $"{Color.G}" },
-                    {  $"{nameof(Color)}{DesktopEnvironmentXml.AttributeSeparator}{nameof(Color.B)}", $"{Color.B}" },
-                    {  $"{nameof(Position)}{DesktopEnvironmentXml.AttributeSeparator}{nameof(Position.X)}", $"{Position.X}" },
-                    {  $"{nameof(Position)}{DesktopEnvironmentXml.AttributeSeparator}{nameof(Position.Y)}", $"{Position.Y}" },
+                    {  $"{nameof(Size)}{DesktopEnvironmentStorage.XmlAttributeSeparator}{nameof(Size.X)}", $"{Size.X}" },
+                    {  $"{nameof(Size)}{DesktopEnvironmentStorage.XmlAttributeSeparator}{nameof(Size.Y)}", $"{Size.Y}" },
+                    {  $"{nameof(Color)}{DesktopEnvironmentStorage.XmlAttributeSeparator}{nameof(Color.R)}", $"{Color.R}" },
+                    {  $"{nameof(Color)}{DesktopEnvironmentStorage.XmlAttributeSeparator}{nameof(Color.G)}", $"{Color.G}" },
+                    {  $"{nameof(Color)}{DesktopEnvironmentStorage.XmlAttributeSeparator}{nameof(Color.B)}", $"{Color.B}" },
+                    {  $"{nameof(Position)}{DesktopEnvironmentStorage.XmlAttributeSeparator}{nameof(Position.X)}", $"{Position.X}" },
+                    {  $"{nameof(Position)}{DesktopEnvironmentStorage.XmlAttributeSeparator}{nameof(Position.Y)}", $"{Position.Y}" },
                 };
             }
         }

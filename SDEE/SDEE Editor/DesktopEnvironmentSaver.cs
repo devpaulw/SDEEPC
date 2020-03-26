@@ -15,8 +15,9 @@ namespace SDEE_Editor
 		{
 			XmlWriterSettings settings = new XmlWriterSettings();
 
-			Directory.CreateDirectory(DesktopEnvironmentLoader.FolderPath);
-			XmlWriter writer = XmlWriter.Create(Path.Combine(DesktopEnvironmentLoader.FolderPath, $"{configurationName}.xml"), settings);
+			string directoryPath = Path.Combine(DesktopEnvironmentStorage.ConfigurationDirectory, configurationName);
+			Directory.CreateDirectory(directoryPath);
+			XmlWriter writer = XmlWriter.Create(Path.Combine(directoryPath, $"de0.xml"), settings);
 			string dir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
 			WriteToXml(desktopEnvironment);

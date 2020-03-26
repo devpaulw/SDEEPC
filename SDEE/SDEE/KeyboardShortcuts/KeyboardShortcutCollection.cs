@@ -11,9 +11,9 @@ namespace SDEE
 	class KeyboardShortcutCollection
 	{
 		private readonly Dictionary<KeyCombination, DesktopEnvironmentCommand> keyboardShortcuts = new Dictionary<KeyCombination, DesktopEnvironmentCommand>();
-		private readonly DesktopEnvironment desktopEnvironment;
+		private readonly CustomDesktopEnvironment desktopEnvironment;
 
-		public KeyboardShortcutCollection(DesktopEnvironment desktopEnvironment)
+		public KeyboardShortcutCollection(CustomDesktopEnvironment desktopEnvironment)
 		{
 			this.desktopEnvironment = desktopEnvironment;
 			Initialize();
@@ -21,15 +21,15 @@ namespace SDEE
 
 		private void Initialize()
 		{
-			const string filePath = "keyboard-shortcuts.txt";
 			const char dataSeparator = '>';
+			string path = Path.Combine(desktopEnvironment.CurrentConfigurationDirectory, "keyboard-shortcuts.txt");
 
 			string line;
 			StreamReader file;
 
 			try
 			{
-				file = new StreamReader(filePath);
+				file = new StreamReader(path);
 			}
 			catch (FileNotFoundException)
 			{

@@ -15,14 +15,11 @@ namespace SDEE
 {
     public class DesktopEnvironment : Control
     {
-		private readonly KeyboardShortcutCollection keyboardShortcuts;
-
 		protected override Shape Shape => null;
 		public override ControlType Type => ControlType.DesktopEnvironment;
 
 		public DesktopEnvironment() : base(null)
         {
-			keyboardShortcuts = new KeyboardShortcutCollection(this);
 		}
 
         public void Start()
@@ -48,13 +45,6 @@ namespace SDEE
 					window.Display();
 				}
 			}
-		}
-
-		protected override void OnKeyPressed(KeyEventArgs e)
-		{
-			DesktopEnvironmentCommand command = keyboardShortcuts.GetCommand(KeyCombinationFactory.FromKeyEventArgs(e));
-			command?.Execute();
-			base.OnKeyPressed(e);
 		}
 	}
 }
