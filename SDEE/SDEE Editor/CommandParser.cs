@@ -1,5 +1,6 @@
 ﻿using SDEE;
 using SFML.Graphics;
+using SFML.System;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,9 @@ namespace SDEE_Editor
 				{
 					var control = new SimpleRectControl(DesktopEnvironment, nextId++)
 					{
-						Color = Color.Blue
+						Color = Color.Blue,
+						Position = new Vector2i(ControlLayoutHelper.ScreenSize, - 30),
+						Size = new Vector2i(ControlLayoutHelper.ScreenSize, 30)
 					};
 					DesktopEnvironment.Controls.Add(control);
 					output = $"Created {ControlType.SimpleRect} (Id = {control.Id})";

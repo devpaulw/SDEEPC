@@ -1,4 +1,5 @@
 ﻿using SFML.Graphics;
+using SFML.System;
 using SFML.Window;
 using System;
 using System.Collections.Generic;
@@ -71,14 +72,36 @@ namespace SDEE
 			throw new NoDEImplementedException();
 		}
 
-		private static SimpleRectControl ReadSimpleRect(XmlReader reader, DesktopEnvironment de)
+		private SimpleRectControl ReadSimpleRect(XmlReader reader, DesktopEnvironment de)
 		{
 			Color color = new Color(
 				byte.Parse(reader.GetAttribute($"{nameof(SimpleRectControl.Color)}{nameof(SimpleRectControl.Color.R)}")),
 				byte.Parse(reader.GetAttribute($"{nameof(SimpleRectControl.Color)}{nameof(SimpleRectControl.Color.G)}")),
 				byte.Parse(reader.GetAttribute($"{nameof(SimpleRectControl.Color)}{nameof(SimpleRectControl.Color.B)}")));
+			Vector2i size = new Vector2i(
+				int.Parse(reader.GetAttribute($"{nameof(SimpleRectControl.Size)}{nameof(SimpleRectControl.Size.X)}")),
+				int.Parse(reader.GetAttribute($"{nameof(SimpleRectControl.Size)}{nameof(SimpleRectControl.Size.Y)}"))
+			);
+			Vector2i position = new Vector2i(
+				int.Parse(reader.GetAttribute($"{nameof(SimpleRectControl.Position)}{nameof(SimpleRectControl.Position.X)}")),
+				int.Parse(reader.GetAttribute($"{nameof(SimpleRectControl.Position)}{nameof(SimpleRectControl.Position.Y)}"))
+			);
 
-			return new SimpleRectControl(de) { Color = color };
+			if (size.X == ControlLayoutHelper.ScreenSize)
+				size.X = Size.X;
+			if (size.Y == ControlLayoutHelper.ScreenSize)
+				size.Y = Size.Y;
+			if (position.X < 0)
+				position.X = Size.X + position.X;
+			if (position.Y < 0)
+				position.Y = Size.Y + position.Y;
+
+			return new SimpleRectControl(de)
+			{
+				Color = color,
+				Size = size,
+				Position = position
+			};
 		}
 
 		protected override void OnKeyPressed(KeyEventArgs e)
