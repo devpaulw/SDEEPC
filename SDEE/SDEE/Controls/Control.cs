@@ -18,9 +18,10 @@ namespace SDEE
     public abstract partial class Control : Drawable
     {
         protected virtual Shape Shape { get => null; }
-        public virtual ControlType Type { get => ControlType.NotSavable; }
         public virtual Dictionary<string, string> XmlAttributes { get => new Dictionary<string, string>(); }
+        public virtual ControlType Type => ControlType.NotSavable;
 
+        public uint Id { get; set; }
         public Vector2i Position { get; set; }
         public Vector2i Size { get; set; }
         public bool IsEnabled { get; set; } = true;
@@ -39,10 +40,11 @@ namespace SDEE
             }
         }
 
-        public Control(Control parent)
+        public Control(Control parent, uint id = 0)
         {
             Controls = new ControlCollection(this);
             Parent = parent;
+            Id = id;
 
             if (DeskEnv == null)
                 throw new NoDEImplementedException();
@@ -156,6 +158,21 @@ namespace SDEE
                 return;
 
             ControlAdded?.Invoke(this, control ?? throw new ArgumentNullException(nameof(control)));
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Control control &&
+                   Type == control.Type &&
+                   Id == control.Id;
+        }
+
+        public override int GetHashCode()
+        {
+            int hashCode = -1324594315;
+            hashCode = hashCode * -1521134295 + Type.GetHashCode();
+            hashCode = hashCode * -1521134295 + Id.GetHashCode();
+            return hashCode;
         }
 
         public event EventHandler<KeyEventArgs> KeyPressed;

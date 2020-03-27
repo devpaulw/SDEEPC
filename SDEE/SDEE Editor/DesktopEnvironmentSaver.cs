@@ -13,12 +13,13 @@ namespace SDEE_Editor
 	{
 		public static void Save(string configurationName, DesktopEnvironment desktopEnvironment)
 		{
-			XmlWriterSettings settings = new XmlWriterSettings();
+			const string fileName = "de0.xml";
 
 			string directoryPath = Path.Combine(DesktopEnvironmentStorage.ConfigurationDirectory, configurationName);
 			Directory.CreateDirectory(directoryPath);
-			XmlWriter writer = XmlWriter.Create(Path.Combine(directoryPath, $"de0.xml"), settings);
-			string dir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
+			XmlWriterSettings settings = new XmlWriterSettings();
+			XmlWriter writer = XmlWriter.Create(Path.Combine(directoryPath, fileName), settings);
 
 			WriteToXml(desktopEnvironment);
 
@@ -28,16 +29,14 @@ namespace SDEE_Editor
 			void WriteToXml(Control control)
 			{
 				writer.WriteStartElement(control.Type.ToString());
+				writer.WriteAttributeString(nameof(control.Id), $"{control.Id}");
 
 				foreach (var attribute in control.XmlAttributes)
-				{
 					writer.WriteAttributeString(attribute.Key, attribute.Value);
-				}
 
 				foreach (var child in control.Controls)
-				{
 					WriteToXml(child);
-				}
+
 				writer.WriteEndElement();
 			}
 		}
