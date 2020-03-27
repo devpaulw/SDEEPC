@@ -4,7 +4,7 @@
 	{
 		public static class Commands
 		{
-			public const string Create = "create";
+			public const string Append = "append";
 			public const string Delete = "delete";
 		}
 

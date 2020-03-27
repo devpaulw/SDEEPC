@@ -18,7 +18,12 @@ namespace SDEE
     public abstract partial class Control : Drawable
     {
         protected virtual Shape Shape { get => null; }
-        public virtual Dictionary<string, string> XmlAttributes { get => new Dictionary<string, string>(); }
+
+        public virtual Dictionary<string, string> GetXmlAttributes()
+        {
+            return new Dictionary<string, string>();
+        }
+
         public virtual ControlType Type => ControlType.NotSavable;
 
         public uint Id { get; set; }

@@ -24,7 +24,7 @@ namespace SDEE_Editor
 			string output = $"The command didn't succeeded.";
 			string[] command = line.Split(' ');
 
-			if (command[0] == CommandSyntax.Commands.Create)
+			if (command[0] == CommandSyntax.Commands.Append)
 			{
 				if (command[1] == CommandSyntax.Controls.SimpleRect)
 				{
@@ -55,7 +55,7 @@ namespace SDEE_Editor
 					}
 					catch (Exception)
 					{
-						
+						output = $"The third argument must be an integer.";
 					}
 
 				}

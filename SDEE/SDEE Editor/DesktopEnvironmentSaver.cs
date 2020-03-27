@@ -31,7 +31,7 @@ namespace SDEE_Editor
 				writer.WriteStartElement(control.Type.ToString());
 				writer.WriteAttributeString(nameof(control.Id), $"{control.Id}");
 
-				foreach (var attribute in control.XmlAttributes)
+				foreach (var attribute in control.GetXmlAttributes())
 					writer.WriteAttributeString(attribute.Key, attribute.Value);
 
 				foreach (var child in control.Controls)

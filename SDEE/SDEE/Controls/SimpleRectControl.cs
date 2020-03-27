@@ -21,21 +21,18 @@ namespace SDEE
 				Texture = Texture
 			};
 
-		public override Dictionary<string, string> XmlAttributes
+		public override Dictionary<string, string> GetXmlAttributes()
 		{
-			get
-			{
-				return new Dictionary<string, string>()
+			return new Dictionary<string, string>()
 				{
-					{  $"{nameof(Size)}{DesktopEnvironmentStorage.XmlAttributeSeparator}{nameof(Size.X)}", $"{Size.X}" },
-					{  $"{nameof(Size)}{DesktopEnvironmentStorage.XmlAttributeSeparator}{nameof(Size.Y)}", $"{Size.Y}" },
-					{  $"{nameof(Color)}{DesktopEnvironmentStorage.XmlAttributeSeparator}{nameof(Color.R)}", $"{Color.R}" },
-					{  $"{nameof(Color)}{DesktopEnvironmentStorage.XmlAttributeSeparator}{nameof(Color.G)}", $"{Color.G}" },
-					{  $"{nameof(Color)}{DesktopEnvironmentStorage.XmlAttributeSeparator}{nameof(Color.B)}", $"{Color.B}" },
-					{  $"{nameof(Position)}{DesktopEnvironmentStorage.XmlAttributeSeparator}{nameof(Position.X)}", $"{Position.X}" },
-					{  $"{nameof(Position)}{DesktopEnvironmentStorage.XmlAttributeSeparator}{nameof(Position.Y)}", $"{Position.Y}" },
+					{  $"{nameof(Size)}{nameof(Size.X)}", $"{Size.X}" },
+					{  $"{nameof(Size)}{nameof(Size.Y)}", $"{Size.Y}" },
+					{  $"{nameof(Color)}{nameof(Color.R)}", $"{Color.R}" },
+					{  $"{nameof(Color)}{nameof(Color.G)}", $"{Color.G}" },
+					{  $"{nameof(Color)}{nameof(Color.B)}", $"{Color.B}" },
+					{  $"{nameof(Position)}{nameof(Position.X)}", $"{Position.X}" },
+					{  $"{nameof(Position)}{nameof(Position.Y)}", $"{Position.Y}" },
 				};
-			}
 		}
 
 		public Texture Texture { get; set; }

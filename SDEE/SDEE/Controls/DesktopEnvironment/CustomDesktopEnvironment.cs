@@ -71,14 +71,14 @@ namespace SDEE
 			throw new NoDEImplementedException();
 		}
 
-		private static MyTaskbar ReadSimpleRect(XmlReader reader, DesktopEnvironment de)
+		private static SimpleRectControl ReadSimpleRect(XmlReader reader, DesktopEnvironment de)
 		{
 			Color color = new Color(
-				byte.Parse(reader.GetAttribute($"{nameof(MyTaskbar.Color)}{DesktopEnvironmentStorage.XmlAttributeSeparator}{nameof(MyTaskbar.Color.R)}")),
-				byte.Parse(reader.GetAttribute($"{nameof(MyTaskbar.Color)}{DesktopEnvironmentStorage.XmlAttributeSeparator}{nameof(MyTaskbar.Color.G)}")),
-				byte.Parse(reader.GetAttribute($"{nameof(MyTaskbar.Color)}{DesktopEnvironmentStorage.XmlAttributeSeparator}{nameof(MyTaskbar.Color.B)}")));
+				byte.Parse(reader.GetAttribute($"{nameof(SimpleRectControl.Color)}{nameof(SimpleRectControl.Color.R)}")),
+				byte.Parse(reader.GetAttribute($"{nameof(SimpleRectControl.Color)}{nameof(SimpleRectControl.Color.G)}")),
+				byte.Parse(reader.GetAttribute($"{nameof(SimpleRectControl.Color)}{nameof(SimpleRectControl.Color.B)}")));
 
-			return new MyTaskbar(de, color); // CHANGE_WITH: simple_rect
+			return new SimpleRectControl(de) { Color = color };
 		}
 
 		protected override void OnKeyPressed(KeyEventArgs e)
