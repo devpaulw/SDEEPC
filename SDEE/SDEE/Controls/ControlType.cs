@@ -8,6 +8,6 @@ namespace SDEE
 {
 	public enum ControlType
 	{
-		DesktopEnvironment, Taskbar, NotSavable
+		DesktopEnvironment, SimpleRect, NotSavable
 	}
 }

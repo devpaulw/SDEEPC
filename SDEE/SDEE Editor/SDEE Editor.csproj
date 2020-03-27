@@ -45,6 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandParser.cs" />
+    <Compile Include="CommandSyntax.cs" />
+    <Compile Include="DesktopEnvironmentEditor.cs" />
     <Compile Include="DesktopEnvironmentSaver.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

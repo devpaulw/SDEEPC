@@ -10,9 +10,7 @@ using System.Threading.Tasks;
 
 namespace SDEE
 {
-    // TEMP : public to test some things
-    // BBTODO: create a true taskbar type
-    public class MyTaskbar : Control
+    class MyTaskbar : Control
     {
         public Color Color { get; set; }
 
@@ -21,24 +19,6 @@ namespace SDEE
             {
                 FillColor = Color
             };
-        }
-
-        public override ControlType Type => ControlType.Taskbar;
-        public override Dictionary<string, string> XmlAttributes
-        {
-            get
-            {
-                return new Dictionary<string, string>()
-                {
-                    {  $"{nameof(Size)}{DesktopEnvironmentStorage.XmlAttributeSeparator}{nameof(Size.X)}", $"{Size.X}" },
-                    {  $"{nameof(Size)}{DesktopEnvironmentStorage.XmlAttributeSeparator}{nameof(Size.Y)}", $"{Size.Y}" },
-                    {  $"{nameof(Color)}{DesktopEnvironmentStorage.XmlAttributeSeparator}{nameof(Color.R)}", $"{Color.R}" },
-                    {  $"{nameof(Color)}{DesktopEnvironmentStorage.XmlAttributeSeparator}{nameof(Color.G)}", $"{Color.G}" },
-                    {  $"{nameof(Color)}{DesktopEnvironmentStorage.XmlAttributeSeparator}{nameof(Color.B)}", $"{Color.B}" },
-                    {  $"{nameof(Position)}{DesktopEnvironmentStorage.XmlAttributeSeparator}{nameof(Position.X)}", $"{Position.X}" },
-                    {  $"{nameof(Position)}{DesktopEnvironmentStorage.XmlAttributeSeparator}{nameof(Position.Y)}", $"{Position.Y}" },
-                };
-            }
         }
 
 

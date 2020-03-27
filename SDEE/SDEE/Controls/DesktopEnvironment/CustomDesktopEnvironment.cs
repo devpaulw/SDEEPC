@@ -40,12 +40,12 @@ namespace SDEE
 				if (reader.NodeType == XmlNodeType.Element)
 				{
 					if (!Enum.TryParse(reader.Name, out ControlType type))
-						throw new FileLoadException(path);
+						throw new FileLoadException(reader.BaseURI);
 
 					switch (type)
 					{
-						case ControlType.Taskbar:
-							Controls.Add(ReadTaskbar(reader, this));
+						case ControlType.SimpleRect:
+							Controls.Add(ReadSimpleRect(reader, this));
 							break;
 						default:
 							throw new NotSupportedException();
@@ -63,7 +63,7 @@ namespace SDEE
 					if (!Enum.TryParse(reader.Name, out ControlType type) || type != ControlType.DesktopEnvironment)
 						throw new NoDEImplementedException();
 
-					// BBNEXT: initialize the desktopEnvironments attributes from XML
+					// BBHERE: initialize the desktopEnvironments attributes from XML
 					return;
 				}
 			}
@@ -71,14 +71,14 @@ namespace SDEE
 			throw new NoDEImplementedException();
 		}
 
-		private static MyTaskbar ReadTaskbar(XmlReader reader, DesktopEnvironment de)
+		private static MyTaskbar ReadSimpleRect(XmlReader reader, DesktopEnvironment de)
 		{
 			Color color = new Color(
 				byte.Parse(reader.GetAttribute($"{nameof(MyTaskbar.Color)}{DesktopEnvironmentStorage.XmlAttributeSeparator}{nameof(MyTaskbar.Color.R)}")),
 				byte.Parse(reader.GetAttribute($"{nameof(MyTaskbar.Color)}{DesktopEnvironmentStorage.XmlAttributeSeparator}{nameof(MyTaskbar.Color.G)}")),
 				byte.Parse(reader.GetAttribute($"{nameof(MyTaskbar.Color)}{DesktopEnvironmentStorage.XmlAttributeSeparator}{nameof(MyTaskbar.Color.B)}")));
 
-			return new MyTaskbar(de, color);
+			return new MyTaskbar(de, color); // CHANGE_WITH: simple_rect
 		}
 
 		protected override void OnKeyPressed(KeyEventArgs e)
