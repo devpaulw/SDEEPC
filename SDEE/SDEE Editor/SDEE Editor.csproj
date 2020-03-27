@@ -49,6 +49,7 @@
     <Compile Include="CommandSyntax.cs" />
     <Compile Include="DesktopEnvironmentEditor.cs" />
     <Compile Include="DesktopEnvironmentSaver.cs" />
+    <Compile Include="EditableDesktopEnvironment.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

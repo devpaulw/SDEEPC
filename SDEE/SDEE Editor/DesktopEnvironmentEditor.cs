@@ -9,12 +9,9 @@ namespace SDEE_Editor
 		public void ReadCommands()
 		{
 			string configurationName = "config1";
-			/*
-            // UNCOMMENT_TO: ask for configuration name
-            Console.WriteLine("configuration name: "), configurationName = Console.ReadLine();
-            */
+            //Console.WriteLine("configuration name: "), configurationName = Console.ReadLine();  // UNCOMMENT_TO: ask for configuration name
 
-			var parser = new CommandParser(new CustomDesktopEnvironment(configurationName));
+			var parser = new CommandParser(new EditableDesktopEnvironment(configurationName));
 			Console.WriteLine($"[Configuration: {configurationName}]");
 
 			while (true)

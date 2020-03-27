@@ -7,93 +7,99 @@ using System.Threading.Tasks;
 
 namespace SDEE
 {
-    public abstract partial class Control
-    {
-        public class ControlCollection : ICollection<Control>
-        {
-            readonly List<Control> controls;
+	public abstract partial class Control
+	{
+		public class ControlCollection : ICollection<Control>
+		{
+			readonly List<Control> controls;
 
-            public Control Owner { get; }
+			public Control Owner { get; }
 
-            public ControlCollection(Control owner)
-            {
-                Owner = owner;
+			public ControlCollection(Control owner)
+			{
+				Owner = owner;
 
-                controls = new List<Control>();
-            }
+				controls = new List<Control>();
+			}
 
-            public Control this[int index] {
-                get => controls[index];
-                set => controls[index] = value;
-            }
+			public Control this[int index]
+			{
+				get => controls[index];
+				set => controls[index] = value;
+			}
 
-            public int Count => controls.Count;
+			public int Count => controls.Count;
 
-            public bool IsReadOnly => false;
+			public bool IsReadOnly => false;
 
-            public void Add(Control item)
-            {
-                Owner.OnControlAdded(item);
-                controls.Add(item);
-            }
+			public void Add(Control item)
+			{
+				Owner.OnControlAdded(item);
+				controls.Add(item);
+			}
 
-            public void Clear()
-            {
-                controls.Clear();
-            }
+			public void Clear()
+			{
+				controls.Clear();
+			}
 
-            public bool Contains(Control item)
-            {
-                return controls.Contains(item);
-            }
+			public bool Contains(Control item)
+			{
+				return controls.Contains(item);
+			}
 
-            public void CopyTo(Control[] array, int arrayIndex)
-            {
-                controls.CopyTo(array, arrayIndex);
-            }
+			public void CopyTo(Control[] array, int arrayIndex)
+			{
+				controls.CopyTo(array, arrayIndex);
+			}
 
-            public IEnumerator<Control> GetEnumerator()
-            {
-                return controls.GetEnumerator();
-            }
+			public IEnumerator<Control> GetEnumerator()
+			{
+				return controls.GetEnumerator();
+			}
 
-            public bool Remove(Control item)
-            {
-                return controls.Remove(item);
-            }
+			public void RemoveAt(int index)
+			{
+				controls.RemoveAt(index);
+			}
 
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return controls.GetEnumerator();
-            }
+			public bool Remove(Control item)
+			{
+				return controls.Remove(item);
+			}
 
-            //public List<TType> GetEachFiltered<TType>() where TType : Control
-            //    => (from control in this
-            //       where control is TType
-            //       select control as TType).ToList();
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return controls.GetEnumerator();
+			}
 
-            ////public void ForeachFiltered<TType>(Action<TType> action) where TType : Control
-            ////{
+			//public List<TType> GetEachFiltered<TType>() where TType : Control
+			//    => (from control in this
+			//       where control is TType
+			//       select control as TType).ToList();
 
-            ////}
+			////public void ForeachFiltered<TType>(Action<TType> action) where TType : Control
+			////{
 
-            //public void SetFiltered<TType>(int index, TType item) where TType : Control
-            //{
-            //    for (int i = 0, filteredI = 0; i < controls.Count; i++)
-            //        if (controls[i] is TType)
-            //            if (filteredI == index) 
-            //                controls[i] = item;
-            //            else 
-            //                filteredI++;
-            //}
+			////}
 
-            //public void SetFilteredWhere<TType>(Predicate<TType> predicate, TType item) where TType : Control
-            //{
-            //    for (int i = 0; i < controls.Count; i++)
-            //        if (controls[i] is TType control)
-            //            if (predicate(control))
-            //                controls[i] = item;
-            //}
-        }
-    }
+			//public void SetFiltered<TType>(int index, TType item) where TType : Control
+			//{
+			//    for (int i = 0, filteredI = 0; i < controls.Count; i++)
+			//        if (controls[i] is TType)
+			//            if (filteredI == index) 
+			//                controls[i] = item;
+			//            else 
+			//                filteredI++;
+			//}
+
+			//public void SetFilteredWhere<TType>(Predicate<TType> predicate, TType item) where TType : Control
+			//{
+			//    for (int i = 0; i < controls.Count; i++)
+			//        if (controls[i] is TType control)
+			//            if (predicate(control))
+			//                controls[i] = item;
+			//}
+		}
+	}
 }
