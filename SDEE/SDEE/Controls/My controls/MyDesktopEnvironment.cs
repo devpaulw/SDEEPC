@@ -11,24 +11,24 @@ namespace SDEE
 {
     class MyDesktopEnvironment : DesktopEnvironment
     {
-        public override ControlDrawing Drawing => new ControlDrawing(this, new RectangleShape()
+
+        protected override Shape Shape => new RectangleShape()
         {
             FillColor = new Color(0, 0x80, 0b10000000)
-        });
+
+        };
 
         public MyDesktopEnvironment()
         {
-            // TODO Configure Size and Position even here
-        }
-
-
-        public override void Load()
-        {
             MyTaskbar myTaskbar = new MyTaskbar(this, new Color(0xC0, 0xC0, 0xC0));
+            myTaskbar.SetZ(ZOrder.Top);
 
-            MyStartMenu myStartMenu = new MyStartMenu(this);
-            myStartMenu.Position = new Vector2i(myStartMenu.Position.X, myStartMenu.Position.Y - myTaskbar.Size.Y);
-            myStartMenu.IsEnabled = false;
+            MyStartMenu myStartMenu = new MyStartMenu(this)
+            {
+                Position = new Vector2i(0, Size.Y - 400 - myTaskbar.Size.Y),
+                IsEnabled = false
+            };
+            myStartMenu.SetZ(ZOrder.Top);
 
             myTaskbar.ToggleStartMenu += (s, e) => myStartMenu.IsEnabled ^= true;
 
@@ -44,19 +44,22 @@ namespace SDEE
             Controls.Add(tc);
             #endregion
 
-            ZControls.Add(myTaskbar); // UNDONE Do it ZControl
-            ZControls.Add(myStartMenu);
+            Controls.Add(myTaskbar);
+            Controls.Add(myStartMenu);
 
             //var tzc = new TZC(this);
             //ZControls.Add(tzc);
 
-            base.Load();
         }
+
+
+        //public override void Load()
+        //{
+        //    base.Load();
+        //}
     }
 
-    // TODO ZOrder integrated
-    // TODO UserControl
-    // TODO Remove ask parent
+    // TODO Put erc in a erc
     // TODO First windows
 
     //class TZC : ZControl

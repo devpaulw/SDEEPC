@@ -15,11 +15,11 @@ namespace SDEE
         {
         }
 
-        public override ControlDrawing Drawing => new ControlDrawing(this, new RectangleShape()
+        protected override Shape Shape => new RectangleShape()
         {
             FillColor = Color,
             Texture = Texture
-        });
+        };
 
         protected override void OnClick(MouseButtonEventArgs e)
         {
@@ -29,5 +29,9 @@ namespace SDEE
         public Texture Texture { get; set; }
 
         public Color Color { get; set; }
+
+        public override bool NoSize => false;
+
+        public override bool NoMove => false;
     }
 }

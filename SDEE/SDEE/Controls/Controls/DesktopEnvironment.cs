@@ -16,49 +16,43 @@ namespace SDEE
     public abstract class DesktopEnvironment : Control, IDisposable
     {
         private KeyboardShortcutComponent keyboardShortcuts;
-        private SfW32DEWindow window;
+        internal SfW32DEWindow window; // temp public
 
-        public List<ZControl> ZControls { get; }
+        public override bool NoSize => true;
+
+        public override bool NoMove => true;
 
         public DesktopEnvironment() : base(null)
         {
-            ZControls = new List<ZControl>();
-
             keyboardShortcuts = new KeyboardShortcutComponent();
             window = new SfW32DEWindow();
+
             Position = window.Position;
             Size = (Vector2i)window.Size;
-        }
 
-        public override void Load()
-        {
             window.Closed += (s, e) => window.Close();
 
             window.KeyPressed += (s, e) => OnKeyPressed(e);
             window.MouseButtonPressed += (s, e) => OnMouseButtonPressed(e);
             window.MouseMoved += (s, e) => OnMouseMoved(e);
-            // ... TO ADD Needed EventHandlers
-
-            base.Load();
         }
+
+        //public override void Load()
+        //{
+        //    // ... TO ADD Needed EventHandlers
+
+        //    base.Load();
+        //}
 
         public void Start()
         {
-            Load();
-
-            foreach (var zControl in ZControls)
-                zControl.Load();
-
             while (window.IsOpen) // MAIN LOOP
             {
                 window.DispatchSystemMessage();
                 window.DispatchEvents();
                 window.Clear();
-                window.Draw(Drawing);
+                window.Draw(this);
                 window.Display();
-
-                foreach (var zControl in ZControls)
-                    zControl.Display();
             }
         }
 

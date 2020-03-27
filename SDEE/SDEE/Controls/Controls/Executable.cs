@@ -15,10 +15,14 @@ namespace SDEE
 
         public string ExecutablePath { get; set; }
 
-        public override ControlDrawing Drawing => new ControlDrawing(this, new RectangleShape()
+        protected override Shape Shape => new RectangleShape()
         {
             Texture = iconTexture
-        });
+        };
+
+        public override bool NoSize => false;
+
+        public override bool NoMove => false;
 
         public Executable(Control parent, string executablePath) : base(parent)
         {

@@ -20,9 +20,9 @@ namespace SDEE
             w32wnd = new Win32Window(hWnd);
         }
 
-        public void StartCustomization()
+        public void StartCustomization(IntPtr ch)
         {
-            w32wnd.RemoveOverlap();
+            //w32wnd.RemoveOverlap();
 
             Vector2i customSize = w32wnd.GetSize() + new Vector2i(50, -50);
             Vector2i customPos = w32wnd.GetPosition();
@@ -35,7 +35,6 @@ namespace SDEE
             //};
 
             MouseMoveEvent oldMouseMoveEvent = new MouseMoveEvent();
-
             new Thread(() =>
             {
                 using (RenderWindow window = new RenderWindow(
@@ -43,20 +42,22 @@ namespace SDEE
                     null,
                     Styles.None))
                 {
-                    User.SetWindowLong(w32wnd.Handle, User.GWL_HWNDPARENT, (int)window.SystemHandle);
-                    //User.SetParent(w32wnd.Handle, window.SystemHandle);
+                    //User.SetWindowLong(w32wnd.Handle, User.GWL_HWNDPARENT, (int)window.SystemHandle);
+                    User.SetWindowLong(w32wnd.Handle, User.GWL_STYLE, User.GetWindowLong(w32wnd.Handle,User.GWL_STYLE) | User.WS_CLIPSIBLINGS | User.WS_CHILD);
+                    User.SetParent(w32wnd.Handle, ch);
+                    User.ShowWindow(w32wnd.Handle, User.SW_SHOWNORMAL);
 
                     window.Position = customPos;
 
                     window.MouseMoved += OnMouseMoved;
 
-                    while (window.IsOpen)
-                    {
-                        window.DispatchEvents();
-                        window.Clear(Color.Green);
-                        //window.Draw(shape);
-                        window.Display();
-                    }
+                    //while (window.IsOpen)
+                    //{
+                    //    window.DispatchEvents();
+                    //    window.Clear(Color.Green);
+                    //    //window.Draw(shape);
+                    //    window.Display();
+                    //}
 
 
 
@@ -73,7 +74,7 @@ namespace SDEE
                             && e.Y >= window.Position.Y && e.Y <= window.Position.Y + window.Size.Y)
                         {
                             Vector2i newPos = window.Position + new Vector2i(deltaX, deltaY);
-                            w32wnd.SetPosition(newPos);
+                            //w32wnd.SetPosition(newPos);
                             window.Position = newPos;
                         }
 

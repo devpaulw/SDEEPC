@@ -9,19 +9,27 @@ using System.Threading.Tasks;
 
 namespace SDEE
 {
-    class MyStartMenu : ZControl
+    class MyStartMenu : Control
     {
-        public override ControlDrawing Drawing => new ControlDrawing(this, new RectangleShape() 
+
+        protected override Shape Shape => new RectangleShape()
         {
             FillColor = new Color(120, 120, 120)
-        });
+        };
+
+        public override bool NoSize => true;
+
+        public override bool NoMove => false;
 
         public MyStartMenu(DesktopEnvironment parent) : base(parent)
         {
-            Position = new Vector2i(0, parent.Size.Y - 400);
             Size = new Vector2i(300, 400);
         }
 
+        //public override void Load()
+        //{
 
+        //    base.Load();
+        //}
     }
 }

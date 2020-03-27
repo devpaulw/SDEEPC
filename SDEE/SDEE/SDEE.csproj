@@ -62,7 +62,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ControlDrawing.cs" />
+    <Compile Include="Controls\ControlDrawing.cs" />
     <Compile Include="Controls\Control.cs" />
     <Compile Include="Controls\Controls\TableContainer.cs" />
     <Compile Include="Controls\TableControlCollection.cs" />
@@ -89,6 +89,7 @@
     <Compile Include="Controls\Controls\DesktopEnvironment.cs" />
     <Compile Include="Miscellaneous\SfW32DEWindow.cs" />
     <Compile Include="Controls\Controls\Executable.cs" />
+    <Compile Include="ZOrder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

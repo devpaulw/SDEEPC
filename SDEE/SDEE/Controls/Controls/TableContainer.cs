@@ -18,7 +18,11 @@ namespace SDEE
 
         public new TableControlCollection Controls { get; }
 
-        public override ControlDrawing Drawing => null;
+        protected override Shape Shape => null;
+
+        public override bool NoSize => true;
+
+        public override bool NoMove => false;
 
         public TableContainer(Control parent, int rowCount, int columnCount, int rowWidth, int columnHeight, int borderSize) : base(parent)
         {
