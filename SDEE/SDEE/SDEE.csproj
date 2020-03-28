@@ -66,9 +66,8 @@
     <Compile Include="Controls\ControlDrawing.cs" />
     <Compile Include="Controls\Control.cs" />
     <Compile Include="Controls\Controls\TableContainer.cs" />
-    <Compile Include="Controls\TableControlCollection.cs" />
     <Compile Include="Controls\Window.cs" />
-    <Compile Include="MissingControlParametersException.cs" />
+    <Compile Include="WrongControlParametersException.cs" />
     <Compile Include="WindowCustomizer.cs" />
     <Compile Include="DesktopEnvironmentCommand\DesktopEnvironmentCommand.cs" />
     <Compile Include="DesktopEnvironmentCommand\ExecuteProgramCommand.cs" />

@@ -45,8 +45,6 @@ namespace SDEE
         /// </summary>
         public Control(Control parent)
         {
-            //Controls = new ControlCollection(this);
-
             Parent = parent;
 
             if (DeskEnv == null)
