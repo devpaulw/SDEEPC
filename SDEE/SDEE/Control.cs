@@ -55,9 +55,9 @@ namespace SDEE
             if (Parent == null)
                 return;
 
-            Parent.MouseButtonPressed += (s, e) => OnMouseButtonPressed(new MouseButtonEventArgs(new MouseButtonEvent() { X = e.X - Position.X, Y = e.Y - Position.Y })); ;
+            Parent.MouseButtonPressed += (s, e) => OnMouseButtonPressed(new MouseButtonEventArgs(new MouseButtonEvent() { X = e.X - Position.X, Y = e.Y - Position.Y }));
             Parent.KeyPressed += (s, e) => OnKeyPressed(e);
-            Parent.MouseMoved += (s, e) => OnMouseMoved(e);
+            Parent.MouseMoved += (s, e) => OnMouseMoved(new MouseMoveEventArgs(new MouseMoveEvent() { X = e.X - Position.X, Y = e.Y - Position.Y }));
 
         }
 
