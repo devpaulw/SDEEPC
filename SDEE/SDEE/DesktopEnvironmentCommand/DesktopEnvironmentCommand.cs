@@ -8,6 +8,13 @@ namespace SDEE
 {
 	abstract class DesktopEnvironmentCommand
 	{
+		public DesktopEnvironment DesktopEnvironment { get; set; }
+
+		protected DesktopEnvironmentCommand(DesktopEnvironment desktopEnvironment)
+		{
+			DesktopEnvironment = desktopEnvironment;
+		}
+
 		abstract public void Execute();
 	}
 }

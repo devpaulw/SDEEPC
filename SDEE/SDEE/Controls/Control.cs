@@ -185,6 +185,14 @@ namespace SDEE
         /// <summary>
         /// Position of the control relative to the parent
         /// </summary>
+        public virtual Dictionary<string, string> GetXmlAttributes()
+        {
+            return new Dictionary<string, string>();
+        }
+
+        public virtual ControlType Type => ControlType.NotSavable;
+
+        public uint Id { get; set; }
         public Vector2i Position { get; set; }
         public Vector2i Size { get; set; }
         public bool IsEnabled { get; set; } = true;
@@ -218,6 +226,24 @@ namespace SDEE
                 throw new NoDEImplementedException();
             }
         }
+
+        public Control(Control parent, uint id = 0)
+        {
+            Controls = new ControlCollection(this);
+            Parent = parent;
+            Id = id;
+
+            if (DeskEnv == null)
+                throw new NoDEImplementedException();
+        }
+
+        //public new void Draw(RenderTarget target, RenderStates states)
+        //{
+        //    base.Draw(target, states);
+
+        //    foreach (var child in Children)
+        //        target.Draw(child);
+        //}
 
         public void MessageBox(string text, string caption, MessageBoxIcon icon) =>
             User.MessageBox(IntPtr.Zero, text, caption, (int)icon);
@@ -315,6 +341,21 @@ namespace SDEE
                 return;
 
             MouseMoved?.Invoke(this, e ?? throw new ArgumentNullException(nameof(e)));
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Control control &&
+                   Type == control.Type &&
+                   Id == control.Id;
+        }
+
+        public override int GetHashCode()
+        {
+            int hashCode = -1324594315;
+            hashCode = hashCode * -1521134295 + Type.GetHashCode();
+            hashCode = hashCode * -1521134295 + Id.GetHashCode();
+            return hashCode;
         }
 
         public event EventHandler<KeyEventArgs> KeyPressed;

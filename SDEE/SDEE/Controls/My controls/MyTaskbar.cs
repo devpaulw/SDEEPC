@@ -40,6 +40,7 @@ namespace SDEE
             Load(notepadExec);
         }
 
+
         public event EventHandler ToggleStartMenu;
     }
 }
