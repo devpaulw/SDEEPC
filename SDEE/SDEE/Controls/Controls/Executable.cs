@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SDEE
 {
-    public sealed class Executable : SimpleRectControl // TODO Make it a SimpleRectControl
+    public sealed class Executable : SimpleRectControl
     {
         public string ExecutablePath { get; set; }
 

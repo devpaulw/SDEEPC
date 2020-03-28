@@ -16,7 +16,10 @@ namespace SDEE
         public int ColumnHeight { get; set; }
         public int BorderSize { get; set; }
 
-        public new TableControlCollection Controls { get; }
+        protected override Dictionary<string, Type> RequiredParameters => new Dictionary<string, Type>()
+        {
+            { "position", typeof(Vector2u) }
+        };
 
         private protected override Shape Shape => null;
 
@@ -27,7 +30,20 @@ namespace SDEE
             RowWidth = rowWidth;
             ColumnHeight = columnHeight;
             BorderSize = borderSize;
-            Controls = new TableControlCollection(this);
+            //Controls = new TableControlCollection(this);
+        }
+
+        protected override void OnControlAdded(ControlAddedEventArgs e)
+        {
+            var position = (Vector2u)e.Parameters["position"];
+
+            e.Control.Position = new Vector2i(
+                (int)position.X * ColumnHeight +
+                (int)position.X * BorderSize * 2 + BorderSize,
+                (int)position.Y * RowWidth +
+                (int)position.Y * BorderSize * 2 + BorderSize);// DOLATER Don't allow if outside table, too big for the box and not autosize, 
+
+            base.OnControlAdded(e);
         }
     }
 }

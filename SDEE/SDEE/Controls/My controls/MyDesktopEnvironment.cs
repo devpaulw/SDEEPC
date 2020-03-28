@@ -34,16 +34,18 @@ namespace SDEE
 
             var tc = new TableContainer(this, 4, 4, 50, 50, 5);
             var executablesSize = new Vector2i(50, 50);
-            tc.Controls.Add(new Executable(tc, @"c:\windows\notepad.exe") { Size = executablesSize }, new Vector2u(0, 0));
-            tc.Controls.Add(new Executable(tc, @"c:\windows\system32\cmd.exe") { Size = executablesSize }, new Vector2u(1, 0));
-            tc.Controls.Add(new Executable(tc, @"c:\windows\regedit.exe") { Size = executablesSize }, new Vector2u(0, 1));
-            tc.Controls.Add(new Executable(tc, @"c:\windows\system32\winver.exe") { Size = executablesSize }, new Vector2u(1, 1));
-            tc.Controls.Add(new Executable(tc, @"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\devenv.exe") { Size = executablesSize }, new Vector2u(3, 4));
-            Controls.Add(tc);
+
+            Load(new Executable(tc, @"c:\windows\notepad.exe") { Size = executablesSize }, new Vector2u(0, 0));
+            Load(new Executable(tc, @"c:\windows\system32\cmd.exe") { Size = executablesSize }, new Vector2u(1, 0));
+            Load(new Executable(tc, @"c:\windows\regedit.exe") { Size = executablesSize }, new Vector2u(0, 1));
+            Load(new Executable(tc, @"c:\windows\system32\winver.exe") { Size = executablesSize }, new Vector2u(1, 1));
+            Load(new Executable(tc, @"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\devenv.exe") { Size = executablesSize }, new Vector2u(3, 4));
+
             #endregion
 
-            Controls.Add(myTaskbar);
-            Controls.Add(myStartMenu);
+            Load(tc);
+            Load(myTaskbar);
+            Load(myStartMenu);
         }
 
         //public override void Load()

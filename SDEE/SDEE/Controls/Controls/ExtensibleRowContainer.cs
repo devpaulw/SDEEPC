@@ -23,12 +23,12 @@ namespace SDEE
             freeXpos = BorderLength;
         }
 
-        protected override void OnControlAdded(Control control)
+        protected override void OnControlAdded(ControlAddedEventArgs e)
         {
-            control.Position = new Vector2i(freeXpos, 0);
-            freeXpos += control.Size.X + BorderLength * 2;
+            e.Control.Position = new Vector2i(freeXpos, 0);
+            freeXpos += e.Control.Size.X + BorderLength * 2;
 
-            base.OnControlAdded(control);
+            base.OnControlAdded(e);
         }
     }
 }

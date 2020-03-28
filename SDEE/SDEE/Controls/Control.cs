@@ -2,6 +2,7 @@
 using SFML.System;
 using SFML.Window;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -14,6 +15,8 @@ namespace SDEE
 {
     public abstract class Control : Drawable
     {
+       private readonly List<Control> controls = new List<Control>();
+
         private bool _isZControl;
         private bool IsZControl {
             get {
@@ -42,7 +45,7 @@ namespace SDEE
         /// </summary>
         public Control(Control parent)
         {
-            Controls = new ControlCollection(this);
+            //Controls = new ControlCollection(this);
 
             Parent = parent;
 
@@ -71,6 +74,56 @@ namespace SDEE
         /// Construct a control with pre-defined size
         /// </summary>
         public Control(Control parent, Vector2i size) : this(parent, default, size) { }
+
+        /// <summary>
+        /// Automatically add the control to its parent
+        /// </summary>
+        /// <param name="control">The control to be added to its parent</param>
+        public static void Load(Control control)
+        {
+            if (control.Parent.RequiredParameters != null && control.Parent.RequiredParameters.Any()) // No parameters specified when there are
+                throw new WrongControlParametersException(control.Parent.RequiredParameters);
+
+            if (control.Parent.controls.Contains(control))
+                return;
+
+            control.Parent.controls.Add(control);
+            control.Parent.OnControlAdded(new ControlAddedEventArgs(control));
+        }
+
+        /// <summary>
+        /// Automatically add the control to its parent
+        /// </summary>
+        /// <param name="control">The control to be added to its parent</param>
+        /// <param name="parameters">The parameters required by this control</param>
+        public static void Load(Control control, params object[] parameters)
+        {
+            if (parameters.Count() != control.Parent.RequiredParameters.Count()) // Not enough parameters specified
+                throw new WrongControlParametersException(control.Parent.RequiredParameters);
+
+            var filledParameters = new Dictionary<string, object>();
+            int i = 0;
+            foreach (var parameter in control.Parent.RequiredParameters)
+            {
+                if (parameters[i].GetType() != parameter.Value) // Wrong type specified
+                    throw new WrongControlParametersException(control.Parent.RequiredParameters);
+                filledParameters.Add(parameter.Key, parameters[i]);
+                i++;
+            }
+
+            if (control.Parent.controls.Contains(control))
+                return;
+
+            control.Parent.controls.Add(control);
+            control.Parent.OnControlAdded(new ControlAddedEventArgs(control, filledParameters));
+        }
+        
+        protected virtual void Update()
+        {
+            // TODO
+        }
+
+        protected virtual Dictionary<string, Type> RequiredParameters { get; }
 
         public void Draw(RenderTarget target, RenderStates states)
         {
@@ -137,7 +190,7 @@ namespace SDEE
         public Vector2i Position { get; set; }
         public Vector2i Size { get; set; }
         public bool IsEnabled { get; set; } = true;
-        public ControlCollection Controls { get; }
+        public IEnumerable<Control> Controls => controls;
         public Control Parent { get; }
 
         /// <summary>
@@ -168,7 +221,6 @@ namespace SDEE
             }
         }
 
-        //private Shape shape;
         public void MessageBox(string text, string caption, MessageBoxIcon icon) =>
             User.MessageBox(IntPtr.Zero, text, caption, (int)icon);
 
@@ -177,18 +229,6 @@ namespace SDEE
         /// </summary>
         // DOLATER Make a new SDEE specific Shape without Position and Size
         private protected abstract Shape Shape { get; }
-        //protected Shape Shape {
-        //    get {
-        //        if (shape != null)
-        //        {
-        //            shape.Position = DrawPosition;
-        //            if (shape is RectangleShape rs)
-        //                rs.Size = (Vector2f)Size;
-        //        }
-        //        return shape;
-        //    }
-        //    set => shape = value;
-        //}
 
         public void StartExe(string executablePath)
         {
@@ -221,13 +261,6 @@ namespace SDEE
             }
 
         }
-
-        ///// <summary>
-        ///// Do your control initializations: Position, Size, Children...  Load is called when we add a
-        ///// </summary>
-        //public virtual void Load()
-        //{
-        //}
 
         /// <summary>
         /// Set the control Z-Order
@@ -271,12 +304,12 @@ namespace SDEE
 
             Click?.Invoke(this, e ?? throw new ArgumentNullException(nameof(e)));
         }
-        protected virtual void OnControlAdded(Control control)
+        protected virtual void OnControlAdded(ControlAddedEventArgs e)
         {
             if (!IsEnabled)
                 return;
 
-            ControlAdded?.Invoke(this, control ?? throw new ArgumentNullException(nameof(control)));
+            ControlAdded?.Invoke(this, e ?? throw new ArgumentNullException(nameof(e)));
         }
         protected virtual void OnMouseMoved(MouseMoveEventArgs e)
         {
@@ -286,12 +319,10 @@ namespace SDEE
             MouseMoved?.Invoke(this, e ?? throw new ArgumentNullException(nameof(e)));
         }
 
-        internal void RaiseControlAdded(Control controlEventArgs) => OnControlAdded(controlEventArgs);
-
         public event EventHandler<KeyEventArgs> KeyPressed;
         public event EventHandler<MouseButtonEventArgs> MouseButtonPressed;
         public event EventHandler<MouseMoveEventArgs> MouseMoved;
         public event EventHandler<MouseButtonEventArgs> Click;
-        public event EventHandler<Control> ControlAdded;
+        public event EventHandler<ControlAddedEventArgs> ControlAdded;
     }
 }

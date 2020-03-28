@@ -18,28 +18,29 @@ namespace SDEE
             size: new Vector2i(parent.Size.X, 30))
         {
             int borderLength = 5;
+            Vector2i iconsSize = new Vector2i(Size.Y, Size.Y);
 
-            var startMenuButton = new SimpleRectControl(this, Color.Blue, 
-                position: new Vector2i(0, 0), 
+            var gErc = new ExtensibleRowContainer(this, borderLength);
+
+            var startMenuButton = new SimpleRectControl(gErc, Color.Blue,
+                position: new Vector2i(0, 0),
                 size: new Vector2i(Size.Y, Size.Y));
 
             startMenuButton.Click += (s, e) => ToggleStartMenu(s, EventArgs.Empty);
 
-            var gErc = new ExtensibleRowContainer(this, borderLength);
-            gErc.Controls.Add(startMenuButton);
-
             var erc = new ExtensibleRowContainer(gErc, borderLength);
-            //erc.Position = new Vector2i(startMenuButton.Size.X + borderLength * 2, 0);
-            var iconsSize = new Vector2i(Size.Y, Size.Y);
             //myTaskbar.Controls.Add(new TaskbarExecutable(myTaskbar, @"C:\Program Files (x86)\Minecraft\MinecraftLauncher.exe"));
-            erc.Controls.Add(new Executable(erc, @"c:\windows\system32\cmd.exe") { Size = iconsSize }); // DOLATER Do an auto size prop
-            erc.Controls.Add(new Executable(erc, @"c:\windows\notepad.exe") { Size = iconsSize });
-
-            gErc.Controls.Add(erc);
-
-            Controls.Add(gErc);
+            var cmdExec = new Executable(erc, @"c:\windows\system32\cmd.exe") { Size = iconsSize };
+            var notepadExec = new Executable(erc, @"c:\windows\notepad.exe") { Size = iconsSize };
+ 
+            Load(startMenuButton);
+            Load(gErc);
+            Load(erc);
+            Load(cmdExec);
+            Load(notepadExec);
         }
 
         public event EventHandler ToggleStartMenu;
     }
 }
+// DOLATER Do an auto size prop

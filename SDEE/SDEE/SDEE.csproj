@@ -62,11 +62,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControlAddedEventArgs.cs" />
     <Compile Include="Controls\ControlDrawing.cs" />
     <Compile Include="Controls\Control.cs" />
     <Compile Include="Controls\Controls\TableContainer.cs" />
     <Compile Include="Controls\TableControlCollection.cs" />
     <Compile Include="Controls\Window.cs" />
+    <Compile Include="MissingControlParametersException.cs" />
     <Compile Include="WindowCustomizer.cs" />
     <Compile Include="DesktopEnvironmentCommand\DesktopEnvironmentCommand.cs" />
     <Compile Include="DesktopEnvironmentCommand\ExecuteProgramCommand.cs" />
@@ -75,7 +77,6 @@
     <Compile Include="KeyboardShortcuts\KeyCombinationFactory.cs" />
     <Compile Include="Miscellaneous\MessageBoxIcon.cs" />
     <Compile Include="Exceptions\NoDEImplementedException.cs" />
-    <Compile Include="Controls\ControlCollection.cs" />
     <Compile Include="Controls\My controls\MyDesktopEnvironment.cs" />
     <Compile Include="Controls\Controls\SimpleRectControl.cs" />
     <Compile Include="Controls\Controls\ExtensibleRowContainer.cs" />
