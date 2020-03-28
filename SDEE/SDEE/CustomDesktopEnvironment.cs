@@ -21,15 +21,7 @@ namespace SDEE
 		{
 			ConfigurationName = configurationName;
 			keyboardShortcuts = new KeyboardShortcutCollection(this);
-		}
 
-		protected override Shape Shape => new RectangleShape(this.GetBasicShape())
-		{
-			FillColor = new Color(0, 0x80, 0b10000000)
-		};
-
-		protected override void Load()
-		{
 			string path = Path.Combine(DesktopEnvironmentStorage.ConfigurationDirectory, ConfigurationName, "de0.xml");
 			XmlReaderSettings settings = new XmlReaderSettings();
 			XmlReader reader = XmlReader.Create(path, settings);
@@ -46,7 +38,7 @@ namespace SDEE
 					switch (type)
 					{
 						case ControlType.SimpleRect:
-							Controls.Add(ReadSimpleRect(reader, this));
+							Load(ReadSimpleRect(reader, this));
 							break;
 						default:
 							throw new NotSupportedException();
@@ -54,6 +46,11 @@ namespace SDEE
 				}
 			}
 		}
+
+		private protected override Shape Shape => new RectangleShape()
+		{
+			FillColor = new Color(0, 0x80, 0b10000000)
+		};
 
 		private void ReadDesktopEnvironment(XmlReader reader)
 		{
@@ -96,12 +93,7 @@ namespace SDEE
 			if (position.Y < 0)
 				position.Y = Size.Y + position.Y;
 
-			return new SimpleRectControl(de)
-			{
-				Color = color,
-				Size = size,
-				Position = position
-			};
+			return new SimpleRectControl(de, color, position, size);
 		}
 
 		protected override void OnKeyPressed(KeyEventArgs e)

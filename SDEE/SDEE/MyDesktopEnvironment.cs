@@ -53,7 +53,6 @@ namespace SDEE
         //    base.Load();
         //}
     }
-    // TODO First windows
 
     //class TZC : ZControl
     //{

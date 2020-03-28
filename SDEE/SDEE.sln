@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDEE", "SDEE\SDEE.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDEE Editor", "SDEE Editor\SDEE Editor.csproj", "{3D92ADD4-0712-4F88-873C-57A7E0D00796}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDEE Window", "SDEE Window\SDEE Window.csproj", "{0CE038EB-C4DE-4273-81EF-73250C79E0DD}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{3D92ADD4-0712-4F88-873C-57A7E0D00796}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D92ADD4-0712-4F88-873C-57A7E0D00796}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D92ADD4-0712-4F88-873C-57A7E0D00796}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0CE038EB-C4DE-4273-81EF-73250C79E0DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0CE038EB-C4DE-4273-81EF-73250C79E0DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0CE038EB-C4DE-4273-81EF-73250C79E0DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0CE038EB-C4DE-4273-81EF-73250C79E0DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

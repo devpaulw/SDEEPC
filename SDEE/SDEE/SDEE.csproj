@@ -63,33 +63,32 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ControlAddedEventArgs.cs" />
-    <Compile Include="Controls\Control.cs" />
-    <Compile Include="Controls\Controls\TableContainer.cs" />
-    <Compile Include="Controls\Window.cs" />
+    <Compile Include="Control.cs" />
+    <Compile Include="TableContainer.cs" />
+    <Compile Include="Window.cs" />
     <Compile Include="WrongControlParametersException.cs" />
     <Compile Include="WindowCustomizer.cs" />
-    <Compile Include="Controls\ControlLayoutHelper.cs" />
-    <Compile Include="Controls\ControlType.cs" />
-    <Compile Include="Controls\DesktopEnvironment\CustomDesktopEnvironment.cs" />
-    <Compile Include="Controls\DesktopEnvironment\DesktopEnvironmentStorage.cs" />
-    <Compile Include="DesktopEnvironmentCommand\DesktopEnvironmentCommand.cs" />
-    <Compile Include="DesktopEnvironmentCommand\ExecuteProgramCommand.cs" />
-    <Compile Include="KeyboardShortcuts\KeyboardShortcutCollection.cs" />
-    <Compile Include="KeyboardShortcuts\KeyCombination.cs" />
-    <Compile Include="KeyboardShortcuts\KeyCombinationFactory.cs" />
-    <Compile Include="Miscellaneous\MessageBoxIcon.cs" />
-    <Compile Include="Exceptions\NoDEImplementedException.cs" />
-    <Compile Include="Controls\My controls\MyDesktopEnvironment.cs" />
-    <Compile Include="Controls\Controls\SimpleRectControl.cs" />
-    <Compile Include="Controls\Controls\ExtensibleRowContainer.cs" />
-    <Compile Include="Controls\My controls\MyStartMenu.cs" />
-    <Compile Include="Controls\My controls\MyTaskbar.cs" />
+    <Compile Include="ControlLayoutHelper.cs" />
+    <Compile Include="ControlType.cs" />
+    <Compile Include="CustomDesktopEnvironment.cs" />
+    <Compile Include="DesktopEnvironmentStorage.cs" />
+    <Compile Include="DesktopEnvironmentCommand.cs" />
+    <Compile Include="ExecuteProgramCommand.cs" />
+    <Compile Include="KeyboardShortcutCollection.cs" />
+    <Compile Include="KeyCombination.cs" />
+    <Compile Include="KeyCombinationFactory.cs" />
+    <Compile Include="MessageBoxIcon.cs" />
+    <Compile Include="NoDEImplementedException.cs" />
+    <Compile Include="MyDesktopEnvironment.cs" />
+    <Compile Include="SimpleRectControl.cs" />
+    <Compile Include="ExtensibleRowContainer.cs" />
+    <Compile Include="MyStartMenu.cs" />
+    <Compile Include="MyTaskbar.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Controls\Controls\DesktopEnvironment.cs" />
-    <Compile Include="Controls\DesktopEnvironment\DesktopEnvironment.cs" />
-    <Compile Include="Miscellaneous\SfW32DEWindow.cs" />
-    <Compile Include="Controls\Controls\Executable.cs" />
+    <Compile Include="DesktopEnvironment.cs" />
+    <Compile Include="SfW32DEWindow.cs" />
+    <Compile Include="Executable.cs" />
     <Compile Include="ZOrder.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -15,7 +15,7 @@ namespace SDEE
 {
     public abstract class Control : Drawable
     {
-       private readonly List<Control> controls = new List<Control>();
+        private readonly List<Control> controls;
 
         private bool _isZControl;
         private bool IsZControl {
@@ -43,9 +43,11 @@ namespace SDEE
         /// <summary>
         /// Construct a control
         /// </summary>
-        public Control(Control parent)
+        public Control(Control parent, uint id = 0)
         {
+            controls = new List<Control>();
             Parent = parent;
+            Id = id;
 
             if (DeskEnv == null)
                 throw new NoDEImplementedException();
@@ -118,7 +120,7 @@ namespace SDEE
         
         protected virtual void Update()
         {
-            // TODO
+            // PWTD
         }
 
         protected virtual Dictionary<string, Type> RequiredParameters { get; }
@@ -227,24 +229,6 @@ namespace SDEE
             }
         }
 
-        public Control(Control parent, uint id = 0)
-        {
-            Controls = new ControlCollection(this);
-            Parent = parent;
-            Id = id;
-
-            if (DeskEnv == null)
-                throw new NoDEImplementedException();
-        }
-
-        //public new void Draw(RenderTarget target, RenderStates states)
-        //{
-        //    base.Draw(target, states);
-
-        //    foreach (var child in Children)
-        //        target.Draw(child);
-        //}
-
         public void MessageBox(string text, string caption, MessageBoxIcon icon) =>
             User.MessageBox(IntPtr.Zero, text, caption, (int)icon);
 
@@ -343,20 +327,21 @@ namespace SDEE
             MouseMoved?.Invoke(this, e ?? throw new ArgumentNullException(nameof(e)));
         }
 
-        public override bool Equals(object obj)
-        {
-            return obj is Control control &&
-                   Type == control.Type &&
-                   Id == control.Id;
-        }
+        // UnresolvedMergeConflict The equals cause problems
+        //public override bool Equals(object obj)
+        //{
+        //    return obj is Control control &&
+        //           Type == control.Type &&
+        //           Id == control.Id;
+        //}
 
-        public override int GetHashCode()
-        {
-            int hashCode = -1324594315;
-            hashCode = hashCode * -1521134295 + Type.GetHashCode();
-            hashCode = hashCode * -1521134295 + Id.GetHashCode();
-            return hashCode;
-        }
+        //public override int GetHashCode()
+        //{
+        //    int hashCode = -1324594315;
+        //    hashCode = hashCode * -1521134295 + Type.GetHashCode();
+        //    hashCode = hashCode * -1521134295 + Id.GetHashCode();
+        //    return hashCode;
+        //}
 
         public event EventHandler<KeyEventArgs> KeyPressed;
         public event EventHandler<MouseButtonEventArgs> MouseButtonPressed;

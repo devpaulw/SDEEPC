@@ -15,12 +15,11 @@ namespace SDEE
 {
     public abstract class DesktopEnvironment : Control, IDisposable
     {
-        private KeyboardShortcutComponent keyboardShortcuts;
         internal SfW32DEWindow window; // temp public
+        public override ControlType Type => ControlType.DesktopEnvironment;
 
         public DesktopEnvironment() : base(null)
         {
-            keyboardShortcuts = new KeyboardShortcutComponent();
             window = new SfW32DEWindow();
 
             Position = window.Position;
@@ -50,16 +49,6 @@ namespace SDEE
                 window.Draw(this);
                 window.Display();
             }
-        }
-
-        protected override void OnKeyPressed(KeyEventArgs e)
-        {
-            DesktopEnvironmentCommand command = keyboardShortcuts.GetCommand(KeyCombinationFactory.FromKeyEventArgs(e));
-            if (command is null)
-                return;
-            if (command is ExecuteProgramCommand concreteCommand)
-                StartExe(concreteCommand.ExecutablePath);
-            base.OnKeyPressed(e);
         }
 
         #region IDisposable Support
