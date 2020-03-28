@@ -67,8 +67,6 @@
     <Compile Include="Controls\Controls\TableContainer.cs" />
     <Compile Include="Controls\TableControlCollection.cs" />
     <Compile Include="Controls\Window.cs" />
-    <Compile Include="Controls\ZControl.cs" />
-    <Compile Include="Exceptions\AddZControlException.cs" />
     <Compile Include="WindowCustomizer.cs" />
     <Compile Include="DesktopEnvironmentCommand\DesktopEnvironmentCommand.cs" />
     <Compile Include="DesktopEnvironmentCommand\ExecuteProgramCommand.cs" />
@@ -77,7 +75,6 @@
     <Compile Include="KeyboardShortcuts\KeyCombinationFactory.cs" />
     <Compile Include="Miscellaneous\MessageBoxIcon.cs" />
     <Compile Include="Exceptions\NoDEImplementedException.cs" />
-    <Compile Include="Miscellaneous\BasicShapes.cs" />
     <Compile Include="Controls\ControlCollection.cs" />
     <Compile Include="Controls\My controls\MyDesktopEnvironment.cs" />
     <Compile Include="Controls\Controls\SimpleRectControl.cs" />

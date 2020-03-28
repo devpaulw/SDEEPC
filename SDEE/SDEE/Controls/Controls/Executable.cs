@@ -9,25 +9,14 @@ using System.Threading.Tasks;
 
 namespace SDEE
 {
-    public sealed class Executable : Control // TODO Make it a SimpleRectControl
+    public sealed class Executable : SimpleRectControl // TODO Make it a SimpleRectControl
     {
-        private readonly Texture iconTexture;
-
         public string ExecutablePath { get; set; }
 
-        protected override Shape Shape => new RectangleShape()
-        {
-            Texture = iconTexture
-        };
-
-        public override bool NoSize => false;
-
-        public override bool NoMove => false;
-
-        public Executable(Control parent, string executablePath) : base(parent)
+        public Executable(Control parent, string executablePath) : base(parent, 
+            texture: new Texture(ExtractAssociatedIcon(executablePath)))
         {
             ExecutablePath = executablePath;
-            iconTexture = new Texture(ExtractAssociatedIcon(ExecutablePath));
         }
 
         protected override void OnClick(MouseButtonEventArgs e)

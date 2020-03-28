@@ -11,11 +11,9 @@ namespace SDEE
 {
     class MyDesktopEnvironment : DesktopEnvironment
     {
-
-        protected override Shape Shape => new RectangleShape()
+        private protected override Shape Shape => new RectangleShape()
         {
             FillColor = new Color(0, 0x80, 0b10000000)
-
         };
 
         public MyDesktopEnvironment()
@@ -46,20 +44,13 @@ namespace SDEE
 
             Controls.Add(myTaskbar);
             Controls.Add(myStartMenu);
-
-            //var tzc = new TZC(this);
-            //ZControls.Add(tzc);
-
         }
-
 
         //public override void Load()
         //{
         //    base.Load();
         //}
     }
-
-    // TODO Put erc in a erc
     // TODO First windows
 
     //class TZC : ZControl

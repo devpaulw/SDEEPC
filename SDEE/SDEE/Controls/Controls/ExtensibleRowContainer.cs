@@ -14,10 +14,7 @@ namespace SDEE
 
         public int BorderLength { get; set; }
 
-        protected override Shape Shape => null;
-        public override bool NoSize => false;
-
-        public override bool NoMove => false;
+        private protected override Shape Shape => null;
 
         public ExtensibleRowContainer(Control parent, int borderLength) : base(parent)
         {

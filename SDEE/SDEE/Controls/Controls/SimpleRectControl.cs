@@ -9,29 +9,36 @@ using System.Threading.Tasks;
 
 namespace SDEE
 {
-    class SimpleRectControl : Control
+    public class SimpleRectControl : Control
     {
-        public SimpleRectControl(Control parent) : base(parent)
-        {
+        private protected override Shape Shape {
+            get {
+                var rs = new RectangleShape();
+                if (Texture == null)
+                    rs.FillColor = Color;
+                else
+                    rs.Texture = Texture;
+                return rs;
+            }
         }
 
-        protected override Shape Shape => new RectangleShape()
+        public SimpleRectControl(Control parent, Texture texture, Vector2i position = default, Vector2i size = default) : base(parent, position, size)
         {
-            FillColor = Color,
-            Texture = Texture
-        };
+            Texture = texture;
+        }
+
+        public SimpleRectControl(Control parent, Color color, Vector2i position = default, Vector2i size = default) : base(parent, position, size)
+        {
+            Color = color;
+        }
 
         protected override void OnClick(MouseButtonEventArgs e)
         {
             base.OnClick(e);
         }
 
-        public Texture Texture { get; set; }
+        public Texture Texture { get; }
 
-        public Color Color { get; set; }
-
-        public override bool NoSize => false;
-
-        public override bool NoMove => false;
+        public Color Color { get; }
     }
 }

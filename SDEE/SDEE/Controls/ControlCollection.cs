@@ -32,7 +32,7 @@ namespace SDEE
         public virtual void Add(Control item)
         {
             controls.Add(item);
-            //item.Load();
+         //   item.Load();
             Owner.RaiseControlAdded(item);
             // DOLATER Now we would be able to remove parent, think about
         }

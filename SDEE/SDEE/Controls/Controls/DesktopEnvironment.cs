@@ -18,10 +18,6 @@ namespace SDEE
         private KeyboardShortcutComponent keyboardShortcuts;
         internal SfW32DEWindow window; // temp public
 
-        public override bool NoSize => true;
-
-        public override bool NoMove => true;
-
         public DesktopEnvironment() : base(null)
         {
             keyboardShortcuts = new KeyboardShortcutComponent();

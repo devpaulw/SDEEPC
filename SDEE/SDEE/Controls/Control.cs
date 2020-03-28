@@ -20,30 +20,26 @@ namespace SDEE
                 return _isZControl;
             }
             set {
-                if (_isZControl == false)
+                _isZControl = value;
+                if (value == true)
                 {
-                    _isZControl = value;
-                    if (value == true)
-                    {
-                        zrWnd = new RenderWindow(new VideoMode((uint)Size.X, (uint)Size.Y), null, Styles.None);
-                        zrWnd.Position = AbsolutePosition;
+                    zrWnd = new RenderWindow(new VideoMode((uint)Size.X, (uint)Size.Y), null, Styles.None);
+                    zrWnd.Position = AbsolutePosition;
 
-                        zrWnd.Closed += (s, e) => zrWnd.Close();
+                    zrWnd.Closed += (s, e) => zrWnd.Close();
 
-                        zrWnd.KeyPressed += (s, e) => OnKeyPressed(e);
-                        zrWnd.MouseButtonPressed += (s, e) => OnMouseButtonPressed(e);// new MouseButtonEventArgs(new MouseButtonEvent() { X = e.X - Position.X, Y= e.Y - Position.Y }));
-                        zrWnd.MouseMoved += (s, e) => OnMouseMoved(e);// new MouseMoveEventArgs(new MouseMoveEvent() { X = e.X - Position.X, Y = e.Y - Position.Y }));
-                    }
-                }
-                else if (value == false)
-                {
-                    throw new Exception("Once IsZControl has been set to true, it can't go back.");
+                    zrWnd.KeyPressed += (s, e) => OnKeyPressed(e);
+                    zrWnd.MouseButtonPressed += (s, e) => OnMouseButtonPressed(e);// new MouseButtonEventArgs(new MouseButtonEvent() { X = e.X - Position.X, Y= e.Y - Position.Y }));
+                    zrWnd.MouseMoved += (s, e) => OnMouseMoved(e);// new MouseMoveEventArgs(new MouseMoveEvent() { X = e.X - Position.X, Y = e.Y - Position.Y }));
                 }
             }
         }
 
         private RenderWindow zrWnd;
 
+        /// <summary>
+        /// Construct a control
+        /// </summary>
         public Control(Control parent)
         {
             Controls = new ControlCollection(this);
@@ -53,13 +49,28 @@ namespace SDEE
             if (DeskEnv == null)
                 throw new NoDEImplementedException();
 
-            if (Parent == null || IsZControl)
+            if (Parent == null)
                 return;
 
             Parent.MouseButtonPressed += (s, e) => OnMouseButtonPressed(new MouseButtonEventArgs(new MouseButtonEvent() { X = e.X - Position.X, Y = e.Y - Position.Y })); ;
             Parent.KeyPressed += (s, e) => OnKeyPressed(e);
             Parent.MouseMoved += (s, e) => OnMouseMoved(e);
+
         }
+
+        /// <summary>
+        /// Construct a control with pre-defined position and size
+        /// </summary>
+        public Control(Control parent, Vector2i position, Vector2i size) : this(parent)
+        {
+            Position = position;
+            Size = size;
+        }
+
+        /// <summary>
+        /// Construct a control with pre-defined size
+        /// </summary>
+        public Control(Control parent, Vector2i size) : this(parent, default, size) { }
 
         public void Draw(RenderTarget target, RenderStates states)
         {
@@ -126,17 +137,8 @@ namespace SDEE
         public Vector2i Position { get; set; }
         public Vector2i Size { get; set; }
         public bool IsEnabled { get; set; } = true;
-
         public ControlCollection Controls { get; }
         public Control Parent { get; }
-        /// <summary>
-        /// Specify that the size is owned by the control himself, we can't modify it
-        /// </summary>
-        public abstract bool NoSize { get; }
-        /// <summary>
-        /// Specify that the position is owned by the control himself, we can't modify it
-        /// </summary>
-        public abstract bool NoMove { get; }
 
         /// <summary>
         /// Position of the control relative to the Desktop Environment
@@ -174,7 +176,7 @@ namespace SDEE
         /// Configure your Shape without care about the Position and Size
         /// </summary>
         // DOLATER Make a new SDEE specific Shape without Position and Size
-        protected abstract Shape Shape { get; }
+        private protected abstract Shape Shape { get; }
         //protected Shape Shape {
         //    get {
         //        if (shape != null)
@@ -226,8 +228,6 @@ namespace SDEE
         //public virtual void Load()
         //{
         //}
-
-        // TODO Control will be a drawable
 
         /// <summary>
         /// Set the control Z-Order
