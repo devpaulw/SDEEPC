@@ -22,7 +22,7 @@ namespace SDEE
 		private void Initialize()
 		{
 			const char dataSeparator = '>';
-			string path = Path.Combine(desktopEnvironment.CurrentConfigurationDirectory, "keyboard-shortcuts.txt");
+			string path = Path.Combine(desktopEnvironment.ConfigurationDirectory, "keyboard-shortcuts.txt");
 
 			string line;
 			StreamReader file;

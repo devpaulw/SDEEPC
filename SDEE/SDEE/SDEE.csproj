@@ -62,16 +62,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ColorConverter.cs" />
     <Compile Include="ControlAddedEventArgs.cs" />
     <Compile Include="Control.cs" />
+    <Compile Include="DesktopEnvironmentStorage.cs" />
+    <Compile Include="NotHexColorException.cs" />
+    <Compile Include="StickedBorders.cs" />
     <Compile Include="TableContainer.cs" />
     <Compile Include="Window.cs" />
     <Compile Include="WrongControlParametersException.cs" />
     <Compile Include="WindowCustomizer.cs" />
-    <Compile Include="ControlLayoutHelper.cs" />
+    <Compile Include="ControlLayout.cs" />
     <Compile Include="ControlType.cs" />
     <Compile Include="CustomDesktopEnvironment.cs" />
-    <Compile Include="DesktopEnvironmentStorage.cs" />
     <Compile Include="DesktopEnvironmentCommand.cs" />
     <Compile Include="ExecuteProgramCommand.cs" />
     <Compile Include="KeyboardShortcutCollection.cs" />

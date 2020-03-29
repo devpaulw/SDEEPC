@@ -23,8 +23,8 @@ namespace SDEE
 
         private protected override Shape Shape => null;
 
-        public TableContainer(Control parent, int rowCount, int columnCount, int rowWidth, int columnHeight, int borderSize) : base(parent)
-        {
+        public TableContainer(Control parent, int rowCount, int columnCount, int rowWidth, int columnHeight, int borderSize) : base(parent: parent)
+		{
             RowCount = rowCount;
             ColumnCount = columnCount;
             RowWidth = rowWidth;

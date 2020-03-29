@@ -18,18 +18,25 @@ namespace SDEE
         internal SfW32DEWindow window; // temp public
         public override ControlType Type => ControlType.DesktopEnvironment;
 
-        public DesktopEnvironment() : base(null)
+        public DesktopEnvironment() : base(parent: null)
         {
-            window = new SfW32DEWindow();
+            try
+            {
+                window = new SfW32DEWindow();
 
-            Position = window.Position;
-            Size = (Vector2i)window.Size;
+                Position = window.Position;
+                Size = (Vector2i)window.Size;
 
-            window.Closed += (s, e) => window.Close();
+                window.Closed += (s, e) => window.Close();
 
-            window.KeyPressed += (s, e) => OnKeyPressed(e);
-            window.MouseButtonPressed += (s, e) => OnMouseButtonPressed(e);
-            window.MouseMoved += (s, e) => OnMouseMoved(e);
+                window.KeyPressed += (s, e) => OnKeyPressed(e);
+                window.MouseButtonPressed += (s, e) => OnMouseButtonPressed(e);
+                window.MouseMoved += (s, e) => OnMouseMoved(e);
+            }
+            catch (Exception) // BBHACK
+            {
+
+            }
         }
 
         //public override void Load()

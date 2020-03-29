@@ -16,8 +16,8 @@ namespace SDEE
 
         private protected override Shape Shape => null;
 
-        public ExtensibleRowContainer(Control parent, int borderLength) : base(parent)
-        {
+        public ExtensibleRowContainer(Control parent, int borderLength) : base(parent: parent)
+		{
             BorderLength = borderLength;
 
             freeXpos = BorderLength;

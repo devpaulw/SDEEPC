@@ -45,11 +45,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandParser.cs" />
     <Compile Include="CommandSyntax.cs" />
+    <Compile Include="ControlNotFoundException.cs" />
+    <Compile Include="ControlReference.cs" />
     <Compile Include="DesktopEnvironmentEditor.cs" />
     <Compile Include="DesktopEnvironmentSaver.cs" />
     <Compile Include="EditableDesktopEnvironment.cs" />
+    <Compile Include="InvalidAttributeException.cs" />
+    <Compile Include="InvalidCommandException.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

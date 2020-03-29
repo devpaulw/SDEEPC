@@ -19,16 +19,19 @@ namespace SDEE
 	{
 		static void Main(string[] args)
 		{
-			//CustomDesktopEnvironment de = DesktopEnvironmentLoader.Load("config1");
-			//CustomDesktopEnvironment de = new CustomDesktopEnvironment("config1");
-			//de.Start();
-			//MyDesktopEnvironment de = new MyDesktopEnvironment();
 
 			// UnresolvedMergeConflict Cu
-
-			using (var mde = new MyDesktopEnvironment())
+			try
 			{
-				mde.Start();
+				using (var mde = CustomDesktopEnvironment.LoadConfiguration("config1"))
+				{
+					mde.Start();
+				}
+			}
+			catch (Exception)
+			{
+				Console.WriteLine("Can't find or load the configuration...");
+				Console.ReadLine();
 			}
 		}
 	}
