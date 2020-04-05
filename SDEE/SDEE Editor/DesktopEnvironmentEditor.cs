@@ -4,16 +4,15 @@ using System.IO;
 using SDEE;
 using System.Text.RegularExpressions;
 using SFML.System;
-using ControlNo = System.UInt32;
 
 namespace SDEE_Editor
 {
 	class DesktopEnvironmentEditor
 	{
-		public EditableDesktopEnvironment DesktopEnvironment { get; private set; }
+		public CustomDesktopEnvironment DesktopEnvironment { get; private set; }
 		public Control FocusedControl { get; set; }
 		// BBNEXT: generator that checks the max id from the desktopEnvironment
-		private static ControlNo nextId = 1;
+		private IdGenerator _idGenerator;
 
 		public void ReadCommands()
 		{
@@ -24,20 +23,21 @@ namespace SDEE_Editor
 
 			try
 			{
-				DesktopEnvironment = EditableDesktopEnvironment.LoadConfiguration(configurationName);
+				DesktopEnvironment = CustomDesktopEnvironment.LoadConfiguration(configurationName);
 			}
 			catch (FileNotFoundException)
 			{
 				Console.WriteLine("The configuration file was not found. A new file will be created.");
-				DesktopEnvironment = EditableDesktopEnvironment.CreateDefaultConfiguration(configurationName);
+				DesktopEnvironment = CustomDesktopEnvironment.CreateDefaultConfiguration(configurationName);
 			}
 			catch (FileLoadException)
 			{
 				Console.WriteLine("The configuration file is badly formatted. A new file will overwrite it.");
-				DesktopEnvironment = EditableDesktopEnvironment.CreateDefaultConfiguration(configurationName);
+				DesktopEnvironment = CustomDesktopEnvironment.CreateDefaultConfiguration(configurationName);
 			}
 
 			FocusedControl = DesktopEnvironment;
+			_idGenerator = new IdGenerator(DesktopEnvironment);
 
 			while (true)
 			{
@@ -148,7 +148,7 @@ namespace SDEE_Editor
 				{
 					case ControlType.SimpleRect:
 						// BBNEXT
-						control = new SimpleRectControl(FocusedControl, Color.Blue, id:nextId)
+						control = new SimpleRectControl(FocusedControl, Color.Blue, id:_idGenerator.GenerateNextId())
 						{
 							Position = new Vector2i(ControlLayout.ScreenSize, ControlLayout.StickToRightOrBottom(30)),
 							Size = new Vector2i(ControlLayout.ScreenSize, 30)
@@ -158,7 +158,6 @@ namespace SDEE_Editor
 						return false;
 				}
 
-				nextId++;
 				return true;
 			}
 

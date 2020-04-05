@@ -11,7 +11,7 @@ namespace SDEE_Editor
 {
 	static class DesktopEnvironmentSaver
 	{
-		public static void Save(string configurationName, EditableDesktopEnvironment desktopEnvironment)
+		public static void Save(string configurationName, CustomDesktopEnvironment desktopEnvironment)
 		{
 			string directoryPath = Path.Combine(SDEE.DesktopEnvironmentStorage.ConfigurationDirectory, configurationName);
 			Directory.CreateDirectory(directoryPath);

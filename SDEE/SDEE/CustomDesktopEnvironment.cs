@@ -41,6 +41,13 @@ namespace SDEE
 			base.OnKeyPressed(e);
 		}
 
+		public static CustomDesktopEnvironment CreateDefaultConfiguration(string configurationName)
+		{
+			var de = new CustomDesktopEnvironment(configurationName);
+			Directory.CreateDirectory(de.ConfigurationDirectory);
+			return de;
+		}
+
 		public static CustomDesktopEnvironment LoadConfiguration(string configurationName)
 		{
 			var de = new CustomDesktopEnvironment(configurationName);

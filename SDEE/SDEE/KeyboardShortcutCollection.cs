@@ -31,7 +31,7 @@ namespace SDEE
 			{
 				file = new StreamReader(path);
 			}
-			catch (FileNotFoundException)
+			catch (Exception)
 			{
 				return; // no shortcuts will be managed if the file doesn't exist
 			}
