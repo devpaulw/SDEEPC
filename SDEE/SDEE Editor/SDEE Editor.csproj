@@ -49,7 +49,6 @@
     <Compile Include="ControlNotFoundException.cs" />
     <Compile Include="ControlReference.cs" />
     <Compile Include="DesktopEnvironmentEditor.cs" />
-    <Compile Include="DesktopEnvironmentSaver.cs" />
     <Compile Include="CustomDesktopEnvironmentExtension.cs" />
     <Compile Include="IdGenerator.cs" />
     <Compile Include="InvalidAttributeException.cs" />

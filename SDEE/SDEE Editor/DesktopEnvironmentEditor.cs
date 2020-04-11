@@ -11,29 +11,28 @@ namespace SDEE_Editor
 	{
 		public CustomDesktopEnvironment DesktopEnvironment { get; private set; }
 		public Control FocusedControl { get; set; }
-		// BBNEXT: generator that checks the max id from the desktopEnvironment
 		private IdGenerator _idGenerator;
 
 		public void ReadCommands()
 		{
-			string configurationName = "config1";
+			string configurationName = "de0";
 			// UNCOMMENT_TO: ask for configuration name
 			//Console.WriteLine("configuration name: "), configurationName = Console.ReadLine();
 			Console.WriteLine($"[Configuration: {configurationName}]");
 
 			try
 			{
-				DesktopEnvironment = CustomDesktopEnvironment.LoadConfiguration(configurationName);
+				DesktopEnvironment = DesktopEnvironmentStorage.LoadConfiguration(configurationName);
 			}
 			catch (FileNotFoundException)
 			{
 				Console.WriteLine("The configuration file was not found. A new file will be created.");
-				DesktopEnvironment = CustomDesktopEnvironment.CreateDefaultConfiguration(configurationName);
+				DesktopEnvironment = DesktopEnvironmentStorage.CreateDefaultConfiguration(configurationName);
 			}
 			catch (FileLoadException)
 			{
 				Console.WriteLine("The configuration file is badly formatted. A new file will overwrite it.");
-				DesktopEnvironment = CustomDesktopEnvironment.CreateDefaultConfiguration(configurationName);
+				DesktopEnvironment = DesktopEnvironmentStorage.CreateDefaultConfiguration(configurationName);
 			}
 
 			FocusedControl = DesktopEnvironment;
@@ -65,7 +64,7 @@ namespace SDEE_Editor
 				}
 			}
 
-			DesktopEnvironmentSaver.Save(configurationName, DesktopEnvironment);
+			DesktopEnvironmentStorage.Save(configurationName, DesktopEnvironment);
 		}
 
 		private string ExecuteCommand(string line)

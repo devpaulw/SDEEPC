@@ -53,11 +53,12 @@ namespace SDEE
 		/// <summary>
 		/// Construct a control
 		/// </summary>
-		public Control(Control parent) : this(0, parent)
+		protected Control(Control parent) : this(0, parent)
 		{
 
 		}
-		public Control(ControlNo id, Control parent)
+
+		protected Control(ControlNo id, Control parent)
 		{
 			controls = new List<Control>();
 			Parent = parent;
@@ -78,8 +79,9 @@ namespace SDEE
 		/// <summary>
 		/// Construct a control with pre-defined position and size
 		/// </summary>
-		public Control(Control parent, Vector2i position, Vector2i size) : this(0, parent, position, size) { }
-		public Control(ControlNo id, Control parent, Vector2i position, Vector2i size) : this(id, parent)
+		protected Control(Control parent, Vector2i position, Vector2i size) : this(0, parent, position, size) { }
+
+		protected Control(ControlNo id, Control parent, Vector2i position, Vector2i size) : this(id, parent)
 		{
 			Position = position;
 			Size = size;
@@ -88,8 +90,9 @@ namespace SDEE
 		/// <summary>
 		/// Construct a control with pre-defined size
 		/// </summary>
-		public Control(Control parent, Vector2i size) : this(0, parent, default, size) { }
-		public Control(ControlNo id, Control parent, Vector2i size) : this(id, parent, default, size) { }
+		protected Control(Control parent, Vector2i size) : this(0, parent, default, size) { }
+
+		protected Control(ControlNo id, Control parent, Vector2i size) : this(id, parent, default, size) { }
 
 		/// <summary>
 		/// Automatically add the control to its parent

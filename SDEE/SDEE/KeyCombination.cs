@@ -7,7 +7,7 @@ using SFML.Window;
 
 namespace SDEE
 {
-	class KeyCombination
+	public class KeyCombination
 	{
 		public bool Alt { get; set; }
 		public bool System { get; set; }

@@ -19,11 +19,9 @@ namespace SDEE
 	{
 		static void Main(string[] args)
 		{
-
-			// UnresolvedMergeConflict Cu
 			try
 			{
-				using (var mde = CustomDesktopEnvironment.LoadConfiguration("config1"))
+				using (var mde = DesktopEnvironmentStorage.LoadConfiguration("de0"))
 				{
 					mde.Start();
 				}
