@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using Win32;
 using ControlNo = System.UInt32;
 
@@ -212,14 +213,15 @@ namespace SDEE
 				foreach (var child in Controls)
 					target.Draw(child);
 		}
+
 		/// <summary>
 		/// Position of the control relative to the parent
 		/// </summary>
-		public virtual Dictionary<string, string> Attributes => new Dictionary<string, string>();
+		public Dictionary<string, string> Attributes { get; } = new Dictionary<string, string>();
 
 		public virtual ControlType Type => ControlType.NotSavable;
 
-		public uint Id { get; set; }
+		public ControlNo Id { get; private set; }
 		public Vector2i Position { get; set; }
 		public Vector2i Size { get; set; }
 		public bool IsEnabled { get; set; } = true;

@@ -21,7 +21,7 @@ namespace SDEE
 		{
 			try
 			{
-				using (var mde = DesktopEnvironmentStorage.LoadConfiguration("de0"))
+				using (var mde = DesktopEnvironmentStorage.Load("de0"))
 				{
 					mde.Start();
 				}

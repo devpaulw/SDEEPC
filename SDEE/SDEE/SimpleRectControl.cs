@@ -10,47 +10,50 @@ using ControlNo = System.UInt32;
 
 namespace SDEE
 {
-    public class SimpleRectControl : Control
-    {
-        private protected override Shape Shape {
-            get {
-                var rs = new RectangleShape();
-                if (Texture == null)
-                    rs.FillColor = Color;
-                else
-                    rs.Texture = Texture;
-                return rs;
-            }
-        }
-
-        public SimpleRectControl(Control parent, Texture texture, Vector2i position = default, Vector2i size = default, ControlNo id = 0) : base(id, parent, position, size)
+	public class SimpleRectControl : Control
+	{
+		private protected override Shape Shape
 		{
-            Texture = texture;
-        }
+			get
+			{
+				var rs = new RectangleShape();
+				if (Texture == null)
+					rs.FillColor = Color;
+				else
+					rs.Texture = Texture;
+				return rs;
+			}
+		}
 
-        public SimpleRectControl(Control parent, Color color, Vector2i position = default, Vector2i size = default, ControlNo id = 0) : base(id, parent, position, size)
+		public SimpleRectControl(Control parent, Texture texture, Vector2i position = default, Vector2i size = default, ControlNo id = 0) : base(id, parent, position, size)
 		{
-            Color = color;
-        }
+			Texture = texture;
+			Initialize();
+		}
 
-        protected override void OnClick(MouseButtonEventArgs e)
-        {
-            base.OnClick(e);
-        }
+		private void Initialize()
+		{
+			Attributes.Add($"{nameof(Size)}{nameof(Size.X)}", $"{Size.X}");
+			Attributes.Add($"{nameof(Size)}{nameof(Size.Y)}", $"{Size.Y}");
+			Attributes.Add($"{nameof(Position)}{nameof(Position.X)}", $"{Position.X}");
+			Attributes.Add($"{nameof(Position)}{nameof(Position.Y)}", $"{Position.Y}");
+		}
 
-		public override Dictionary<string, string> Attributes => new Dictionary<string, string>()
-				{
-					{  $"{nameof(Size)}{nameof(Size.X)}", $"{Size.X}" },
-					{  $"{nameof(Size)}{nameof(Size.Y)}", $"{Size.Y}" },
-					{  $"{nameof(Color)}", $"{Color.ToHex()}" },
-					{  $"{nameof(Position)}{nameof(Position.X)}", $"{Position.X}" },
-					{  $"{nameof(Position)}{nameof(Position.Y)}", $"{Position.Y}" },
-				};
+		public SimpleRectControl(Control parent, Color color, Vector2i position = default, Vector2i size = default, ControlNo id = 0) : base(id, parent, position, size)
+		{
+			Attributes.Add($"{nameof(Color)}", $"{color.ToHex()}");
+			Initialize();
+		}
+
+		protected override void OnClick(MouseButtonEventArgs e)
+		{
+			base.OnClick(e);
+		}
 
 		public Texture Texture { get; }
 
-        public Color Color { get; }
+		public Color Color { get => ColorConverter.ParseHex(Attributes[nameof(Color)]); }
 
-        public override ControlType Type => ControlType.SimpleRect;
-    }
+		public override ControlType Type => ControlType.SimpleRect;
+	}
 }

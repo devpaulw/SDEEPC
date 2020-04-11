@@ -14,10 +14,7 @@ namespace SDEE
 	public class CustomDesktopEnvironment : DesktopEnvironment
 	{
 		public Color BackgroundColor { get; set; } = Color.Black;
-		public override Dictionary<string, string> Attributes => new Dictionary<string, string>()
-			{
-				{ nameof(BackgroundColor), BackgroundColor.ToHex() }
-			};
+
 		public KeyboardShortcutCollection KeyboardShortcuts { get; private set; }
 
 		private protected override Shape Shape => new RectangleShape()
@@ -29,6 +26,8 @@ namespace SDEE
 		{
 			KeyboardShortcuts = keyboardShortcuts;
 			KeyboardShortcuts.DesktopEnvironment = this;
+
+			Attributes.Add(nameof(BackgroundColor), BackgroundColor.ToHex());
 		}
 
 		protected override void OnKeyPressed(KeyEventArgs e)

@@ -19,7 +19,8 @@ namespace SDEE_Editor
 
 		public IdGenerator(DesktopEnvironment de)
 		{
-			ControlNo maxId = 1;
+			// ASSUME: there is no holes in the sequential ids
+			ControlNo maxId = 0;
 			FindMaxId(de);
 			id = maxId;
 

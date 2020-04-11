@@ -92,6 +92,7 @@
     <Compile Include="DesktopEnvironment.cs" />
     <Compile Include="SfW32DEWindow.cs" />
     <Compile Include="Executable.cs" />
+    <Compile Include="DesktopEnvironmentXmlStorage.cs" />
     <Compile Include="ZOrder.cs" />
   </ItemGroup>
   <ItemGroup>

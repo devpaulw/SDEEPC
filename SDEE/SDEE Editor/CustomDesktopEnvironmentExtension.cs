@@ -11,7 +11,6 @@ namespace SDEE_Editor
 {
 	static class CustomDesktopEnvironmentExtension
 	{
-
 		public static bool TryGetControl(this CustomDesktopEnvironment de, ControlReference reference, out Control control)
 		{
 			Control controlFound = null;

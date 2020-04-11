@@ -45,127 +45,29 @@ namespace SDEE
 			}
 		}
 
-		public static CustomDesktopEnvironment CreateDefaultConfiguration(string name)
+		public static CustomDesktopEnvironment CreateDefault()
 		{
 			var de = new CustomDesktopEnvironment(new KeyboardShortcutCollection());
 			Directory.CreateDirectory(DesktopEnvironmentDirectory);
 			return de;
 		}
 
-		public static CustomDesktopEnvironment LoadConfiguration(string name)
+		public static CustomDesktopEnvironment Load(string name)
 		{
-			string filePath = GetDesktopEnvironmentFilePath(name);
-			var de = new CustomDesktopEnvironment(new KeyboardShortcutCollection());
+			return DesktopEnvironmentXmlStorage.ParseFile(GetDesktopEnvironmentFilePath(name));
+		}
 
-			XmlReaderSettings settings = new XmlReaderSettings();
-			XmlReader reader = XmlReader.Create(filePath, settings);
-
+		public static Color GetColorOrDefault(string hex)
+		{
 			try
 			{
-				ReadDesktopEnvironment();
-
-				while (reader.Read())
-				{
-					if (reader.NodeType == XmlNodeType.Element)
-					{
-						if (!Enum.TryParse(reader.Name, out ControlType type))
-							throw new FileLoadException(reader.BaseURI);
-
-						switch (type)
-						{
-							case ControlType.SimpleRect:
-								Control.Load(ReadSimpleRect());
-								break;
-							default:
-								throw new FileLoadException(reader.BaseURI);
-						}
-					}
-				}
+				return ColorConverter.ParseHex(hex);
 			}
-			catch (XmlException)
+			catch (NotHexColorException)
 			{
-				throw new FileLoadException(reader.BaseURI);
-			}
-			finally
-			{
-				reader.Close();
-			}
-
-			return de;
-
-			void ReadDesktopEnvironment()
-			{
-				while (reader.Read())
-				{
-					if (reader.NodeType == XmlNodeType.Element)
-					{
-						if (!Enum.TryParse(reader.Name, out ControlType type) || type != ControlType.DesktopEnvironment)
-							throw new FileLoadException(reader.BaseURI);
-
-						// BBHERE: initialize the desktopEnvironments attributes from XML
-						return;
-					}
-				}
-
-				throw new FileLoadException(reader.BaseURI);
-			}
-
-			SimpleRectControl ReadSimpleRect()
-			{
-				Color color = GetColorOrDefault(reader.GetAttribute($"{nameof(SimpleRectControl.Color)}"));
-				var control = new SimpleRectControl(de, color, id: ReadId());
-
-				ReadPosition(control);
-				ReadSize(control);
-				return control;
-			}
-
-			void ReadSize(Control control)
-			{
-				int x = int.Parse(reader.GetAttribute($"{nameof(control.Size)}{nameof(de.Size.X)}"));
-				int y = int.Parse(reader.GetAttribute($"{nameof(control.Size)}{nameof(de.Size.Y)}"));
-				control.Size = new Vector2i(x, y);
-
-				if (x == ControlLayout.ScreenSize)
-					control.FillParentWidth();
-				if (y == ControlLayout.ScreenSize)
-					control.FillParentHeight();
-
-			}
-
-			void ReadPosition(Control control)
-			{
-				int x = int.Parse(reader.GetAttribute($"{nameof(control.Position)}{nameof(de.Position.X)}"));
-				int y = int.Parse(reader.GetAttribute($"{nameof(control.Position)}{nameof(de.Position.Y)}"));
-				control.Position = new Vector2i(Math.Abs(x), Math.Abs(y));
-
-				if (ControlLayout.IsStickedToRightOrBottom(x))
-					control.StickToRight();
-				if (ControlLayout.IsStickedToRightOrBottom(y))
-					control.StickToBottom();
-			}
-
-			uint ReadId()
-			{
-				string idAttribute = reader.GetAttribute($"{nameof(Control.Id)}");
-
-				if (string.IsNullOrEmpty(idAttribute))
-					return 0;
-
-				return uint.Parse(idAttribute);
-			}
-
-			Color GetColorOrDefault(string attribute)
-			{
-				try
-				{
-					return string.IsNullOrEmpty(attribute) ? Color.Black : ColorConverter.ParseHex(attribute);
-				}
-				catch (NotHexColorException)
-				{
-					return Color.Black;
-				}
+				return Color.Black;
 			}
 		}
+
 	}
 }

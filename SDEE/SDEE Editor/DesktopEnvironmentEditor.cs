@@ -15,24 +15,24 @@ namespace SDEE_Editor
 
 		public void ReadCommands()
 		{
-			string configurationName = "de0";
+			string deName = "de0";
 			// UNCOMMENT_TO: ask for configuration name
 			//Console.WriteLine("configuration name: "), configurationName = Console.ReadLine();
-			Console.WriteLine($"[Configuration: {configurationName}]");
+			Console.WriteLine($"[Configuration: {deName}]");
 
 			try
 			{
-				DesktopEnvironment = DesktopEnvironmentStorage.LoadConfiguration(configurationName);
+				DesktopEnvironment = DesktopEnvironmentStorage.Load(deName);
 			}
 			catch (FileNotFoundException)
 			{
 				Console.WriteLine("The configuration file was not found. A new file will be created.");
-				DesktopEnvironment = DesktopEnvironmentStorage.CreateDefaultConfiguration(configurationName);
+				DesktopEnvironment = DesktopEnvironmentStorage.CreateDefault();
 			}
 			catch (FileLoadException)
 			{
 				Console.WriteLine("The configuration file is badly formatted. A new file will overwrite it.");
-				DesktopEnvironment = DesktopEnvironmentStorage.CreateDefaultConfiguration(configurationName);
+				DesktopEnvironment = DesktopEnvironmentStorage.CreateDefault();
 			}
 
 			FocusedControl = DesktopEnvironment;
@@ -41,7 +41,7 @@ namespace SDEE_Editor
 			while (true)
 			{
 				Console.Write($"({FocusedControl} focused) >");
-				string line = Console.ReadLine().ToLower();
+				string line = Console.ReadLine();
 
 				if (line.Length == 0)
 					break;
@@ -58,13 +58,13 @@ namespace SDEE_Editor
 				{
 					Console.WriteLine("This control doesn't exist.");
 				}
-				catch(InvalidCommandException)
+				catch (InvalidCommandException)
 				{
 					Console.WriteLine("This command doesn't exist.");
 				}
 			}
 
-			DesktopEnvironmentStorage.Save(configurationName, DesktopEnvironment);
+			DesktopEnvironmentStorage.Save(deName, DesktopEnvironment);
 		}
 
 		private string ExecuteCommand(string line)
@@ -73,8 +73,14 @@ namespace SDEE_Editor
 			string[] commandWords = Regex.Replace(line, duplicateSpacesRegex, " ").Split(' ');
 			string output = "";
 
-			switch (commandWords[0])
+			switch (commandWords[0].ToLower())
 			{
+				case CommandSyntax.Commands.Set:
+					if (!FocusedControl.Attributes.ContainsKey(commandWords[1]))
+						throw new FormatException(); // InvalidAttributeException
+
+					FocusedControl.Attributes[commandWords[1]] = commandWords[2];
+					break;
 				case CommandSyntax.Commands.Tree:
 					{
 						output = $"{FocusedControl}\n";
@@ -99,16 +105,11 @@ namespace SDEE_Editor
 					break;
 				case CommandSyntax.Commands.Attributes:
 					{
-						var attributes = FocusedControl.Attributes.Keys;
-						int i = 0;
-
-						output = $"{FocusedControl.Type} {{ ";
-						foreach (var attribute in attributes)
+						output = $"{FocusedControl.Type}\n";
+						foreach (var attribute in FocusedControl.Attributes)
 						{
-							i++;
-							output += $"{attribute} {(i != attributes.Count ? ", " : "")}";
+							output += $"{attribute}\n";
 						}
-						output += " }";
 					}
 					break;
 				case CommandSyntax.Commands.Focus:
@@ -147,7 +148,7 @@ namespace SDEE_Editor
 				{
 					case ControlType.SimpleRect:
 						// BBNEXT
-						control = new SimpleRectControl(FocusedControl, Color.Blue, id:_idGenerator.GenerateNextId())
+						control = new SimpleRectControl(FocusedControl, Color.Blue, id: _idGenerator.GenerateNextId())
 						{
 							Position = new Vector2i(ControlLayout.ScreenSize, ControlLayout.StickToRightOrBottom(30)),
 							Size = new Vector2i(ControlLayout.ScreenSize, 30)
