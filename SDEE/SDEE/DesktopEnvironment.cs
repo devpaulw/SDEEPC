@@ -15,7 +15,7 @@ namespace SDEE
 {
     public abstract class DesktopEnvironment : Control, IDisposable
     {
-        internal SfW32DEWindow window; // temp public
+        private SfW32DEWindow window;
         public override ControlType Type => ControlType.DesktopEnvironment;
 
         public DesktopEnvironment() : base(null)
@@ -24,7 +24,7 @@ namespace SDEE
 
             Position = window.Position;
             Size = (Vector2i)window.Size;
-
+            
             window.Closed += (s, e) => window.Close();
 
             window.KeyPressed += (s, e) => OnKeyPressed(e);
@@ -48,6 +48,7 @@ namespace SDEE
                 window.Clear();
                 window.Draw(this);
                 window.Display();
+                this.Update();
             }
         }
 

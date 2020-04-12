@@ -12,7 +12,7 @@ namespace SDEE
     {
         public WrongControlParametersException(Dictionary<string, Type> requiredParameters) 
             : this("There are control wrong parameters, these are the required parameters:\n" 
-                  + string.Join(",\n", from parameter in requiredParameters select string.Join(" ", "(" + parameter.Value+ "):", parameter.Key))
+                  + string.Join(",\n", requiredParameters.Select(parameter => string.Join(" ", "(" + parameter.Value + "):", parameter.Key)))
                   + "\nUse the Control.Load(Control, object[]) instead.")
         { 
         }

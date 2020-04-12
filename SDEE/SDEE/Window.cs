@@ -1,93 +1,100 @@
-﻿//using SFML.Graphics;
-//using SFML.System;
-//using SFML.Window;
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
-//using Win32;
+﻿using SFML.Graphics;
+using SFML.System;
+using SFML.Window;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Win32;
 
-//namespace SDEE
-//{
-//    class Window : Control
-//    {
-//        private Win32Window w32wnd;
-//        private MouseMoveEvent oldMouseMoveEvent;
+namespace SDEE
+{
+    class Window : Control
+    {
+        private Win32Window w32wnd;
+        private MouseMoveEvent oldMouseMoveEvent;
 
-//        public override Shape Shape
-//            => new RectangleShape(this.GetBasicShape())
-//            {
-//                FillColor = Color.Red
-//            };
+        private protected override Shape Shape
+            => new RectangleShape()
+            {
+                FillColor = Color.Red
+            };
 
-//        public Window(DesktopEnvironment parent, IntPtr hWnd) : base(parent)
-//        {
-//            w32wnd = new Win32Window(hWnd);
-//            w32wnd.RemoveOverlap();
-//            Position = w32wnd.GetPosition();
-//            Size = w32wnd.GetSize() + new Vector2i(20, 20); // tmpf
-//        }
+        public Window(DesktopEnvironment parent, IntPtr hWnd) : base(parent)
+        {
+            w32wnd = new Win32Window(hWnd);
+            w32wnd.RemoveOverlap();
+            Position = w32wnd.GetPosition() - new Vector2i(20, 20);
+            Size = w32wnd.GetSize() + new Vector2i(40, 40); // tmpf
 
-//        public override void Load()
-//        {
-//            oldMouseMoveEvent = new MouseMoveEvent() { X = Mouse.GetPosition().X, Y = Mouse.GetPosition().Y }; // WARNING This could contain bugs if Loaded a long time before env dispatch events
+            SetZ(ZOrder.Top);
 
-//            base.Load();
-//        }
+            oldMouseMoveEvent = new MouseMoveEvent() { X = Mouse.GetPosition().X, Y = Mouse.GetPosition().Y }; // WARNING This could contain bugs if Loaded a long time before env dispatch events
+        }
 
-//        protected override void OnMouseMoved(MouseMoveEventArgs e)
-//        {
-//            int deltaX = e.X - oldMouseMoveEvent.X,
-//                deltaY = e.Y - oldMouseMoveEvent.Y;
+        protected override void OnMouseMoved(MouseMoveEventArgs e)
+        {
+            User.GetCursorPos(out POINT p);
+            MouseMoveEvent we = new MouseMoveEvent() { X = p.x, Y = p.y };
 
-//            if (Mouse.IsButtonPressed(Mouse.Button.Left)
-//                && e.X >= Position.X && e.X <= Position.X + Size.X // DOLATER Create another way to go faster
-//                && e.Y >= Position.Y && e.Y <= Position.Y + Size.Y)
-//            {
-//                Vector2i newPos = Position + new Vector2i(deltaX, deltaY);
-//                w32wnd.SetPosition(newPos);
+            int deltaX = we.X - oldMouseMoveEvent.X,
+                deltaY = we.Y - oldMouseMoveEvent.Y;
 
-//                Position = newPos;
-//            }
+            if (Mouse.IsButtonPressed(Mouse.Button.Left)
+                && we.X >= Position.X && we.X <= Position.X + Size.X // DOLATER Create another way to go faster
+                && we.Y >= Position.Y && we.Y <= Position.Y + Size.Y)
+            {
+                Vector2i newPos = Position + new Vector2i(deltaX, deltaY);
 
-//            oldMouseMoveEvent = new MouseMoveEvent() { X = e.X, Y = e.Y };
+                Position = newPos;
+                w32wnd.SetPosition(newPos);
+            }
 
-//            base.OnMouseMoved(e);
-//        }
+            oldMouseMoveEvent = new MouseMoveEvent() { X = we.X, Y = we.Y };
 
-//        class Win32Window
-//        {
-//            public IntPtr Handle { get; }
-//            public Win32Window(IntPtr hWnd)
-//            {
-//                Handle = hWnd;
-//            }
+            base.OnMouseMoved(e);
+        }
 
-//            public void RemoveOverlap()
-//            {
-//                User.SetWindowLong(Handle, User.GWL_STYLE,
-//                    User.GetWindowLong(Handle, User.GWL_STYLE) & ~User.WS_OVERLAPPEDWINDOW);
-//            }
+        protected override void OnClick(MouseButtonEventArgs e)
+        {
+            SetZ(ZOrder.Top);
 
-//            public Vector2i GetSize()
-//            {
-//                RECT rect = new RECT();
-//                User.GetWindowRect(Handle, ref rect);
-//                return new Vector2i(rect.Right - rect.Left, rect.Bottom - rect.Top);
-//            }
+            base.OnClick(e);
+        }
 
-//            public Vector2i GetPosition()
-//            {
-//                RECT rect = new RECT();
-//                User.GetWindowRect(Handle, ref rect);
-//                return new Vector2i(rect.Left, rect.Top);
-//            }
+        class Win32Window
+        {
+            public IntPtr Handle { get; }
+            public Win32Window(IntPtr hWnd)
+            {
+                Handle = hWnd;
+            }
 
-//            public void SetPosition(Vector2i position)
-//            {
-//                User.SetWindowPos(Handle, new User().HWND_TOP, position.X, position.Y, 0, 0, User.SWP_NOSIZE); // WARNING this make always the windows on top, i should request a Z-order index
-//            }
-//        }
-//    }
-//}
+            public void RemoveOverlap()
+            {
+                User.SetWindowLong(Handle, User.GWL_STYLE,
+                    User.GetWindowLong(Handle, User.GWL_STYLE) & ~User.WS_OVERLAPPEDWINDOW);
+            }
+
+            public Vector2i GetSize()
+            {
+                RECT rect = new RECT();
+                User.GetWindowRect(Handle, ref rect);
+                return new Vector2i(rect.Right - rect.Left, rect.Bottom - rect.Top);
+            }
+
+            public Vector2i GetPosition()
+            {
+                RECT rect = new RECT();
+                User.GetWindowRect(Handle, ref rect);
+                return new Vector2i(rect.Left, rect.Top);
+            }
+
+            public void SetPosition(Vector2i position)
+            {
+                User.SetWindowPos(Handle, new User().HWND_TOPMOST, position.X, position.Y, 0, 0, User.SWP_NOSIZE); // WARNING this make always the windows on top, i should request a Z-order index
+            }
+        }
+    }
+}

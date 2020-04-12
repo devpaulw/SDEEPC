@@ -23,22 +23,27 @@ namespace SDEE
                 return _isZControl;
             }
             set {
-                _isZControl = value;
-                if (value == true)
+                if (_isZControl == false)
                 {
-                    zrWnd = new RenderWindow(new VideoMode((uint)Size.X, (uint)Size.Y), null, Styles.None);
-                    zrWnd.Position = AbsolutePosition;
+                    _isZControl = value;
+                    if (value == true)
+                    {
+                        zrWnd = new RenderWindow(new VideoMode((uint)Size.X, (uint)Size.Y), null, Styles.None);
+                        zrWnd.Position = AbsolutePosition;
 
-                    zrWnd.Closed += (s, e) => zrWnd.Close();
+                        zrWnd.Closed += (s, e) => zrWnd.Close();
 
-                    zrWnd.KeyPressed += (s, e) => OnKeyPressed(e);
-                    zrWnd.MouseButtonPressed += (s, e) => OnMouseButtonPressed(e);// new MouseButtonEventArgs(new MouseButtonEvent() { X = e.X - Position.X, Y= e.Y - Position.Y }));
-                    zrWnd.MouseMoved += (s, e) => OnMouseMoved(e);// new MouseMoveEventArgs(new MouseMoveEvent() { X = e.X - Position.X, Y = e.Y - Position.Y }));
+                        zrWnd.KeyPressed += (s, e) => OnKeyPressed(e);
+                        zrWnd.MouseButtonPressed += (s, e) => OnMouseButtonPressed(e);
+                        zrWnd.MouseMoved += (s, e) => OnMouseMoved(e);
+                    }
                 }
             }
         }
 
         private RenderWindow zrWnd;
+        private Vector2i position;
+        private Vector2i size;
 
         /// <summary>
         /// Construct a control
@@ -117,10 +122,11 @@ namespace SDEE
             control.Parent.controls.Add(control);
             control.Parent.OnControlAdded(new ControlAddedEventArgs(control, filledParameters));
         }
-        
+
         protected virtual void Update()
         {
-            // PWTD
+            foreach (var child in Controls) // Recursively update children
+                child.Update();
         }
 
         protected virtual Dictionary<string, Type> RequiredParameters { get; }
@@ -184,9 +190,6 @@ namespace SDEE
                 foreach (var child in Controls)
                     target.Draw(child);
         }
-        /// <summary>
-        /// Position of the control relative to the parent
-        /// </summary>
         public virtual Dictionary<string, string> GetXmlAttributes()
         {
             return new Dictionary<string, string>();
@@ -195,8 +198,23 @@ namespace SDEE
         public virtual ControlType Type => ControlType.NotSavable;
 
         public uint Id { get; set; }
-        public Vector2i Position { get; set; }
-        public Vector2i Size { get; set; }
+        /// <summary>
+        /// Position of the control relative to the parent
+        /// </summary>
+        public Vector2i Position {
+            get => position;
+            set {
+
+                if (IsZControl)
+                    zrWnd.Position = value;
+                position = value;
+            }
+        }
+        public Vector2i Size { get => size; set {
+                if (IsZControl)
+                    zrWnd.Size = (Vector2u)value;
+                size = value;
+            } }
         public bool IsEnabled { get; set; } = true;
         public IEnumerable<Control> Controls => controls;
         public Control Parent { get; }
@@ -248,18 +266,18 @@ namespace SDEE
                 {
                     process.Start();
 
-                    //while (!process.HasExited) // FOR LATER
-                    //{
-                    //    process.Refresh();
-                    //    if (process.MainWindowHandle.ToInt32() != 0)
-                    //    {
-                    //        IntPtr hWnd = process.MainWindowHandle;
-                    //        //DeskEnv.Controls.Add(new Window(DeskEnv, hWnd));
-                    //        new WindowCustomizer(hWnd).StartCustomization(DeskEnv.window.SystemHandle); // TEMP
-                    //        Console.WriteLine(DeskEnv.window.SystemHandle);
-                    //        break;
-                    //    }
-                    //}
+                    while (!process.HasExited) // FOR LATER
+                    {
+                        process.Refresh();
+                        if (process.MainWindowHandle.ToInt32() != 0)
+                        {
+                            IntPtr hWnd = process.MainWindowHandle;
+                            Load(new Window(DeskEnv, hWnd));
+                            //new WindowCustomizer(hWnd).StartCustomization(DeskEnv.window.SystemHandle); // TEMP
+                            //Console.WriteLine(DeskEnv.window.SystemHandle);
+                            break;
+                        }
+                    }
                 }
                 catch (Win32Exception) // Should appear when execution cancelled
                 {
