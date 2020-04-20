@@ -13,94 +13,29 @@ namespace SDEE
 {
 	public class CustomDesktopEnvironment : DesktopEnvironment
 	{
-		public string ConfigurationName { get; private set; }
-		public string CurrentConfigurationDirectory { get => Path.Combine(DesktopEnvironmentStorage.ConfigurationDirectory, ConfigurationName); }
-		private readonly KeyboardShortcutCollection keyboardShortcuts;
+		public Color BackgroundColor { get; set; } = Color.Black;
 
-		public CustomDesktopEnvironment(string configurationName)
-		{
-			ConfigurationName = configurationName;
-			keyboardShortcuts = new KeyboardShortcutCollection(this);
-
-			string path = Path.Combine(DesktopEnvironmentStorage.ConfigurationDirectory, ConfigurationName, "de0.xml");
-			XmlReaderSettings settings = new XmlReaderSettings();
-			XmlReader reader = XmlReader.Create(path, settings);
-
-			ReadDesktopEnvironment(reader);
-
-			while (reader.Read())
-			{
-				if (reader.NodeType == XmlNodeType.Element)
-				{
-					if (!Enum.TryParse(reader.Name, out ControlType type))
-						throw new FileLoadException(reader.BaseURI);
-
-					switch (type)
-					{
-						case ControlType.SimpleRect:
-							Load(ReadSimpleRect(reader, this));
-							break;
-						default:
-							throw new NotSupportedException();
-					}
-				}
-			}
-		}
+		public KeyboardShortcutCollection KeyboardShortcuts { get; private set; }
 
 		private protected override Shape Shape => new RectangleShape()
 		{
-			FillColor = new Color(0, 0x80, 0b10000000)
+			FillColor = BackgroundColor
 		};
 
-		private void ReadDesktopEnvironment(XmlReader reader)
+		public CustomDesktopEnvironment(KeyboardShortcutCollection keyboardShortcuts)
 		{
-			while (reader.Read())
-			{
-				if (reader.NodeType == XmlNodeType.Element)
-				{
-					if (!Enum.TryParse(reader.Name, out ControlType type) || type != ControlType.DesktopEnvironment)
-						throw new NoDEImplementedException();
+			KeyboardShortcuts = keyboardShortcuts;
+			KeyboardShortcuts.DesktopEnvironment = this;
 
-					// BBHERE: initialize the desktopEnvironments attributes from XML
-					return;
-				}
-			}
-
-			throw new NoDEImplementedException();
-		}
-
-		private SimpleRectControl ReadSimpleRect(XmlReader reader, DesktopEnvironment de)
-		{
-			Color color = new Color(
-				byte.Parse(reader.GetAttribute($"{nameof(SimpleRectControl.Color)}{nameof(SimpleRectControl.Color.R)}")),
-				byte.Parse(reader.GetAttribute($"{nameof(SimpleRectControl.Color)}{nameof(SimpleRectControl.Color.G)}")),
-				byte.Parse(reader.GetAttribute($"{nameof(SimpleRectControl.Color)}{nameof(SimpleRectControl.Color.B)}")));
-			Vector2i size = new Vector2i(
-				int.Parse(reader.GetAttribute($"{nameof(SimpleRectControl.Size)}{nameof(SimpleRectControl.Size.X)}")),
-				int.Parse(reader.GetAttribute($"{nameof(SimpleRectControl.Size)}{nameof(SimpleRectControl.Size.Y)}"))
-			);
-			Vector2i position = new Vector2i(
-				int.Parse(reader.GetAttribute($"{nameof(SimpleRectControl.Position)}{nameof(SimpleRectControl.Position.X)}")),
-				int.Parse(reader.GetAttribute($"{nameof(SimpleRectControl.Position)}{nameof(SimpleRectControl.Position.Y)}"))
-			);
-
-			if (size.X == ControlLayoutHelper.ScreenSize)
-				size.X = Size.X;
-			if (size.Y == ControlLayoutHelper.ScreenSize)
-				size.Y = Size.Y;
-			if (position.X < 0)
-				position.X = Size.X + position.X;
-			if (position.Y < 0)
-				position.Y = Size.Y + position.Y;
-
-			return new SimpleRectControl(de, color, position, size);
+			Attributes.Add(nameof(BackgroundColor), BackgroundColor.ToHex());
 		}
 
 		protected override void OnKeyPressed(KeyEventArgs e)
 		{
-			DesktopEnvironmentCommand command = keyboardShortcuts.GetCommand(KeyCombinationFactory.FromKeyEventArgs(e));
+			DesktopEnvironmentCommand command = KeyboardShortcuts.GetCommand(KeyCombinationFactory.FromKeyEventArgs(e));
 			command?.Execute();
 			base.OnKeyPressed(e);
 		}
+
 	}
 }

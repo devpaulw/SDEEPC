@@ -1,4 +1,6 @@
-﻿namespace SDEE_Editor
+﻿using SDEE;
+
+namespace SDEE_Editor
 {
 	static class CommandSyntax
 	{
@@ -6,11 +8,10 @@
 		{
 			public const string Append = "append";
 			public const string Delete = "delete";
-		}
-
-		public static class Controls
-		{
-			public const string SimpleRect = "simple_rect";
+			public const string Attributes = "attributes";
+			public const string Focus = "focus";
+			public const string Tree = "tree";
+			public const string Set = "set";
 		}
 	}
 }

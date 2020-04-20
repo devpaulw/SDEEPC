@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SDEE
 {
-	abstract class DesktopEnvironmentCommand
+	public abstract class DesktopEnvironmentCommand
 	{
 		public DesktopEnvironment DesktopEnvironment { get; set; }
 

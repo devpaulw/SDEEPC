@@ -12,7 +12,8 @@ namespace SDEE
 {
     class MyTaskbar : SimpleRectControl
     {
-        public MyTaskbar(DesktopEnvironment parent, Color color) : base(parent, 
+        public MyTaskbar(DesktopEnvironment parent, Color color) : base(
+            parent, 
             color,
             position: new Vector2i(0, parent.Size.Y - 30), 
             size: new Vector2i(parent.Size.X, 30))

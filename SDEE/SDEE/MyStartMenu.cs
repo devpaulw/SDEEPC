@@ -15,6 +15,6 @@ namespace SDEE
             FillColor = new Color(120, 120, 120)
         };
 
-        public MyStartMenu(DesktopEnvironment parent) : base(parent, new Vector2i(300, 400)) { }
+        public MyStartMenu(DesktopEnvironment parent) : base(parent: parent, size: new Vector2i(300, 400)) { }
     }
 }
