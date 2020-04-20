@@ -29,5 +29,10 @@ namespace SDEE.Launcher
         {
             Visibility = Visibility == Visibility.Hidden ? Visibility.Visible : Visibility.Hidden;
         }
+
+        private void ExitSdeeBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
     }
 }
