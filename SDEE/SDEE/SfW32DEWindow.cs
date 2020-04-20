@@ -3,7 +3,7 @@ using SFML.Window;
 using System;
 using System.Runtime.InteropServices;
 using Win32;
-using static Win32.User;
+using static Win32.User32;
 
 namespace SDEE
 {
@@ -45,7 +45,7 @@ namespace SDEE
             switch (msg)
             {
                 case WM_SETFOCUS: // When we try to focus the DE (whereas others windows might be above)
-                    SetWindowPos(hWnd, new User().HWND_BOTTOM, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);// | SWP_NOOWNERZORDER);
+                    SetWindowPos(hWnd, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);// | SWP_NOOWNERZORDER);
                     break;
 
                 //case WM_WINDOWPOSCHANGING: // Second solution of, but lags : When we try to focus the DE (whereas others windows might be above)
@@ -147,10 +147,10 @@ namespace SDEE
             switch (msg)
             {
                 case WM_SETFOCUS: // When we try to focus the DE (whereas others windows might be above)
-                    SetWindowPos(hWnd, new User().HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOZORDER);// | SWP_NOOWNERZORDER);
+                    SetWindowPos(hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOZORDER);// | SWP_NOOWNERZORDER);
                     break;
                 case WM_WINDOWPOSCHANGED:
-                    SetWindowPos(hWnd, new User().HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
+                    SetWindowPos(hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
                     break;
                 //case WM_WINDOWPOSCHANGING: // Second solution of, but lags : When we try to focus the DE (whereas others windows might be above)
                 //    var windowPos = Marshal.PtrToStructure<WINDOWPOS>(lParam);

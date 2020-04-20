@@ -35,7 +35,7 @@ namespace SDEE
 
         protected override void OnMouseMoved(MouseMoveEventArgs e)
         {
-            User.GetCursorPos(out POINT p);
+            User32.GetCursorPos(out POINT p);
             MouseMoveEvent we = new MouseMoveEvent() { X = p.x, Y = p.y };
 
             int deltaX = we.X - oldMouseMoveEvent.X,
@@ -73,27 +73,27 @@ namespace SDEE
 
             public void RemoveOverlap()
             {
-                User.SetWindowLong(Handle, User.GWL_STYLE,
-                    User.GetWindowLong(Handle, User.GWL_STYLE) & ~User.WS_OVERLAPPEDWINDOW);
+                User32.SetWindowLong(Handle, User32.GWL_STYLE,
+                    User32.GetWindowLong(Handle, User32.GWL_STYLE) & ~User32.WS_OVERLAPPEDWINDOW);
             }
 
             public Vector2i GetSize()
             {
                 RECT rect = new RECT();
-                User.GetWindowRect(Handle, ref rect);
+                User32.GetWindowRect(Handle, ref rect);
                 return new Vector2i(rect.Right - rect.Left, rect.Bottom - rect.Top);
             }
 
             public Vector2i GetPosition()
             {
                 RECT rect = new RECT();
-                User.GetWindowRect(Handle, ref rect);
+                User32.GetWindowRect(Handle, ref rect);
                 return new Vector2i(rect.Left, rect.Top);
             }
 
             public void SetPosition(Vector2i position)
             {
-                User.SetWindowPos(Handle, new User().HWND_TOPMOST, position.X, position.Y, 0, 0, User.SWP_NOSIZE); // WARNING this make always the windows on top, i should request a Z-order index
+                User32.SetWindowPos(Handle, new User32().HWND_TOPMOST, position.X, position.Y, 0, 0, User32.SWP_NOSIZE); // WARNING this make always the windows on top, i should request a Z-order index
             }
         }
     }

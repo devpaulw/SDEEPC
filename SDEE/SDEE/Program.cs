@@ -8,7 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Interop;
 using Win32;
-using static Win32.User;
+using static Win32.User32;
 using static Win32.Kernel;
 using System.Runtime.InteropServices;
 using SFML.System;

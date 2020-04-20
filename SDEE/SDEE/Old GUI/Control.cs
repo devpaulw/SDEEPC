@@ -248,7 +248,7 @@ namespace SDEE
         }
 
         public void MessageBox(string text, string caption, MessageBoxIcon icon) =>
-            User.MessageBox(IntPtr.Zero, text, caption, (int)icon);
+            User32.MessageBox(IntPtr.Zero, text, caption, (int)icon);
 
         /// <summary>
         /// Configure your Shape without care about the Position and Size

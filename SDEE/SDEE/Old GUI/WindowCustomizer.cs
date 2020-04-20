@@ -43,9 +43,9 @@ namespace SDEE
                     Styles.None))
                 {
                     //User.SetWindowLong(w32wnd.Handle, User.GWL_HWNDPARENT, (int)window.SystemHandle);
-                    User.SetWindowLong(w32wnd.Handle, User.GWL_STYLE, User.GetWindowLong(w32wnd.Handle,User.GWL_STYLE) | User.WS_CLIPSIBLINGS | User.WS_CHILD);
-                    User.SetParent(w32wnd.Handle, ch);
-                    User.ShowWindow(w32wnd.Handle, User.SW_SHOWNORMAL);
+                    User32.SetWindowLong(w32wnd.Handle, User32.GWL_STYLE, User32.GetWindowLong(w32wnd.Handle,User32.GWL_STYLE) | User32.WS_CLIPSIBLINGS | User32.WS_CHILD);
+                    User32.SetParent(w32wnd.Handle, ch);
+                    User32.ShowWindow(w32wnd.Handle, User32.SW_SHOWNORMAL);
 
                     window.Position = customPos;
 
@@ -63,7 +63,7 @@ namespace SDEE
 
                     void OnMouseMoved(object sender, MouseMoveEventArgs _)
                     {
-                        User.GetCursorPos(out POINT p);
+                        User32.GetCursorPos(out POINT p);
                         MouseMoveEvent e = new MouseMoveEvent() { X = p.x, Y = p.y };
 
                         int deltaX = e.X - oldMouseMoveEvent.X,
@@ -94,27 +94,27 @@ namespace SDEE
 
             public void RemoveOverlap()
             {
-                User.SetWindowLong(Handle, User.GWL_STYLE,
-                    User.GetWindowLong(Handle, User.GWL_STYLE) & ~User.WS_OVERLAPPEDWINDOW);
+                User32.SetWindowLong(Handle, User32.GWL_STYLE,
+                    User32.GetWindowLong(Handle, User32.GWL_STYLE) & ~User32.WS_OVERLAPPEDWINDOW);
             }
 
             public Vector2i GetSize()
             {
                 RECT rect = new RECT();
-                User.GetWindowRect(Handle, ref rect);
+                User32.GetWindowRect(Handle, ref rect);
                 return new Vector2i(rect.Right - rect.Left, rect.Bottom - rect.Top);
             }
 
             public Vector2i GetPosition()
             {
                 RECT rect = new RECT();
-                User.GetWindowRect(Handle, ref rect);
+                User32.GetWindowRect(Handle, ref rect);
                 return new Vector2i(rect.Left, rect.Top);
             }
 
             public void SetPosition(Vector2i position)
             {
-                User.SetWindowPos(Handle, new User().HWND_TOPMOST, position.X, position.Y, 0, 0, User.SWP_NOSIZE); // WARNING this make always the windows on top, i should request a Z-order index
+                User32.SetWindowPos(Handle, new User32().HWND_TOPMOST, position.X, position.Y, 0, 0, User32.SWP_NOSIZE); // WARNING this make always the windows on top, i should request a Z-order index
             }
         }
     }
