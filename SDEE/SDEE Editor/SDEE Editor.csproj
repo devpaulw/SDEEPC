@@ -59,5 +59,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SDEE.Framework\SDEE.Framework.csproj">
+      <Project>{fcd575fd-8b0e-4327-91fb-ecc1fd84674c}</Project>
+      <Name>SDEE.Framework</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

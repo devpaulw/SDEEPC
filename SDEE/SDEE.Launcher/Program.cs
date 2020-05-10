@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows;
+using System.Windows.Markup;
+using System.IO;
 
 namespace SDEE.Launcher
 {
@@ -29,16 +31,21 @@ namespace SDEE.Launcher
 
             dep.Desktop.Content = new MyDesktop();
 
-            Grid explorerGrid = new Grid();
+            //Grid explorerGrid = new Grid();
+            //explorerGrid.Children.Add(taskbar);
+            //explorerGrid.Children.Add(startMenu);
 
-            explorerGrid.Children.Add(taskbar);
-            explorerGrid.Children.Add(startMenu);
-
+            Grid explorerGrid = (Grid)XamlReader.Load(File.Open(Path.Combine(DesktopEnvironmentStorer.sdeePath, $"bezos.xaml"), FileMode.Open));
             dep.FloatingElements.Add(explorerGrid);
-
+            
             //dep.FloatingElements.Add(new Button() { Width=double.NaN, Height = 50, Opacity = 0.7,
             //    VerticalAlignment = VerticalAlignment.Top, Margin = new Thickness(10, 10, 0, 0) });
             //dep.FloatingElements.Add(new CheckBox() { Width = 500, Height = 400, Opacity=0.2 });
+
+            //dep.Run();
+            //DesktopEnvironmentStorer.Save("bezos", dep);
+            //var dep = DesktopEnvironmentStorer.Load("bezos");
+
 
             dep.Run();
         }

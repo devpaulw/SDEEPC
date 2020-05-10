@@ -51,6 +51,7 @@
       <DependentUpon>ClassicExecutable.xaml</DependentUpon>
     </Compile>
     <Compile Include="DesktopEnvironment.cs" />
+    <Compile Include="DesktopEnvironmentStorer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
