@@ -1,15 +1,19 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Media;
 using Win32;
+using SDEE.CLI.Win32Lib;
+using System.Windows.Navigation;
+using System.Diagnostics;
+using System.Text;
 
 namespace SDEE.Framework
 {
@@ -17,11 +21,14 @@ namespace SDEE.Framework
     public class DesktopEnvironment
     {
         readonly Application app = new Application();
+        DEWin32Impl w32Impl = new DEWin32Impl();
+        WindowsSkinManager windowsSkinManager;
         List<Window> floatingElemWindows = new List<Window>();
 
+        public WindowsSkinManager test;
         public ContentControl Desktop { get; set; } = new ContentControl();
         public Collection<UIElement> FloatingElements { get; } = new Collection<UIElement>(); // ISSUE Can't be filled after DE.Run() executed
-        public UIElement WindowsStyle { get; set; }
+        public Func<SkinWindowControl> GetNewSkinWindowControl { get; set; }
 
         public DesktopEnvironment()
         {
@@ -33,50 +40,83 @@ namespace SDEE.Framework
 
         public void Run()
         {
+            //int w = User32.FindWindow(null, "7-Zip");//"Brainfucking machine [by Kacper 'KKKas' Kwapisz, 2006]");
+            //if (w == 0)
+            //    throw new Exception();
+            //MessageBox.Show(User32.IsWindowUnicode((IntPtr)w).ToString());
+
             desktopWindow = new Window
             {
                 WindowState = WindowState.Maximized,
                 WindowStyle = WindowStyle.None,
                 ResizeMode = ResizeMode.NoResize,
+
                 Content = Desktop.Content ?? throw new NullReferenceException()
             };
 
-            app.Startup += (s, e) =>
-            {
-                desktopWindow.Show();
-            };
+            windowsSkinManager = new WindowsSkinManager(() => GetNewSkinWindowControl()
+                .SkinnedWindow);
 
-            desktopWindow.SourceInitialized += (s, e) =>
-            {
-                DESC.InitWin32(desktopWindow);
-            };
-
-            desktopWindow.ContentRendered += (s, e) =>
-            {
-                // Set Floating Elements as windows
-                foreach (var fElem in FloatingElements)
-                {
-                    Window wnd = DESC.ConvertElementToWindow(fElem, desktopWindow);
-                    floatingElemWindows.Add(wnd);
-                    wnd.Closing += Closing;
-                    wnd.Closed += Closed;
-                    wnd.Show();
-                }
-            };
-
+            app.Startup += App_Startup;
+            desktopWindow.SourceInitialized += DesktopWindow_SourceInitialized;
+            desktopWindow.ContentRendered += DesktopWindow_ContentRendered;
             desktopWindow.Closing += Closing;
             desktopWindow.Closed += Closed;
 
             app.Run();
         }
+        
+
+        private void App_Startup(object sender, StartupEventArgs e)
+        {
+            desktopWindow.Show();
+        }
+
+        private void DesktopWindow_ContentRendered(object sender, EventArgs e)
+        {
+            // Set Floating Elements as windows
+            foreach (var fElem in FloatingElements)
+            {
+                Window wnd = DESC.ConvertElementToWindow(fElem, desktopWindow); // TODO Convert Element to Window do in W32 impl
+                floatingElemWindows.Add(wnd);
+                wnd.Closing += Closing;
+                wnd.Closed += Closed;
+                wnd.Show();
+            }
+        }
+
+        private void DesktopWindow_SourceInitialized(object sender, EventArgs e)
+        {
+            //DESC.InitWin32(desktopWindow);
+            var wih = new WindowInteropHelper(desktopWindow);
+            HwndSource source = HwndSource.FromHwnd(wih.Handle);
+
+#if DEBUG
+            FloatingElements.Add(new Label() { Content = source.Handle.ToString(), Foreground = Brushes.Black, HorizontalAlignment = HorizontalAlignment.Right });
+#endif
+
+            w32Impl.HookDesktop(source);
+            windowsSkinManager.StartEngine(source);
+        }
 
         private void OnClosed(object sender, EventArgs e)
         {
+            Shutdown();
+        }
+
+        public void Shutdown()
+        {
+            w32Impl.UnhookDesktop();
+            windowsSkinManager.StopEngine();
+
             desktopWindow.Close();
             foreach (var feWnd in floatingElemWindows)
             {
                 feWnd.Close();
             }
+
+            app.Shutdown();
+
         }
 
         Window desktopWindow;
@@ -107,7 +147,6 @@ namespace SDEE.Framework
                     Height = parentWindow.Height,
                     Left = parentWindow.WindowState == WindowState.Maximized ? 0 : parentWindow.Left,
                     Top = parentWindow.WindowState == WindowState.Maximized ? 0 : parentWindow.Top,
-
 
                     // Opacity
                     Opacity = element.Opacity,

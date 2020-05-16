@@ -15,6 +15,10 @@ namespace SDEE.Launcher
         [STAThread]
         static void Main(string[] args)
         {
+            Console.WriteLine("SDEE Project CodeName -");
+            Console.WriteLine("Test cmd window");
+            Console.WriteLine("Do not close this window directly, it's not safe because the Skin Engine would not be stopped properly.");
+
             var dep = new DesktopEnvironment();
 
             MyTaskbarXaml taskbar = new MyTaskbarXaml();
@@ -36,11 +40,14 @@ namespace SDEE.Launcher
 
             dep.FloatingElements.Add(explorerGrid);
 
+            dep.GetNewSkinWindowControl = () => new MySkinWindow();
+
             //dep.FloatingElements.Add(new Button() { Width=double.NaN, Height = 50, Opacity = 0.7,
             //    VerticalAlignment = VerticalAlignment.Top, Margin = new Thickness(10, 10, 0, 0) });
             //dep.FloatingElements.Add(new CheckBox() { Width = 500, Height = 400, Opacity=0.2 });
 
             dep.Run();
+            dep.Shutdown();
         }
     }
 }
