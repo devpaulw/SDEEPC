@@ -8,26 +8,106 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
                         Opacity="0.75">
+
+    <ContentControl.Resources>
+        <Style x:Key="titleControlStyle" TargetType="ContentControl">
+            <Setter Property="Content" Value="{Binding Path=Title,
+                RelativeSource={RelativeSource AncestorType=sdee:SkinWindowControl}}"/>
+        </Style>
+
+        <Style x:Key="closeButtonStyle" TargetType="Button">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=CanClose,
+                    RelativeSource={RelativeSource AncestorType=sdee:SkinWindowControl}}" 
+                             Value="False">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        
+        <Style x:Key="maximizeButtonStyle" TargetType="ToggleButton">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=CanMaximize,
+                    RelativeSource={RelativeSource AncestorType=sdee:SkinWindowControl}}" 
+                             Value="False">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=CanMaximize,
+                    RelativeSource={RelativeSource AncestorType=sdee:SkinWindowControl}}" 
+                             Value="False"/>
+                        <Condition Binding="{Binding Path=CanMinimize,
+                    RelativeSource={RelativeSource AncestorType=sdee:SkinWindowControl}}" 
+                             Value="False"/>
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </MultiDataTrigger>
+            </Style.Triggers>
+        </Style>
+        
+        <Style x:Key="minimizeButtonStyle" TargetType="Button">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=CanMinimize,
+                    RelativeSource={RelativeSource AncestorType=sdee:SkinWindowControl}}" 
+                             Value="False">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+                
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=CanMaximize,
+                    RelativeSource={RelativeSource AncestorType=sdee:SkinWindowControl}}" 
+                             Value="False"/>
+                        <Condition Binding="{Binding Path=CanMinimize,
+                    RelativeSource={RelativeSource AncestorType=sdee:SkinWindowControl}}" 
+                             Value="False"/>
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </MultiDataTrigger>
+            </Style.Triggers>
+        </Style>
+
+    </ContentControl.Resources>
+
     <Grid>
         <Grid x:Name="backgroundArea">
             <Rectangle Fill="DarkBlue"/>
 
-            <Label x:Name="tTitleLabel" Content="Title Label" Foreground="White" HorizontalAlignment="Center"></Label>
+            <Label x:Name="tTitleLabel" 
+                   Style="{StaticResource titleControlStyle}"
+                   Foreground="White" HorizontalAlignment="Center"></Label>
             <!--TODO BINDING-->
         </Grid>
-        
+
         <sdee:MoveGrip/>
-        <sdee:SizeGrip SizeableArea="10"/>
-        
+        <sdee:SizeGrip SizeableArea="10, 10, 10, 10"/>
+
         <Grid x:Name="foregroundArea">
             <!--To Fill-->
 
-            <Button Width="30" Height="30" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0, 5, 5, 0" Background="Red" Click="CloseButton_Click" ></Button>
-            <Button Width="30" Height="30" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0, 5, 40, 0" Background="Green" Click="MaximizeButton_Click"  />
-            <Button Width="30" Height="30" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0, 5, 75, 0" Background="Orange" Click="MinimizeButton_Click"/>
-            <Button Height="20" Width="20" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0, 5, 110, 0" Background="Pink" Click="TestButton_Click"/>
+            <Button  Style="{StaticResource closeButtonStyle}" Width="30" Height="30" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0, 5, 5, 0" Background="Red" Click="CloseButton_Click" ></Button>
+            <ToggleButton Width="30" Height="30" HorizontalAlignment="Right" 
+                          VerticalAlignment="Top" Margin="0, 5, 40, 0" Click="MaximizeButton_Click"
+                          Background="Green">
+                <ToggleButton.Style>
+                    <Style BasedOn="{StaticResource maximizeButtonStyle}" TargetType="ToggleButton">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=IsMaximized,
+                    RelativeSource={RelativeSource AncestorType=sdee:SkinWindowControl}}" 
+                             Value="True">
+                                <Setter Property="IsChecked" Value="True"/>
+                                
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ToggleButton.Style>
+            </ToggleButton>
+            <Button  Style="{StaticResource minimizeButtonStyle}" Width="30" Height="30" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0, 5, 75, 0" Background="Orange" Click="MinimizeButton_Click"/>
+            <Button Height="20" Width="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Background="Pink" Click="TestButton_Click"/>
         </Grid>
 
-        <Rectangle x:Name="previewApplicationRect" Fill="Black" Stretch="Fill" Margin="20, 50, 20, 20"></Rectangle>
+        <Rectangle x:Name="previewApplicationRect" Fill="Black" Stretch="Fill" Margin="20,50,20,20"></Rectangle>
     </Grid>
 </sdee:SkinWindowControl>

@@ -49,6 +49,7 @@ namespace SDEE {
 				BOOL skinEngRun32(BOOL set);
 #endif
 
+				void OnASkinnedWindowClosed(System::Object^ sender, System::EventArgs^ e);
 				void DisposeOpenedSkinnedWindows();
 
 				System::IntPtr DESkinEngRouterWndProc(System::IntPtr hWnd, System::Int32 msg, System::IntPtr wParam, System::IntPtr lParam, System::Boolean% handled);

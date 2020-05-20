@@ -4,3 +4,6 @@
 // Windows Header Files
 #include <windows.h>
 #include <CommCtrl.h>
+
+// Others files
+#include "skineng_ext.h"

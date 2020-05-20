@@ -21,60 +21,60 @@
     <Grid>
 
         <!--#region Rectangles -->
-        <Rectangle Width="{Binding Path=Size.Left, FallbackValue=10,
+        <Rectangle Width="{Binding Path=SizeableArea.Left, FallbackValue=10,
             RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SizeGrip}}"
             Style="{StaticResource rectStyle}"
                    HorizontalAlignment="Left"
                    Cursor="SizeWE"/>
 
-        <Rectangle Width="{Binding Path=Size.Right, FallbackValue=10,
+        <Rectangle Width="{Binding Path=SizeableArea.Right, FallbackValue=10,
             RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SizeGrip}}"
             Style="{StaticResource rectStyle}"
                    HorizontalAlignment="Right"
                    Cursor="SizeWE"/>
 
-        <Rectangle Height="{Binding Path=Size.Top, FallbackValue=10,
+        <Rectangle Height="{Binding Path=SizeableArea.Top, FallbackValue=10,
             RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SizeGrip}}"
             Style="{StaticResource rectStyle}"
                    VerticalAlignment="Top"
                    Cursor="SizeNS"/>
 
-        <Rectangle Height="{Binding Path=Size.Bottom, FallbackValue=10,
+        <Rectangle Height="{Binding Path=SizeableArea.Bottom, FallbackValue=10,
             RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SizeGrip}}"
             Style="{StaticResource rectStyle}"
                    VerticalAlignment="Bottom"
                    Cursor="SizeNS"/>
 
-        <Rectangle Height="{Binding Path=Size.Bottom, FallbackValue=10,
+        <Rectangle Height="{Binding Path=SizeableArea.Bottom, FallbackValue=10,
             RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SizeGrip}}"
-                   Width="{Binding Path=Size.Left, FallbackValue=10,
+                   Width="{Binding Path=SizeableArea.Left, FallbackValue=10,
             RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SizeGrip}}"
                     Style="{StaticResource rectStyle}"
                    VerticalAlignment="Bottom"
                    HorizontalAlignment="Left"
                    Cursor="SizeNESW"/>
 
-        <Rectangle Height="{Binding Path=Size.Bottom, FallbackValue=10,
+        <Rectangle Height="{Binding Path=SizeableArea.Bottom, FallbackValue=10,
             RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SizeGrip}}"
-                   Width="{Binding Path=Size.Right, FallbackValue=10,
+                   Width="{Binding Path=SizeableArea.Right, FallbackValue=10,
             RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SizeGrip}}"
                     Style="{StaticResource rectStyle}"
                    VerticalAlignment="Bottom"
                    HorizontalAlignment="Right"
                    Cursor="SizeNWSE"/>
 
-        <Rectangle Height="{Binding Path=Size.Top, FallbackValue=10,
+        <Rectangle Height="{Binding Path=SizeableArea.Top, FallbackValue=10,
             RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SizeGrip}}"
-                   Width="{Binding Path=Size.Left, FallbackValue=10,
+                   Width="{Binding Path=SizeableArea.Left, FallbackValue=10,
             RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SizeGrip}}"
                     Style="{StaticResource rectStyle}"
                    VerticalAlignment="Top"
                    HorizontalAlignment="Left"
                    Cursor="SizeNWSE"/>
 
-        <Rectangle Height="{Binding Path=Size.Top, FallbackValue=10,
+        <Rectangle Height="{Binding Path=SizeableArea.Top, FallbackValue=10,
             RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SizeGrip}}"
-                   Width="{Binding Path=Size.Right, FallbackValue=10,
+                   Width="{Binding Path=SizeableArea.Right, FallbackValue=10,
             RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SizeGrip}}"
                     Style="{StaticResource rectStyle}"
                    VerticalAlignment="Top"

@@ -42,6 +42,9 @@
     <ClInclude Include="SkinnedWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SkinnedWindowInitEventArgs.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -63,6 +66,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SkinnedWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SkinnedWindowInitEventArgs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

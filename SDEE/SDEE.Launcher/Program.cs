@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows;
+using System.Diagnostics;
 
 namespace SDEE.Launcher
 {
@@ -18,7 +19,7 @@ namespace SDEE.Launcher
             Console.WriteLine("SDEE Project CodeName -");
             Console.WriteLine("Test cmd window");
             Console.WriteLine("Do not close this window directly, it's not safe because the Skin Engine would not be stopped properly.");
-
+            
             var dep = new DesktopEnvironment();
 
             MyTaskbarXaml taskbar = new MyTaskbarXaml();
@@ -47,6 +48,7 @@ namespace SDEE.Launcher
             //dep.FloatingElements.Add(new CheckBox() { Width = 500, Height = 400, Opacity=0.2 });
 
             dep.Run();
+
             dep.Shutdown();
         }
     }

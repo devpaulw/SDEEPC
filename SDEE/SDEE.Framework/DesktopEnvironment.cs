@@ -14,6 +14,9 @@ using SDEE.CLI.Win32Lib;
 using System.Windows.Navigation;
 using System.Diagnostics;
 using System.Text;
+using System.Windows.Controls.Primitives;
+using System.Windows.Threading;
+using System.Data;
 
 namespace SDEE.Framework
 {
@@ -24,8 +27,8 @@ namespace SDEE.Framework
         DEWin32Impl w32Impl = new DEWin32Impl();
         WindowsSkinManager windowsSkinManager;
         List<Window> floatingElemWindows = new List<Window>();
+        bool isShutdown;
 
-        public WindowsSkinManager test;
         public ContentControl Desktop { get; set; } = new ContentControl();
         public Collection<UIElement> FloatingElements { get; } = new Collection<UIElement>(); // ISSUE Can't be filled after DE.Run() executed
         public Func<SkinWindowControl> GetNewSkinWindowControl { get; set; }
@@ -33,6 +36,22 @@ namespace SDEE.Framework
         public DesktopEnvironment()
         {
             Closed += OnClosed;
+
+            // Unhandled exception handling
+            AppDomain.CurrentDomain.UnhandledException += (s, e) 
+                => OnUnhandledException(e.ExceptionObject as Exception);
+            app.DispatcherUnhandledException += (s, e) 
+                => OnUnhandledException(e.Exception);
+        }
+
+        private void OnUnhandledException(Exception ex)
+        {
+            MessageBox.Show(
+                string.Format("An exception as occurred {0}:\n\"{1}\"", ex.GetType(), ex.Message),
+                "SDEE FATAL ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+            //Application.Current.Shutdown();
+            Shutdown();
+            Environment.Exit(0);
         }
 
         public event CancelEventHandler Closing;
@@ -44,6 +63,12 @@ namespace SDEE.Framework
             //if (w == 0)
             //    throw new Exception();
             //MessageBox.Show(User32.IsWindowUnicode((IntPtr)w).ToString());
+
+            //int w = User32.FindWindow(null, "About Windows");//"Brainfucking machine [by Kacper 'KKKas' Kwapisz, 2006]");
+            //if (w == 0)
+            //    throw new Exception();
+
+            //User32.SetWindowRgn((IntPtr)w, IntPtr.Zero, 1);
 
             desktopWindow = new Window
             {
@@ -58,14 +83,17 @@ namespace SDEE.Framework
                 .SkinnedWindow);
 
             app.Startup += App_Startup;
+            app.Exit += (s, e) => Shutdown();
             desktopWindow.SourceInitialized += DesktopWindow_SourceInitialized;
             desktopWindow.ContentRendered += DesktopWindow_ContentRendered;
             desktopWindow.Closing += Closing;
             desktopWindow.Closed += Closed;
 
+            isShutdown = false;
+
             app.Run();
         }
-        
+
 
         private void App_Startup(object sender, StartupEventArgs e)
         {
@@ -83,10 +111,7 @@ namespace SDEE.Framework
                 wnd.Closed += Closed;
                 wnd.Show();
             }
-        }
 
-        private void DesktopWindow_SourceInitialized(object sender, EventArgs e)
-        {
             //DESC.InitWin32(desktopWindow);
             var wih = new WindowInteropHelper(desktopWindow);
             HwndSource source = HwndSource.FromHwnd(wih.Handle);
@@ -99,6 +124,10 @@ namespace SDEE.Framework
             windowsSkinManager.StartEngine(source);
         }
 
+        private void DesktopWindow_SourceInitialized(object sender, EventArgs e)
+        {
+        }
+
         private void OnClosed(object sender, EventArgs e)
         {
             Shutdown();
@@ -106,6 +135,10 @@ namespace SDEE.Framework
 
         public void Shutdown()
         {
+            if (isShutdown)
+                return;
+            isShutdown = true;
+
             w32Impl.UnhookDesktop();
             windowsSkinManager.StopEngine();
 
@@ -156,7 +189,6 @@ namespace SDEE.Framework
                 };
 
                 // More config on window
-
                 wnd.SourceInitialized += (s, e) =>
                 {
                     User32.SetWindowLong(new WindowInteropHelper(wnd).Handle, User32.GWL_EXSTYLE, User32.WS_EX_TOOLWINDOW); // Set as Tool Window, window no longer in Alt-Tab

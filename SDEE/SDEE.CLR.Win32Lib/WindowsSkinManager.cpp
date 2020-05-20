@@ -86,7 +86,6 @@ void SDEE::CLI::Win32Lib::WindowsSkinManager::StopEngine()
 #ifdef _WIN64
 BOOL SDEE::CLI::Win32Lib::WindowsSkinManager::skinEngRun32(BOOL set)
 {
-	return TRUE;
 	if (set) {
 		STARTUPINFO si;
 		PROCESS_INFORMATION pi;
@@ -131,9 +130,16 @@ BOOL SDEE::CLI::Win32Lib::WindowsSkinManager::skinEngRun32(BOOL set)
 }
 #endif
 
-void SDEE::CLI::Win32Lib::WindowsSkinManager::DisposeOpenedSkinnedWindows()
+void SDEE::CLI::Win32Lib::WindowsSkinManager::OnASkinnedWindowClosed(System::Object^ sender, System::EventArgs^ e)
 {
-	for each (SkinnedWindow^ sw in openedSkinnedWindows) {
+	SkinnedWindow^ sw = (SkinnedWindow^)sender;
+	openedSkinnedWindows->Remove(sw);
+	delete sw; // Dispose when closed assuming closed is from the last message WM_NCDESTROY
+}
+
+void SDEE::CLI::Win32Lib::WindowsSkinManager::DisposeOpenedSkinnedWindows() // TODO Rename it UnloadOpened...
+{
+	for each (SkinnedWindow ^ sw in openedSkinnedWindows) {
 		sw->Stop();
 	}
 }
@@ -149,34 +155,32 @@ LRESULT SDEE::CLI::Win32Lib::WindowsSkinManager::InternalDESkinEngRouterWndProc(
 {
 	if (skinEngStarted && msg == skngExtMsg)
 	{
-		handled = true;// Because it's our own message, and it's a callback, we have to return the result ourself
+		handled = true; // Because it's our own message, and it's a callback, we have to return the result ourself
 
 		WORD skngExtMsgType = LOWORD(wParam),
 			skngExtMsgValue = HIWORD(wParam);
 
 		if (skngExtMsgType == SKNGEXT_APPWND_TYPEMSG) {
 			switch (skngExtMsgValue) {
-			case SKNGEXT_APPWND_MSG_SKNREQUEST: {
-				HWND wndHwnd = (HWND)lParam;
-
-				return TRUE;
-			}
-			case SKNGEXT_APPWND_MSG_NEWSKNWND: {
-				HWND baseHwnd = (HWND)lParam;
+			case SKNGEXT_APPWND_MSG_NEWSKNWND:
+			{
+				HWND hWnd = (HWND)lParam;
 
 				SkinnedWindow^ newSkndWnd = m_getNewSkndWnd();
 				openedSkinnedWindows->Add(newSkndWnd); // TODO When unloaded by himself, remove from the list!
-				HWND skndWndHwnd = newSkndWnd->Run(baseHwnd);
-				return (LONG_PTR)skndWndHwnd;
-				//HWND skndWndHwnd = OpenSkinnedWindow(wndHwnd); // UNDONE TODO SEPARATION SKINNEDWINDOW AND WSM
-				//return (LONG_PTR)skndWndHwnd;
+				newSkndWnd->Closed += gcnew EventHandler(this, &WindowsSkinManager::OnASkinnedWindowClosed);
+				HWND sknWndHwnd = newSkndWnd->Run(hWnd);
+
+				return (LONG_PTR)sknWndHwnd;
 			}
+			break;
 			}
 		}
 	}
+
 	return 0;
 }
-
+// TODO Thread exception like AccessViolationException catch.
 void SDEE::CLI::Win32Lib::WindowsSkinManager::DestroySharedMem()
 {
 	UnmapViewOfFile(shmempBuf);
@@ -224,15 +228,26 @@ void SDEE::CLI::Win32Lib::WindowsSkinManager::CreateSharedMem()
 	}
 }
 
-// UNDONE Priority order:
-// indesirable windows work for most famous softwares
-// Big bugs with dialog windows work
-// Big bugs with dialog windows
+// TOMORROW
+// BUG Not clean app shutdown
+// Perfs implement super good IDisposable SkinnedWindow class, and remove closed HWND from openedSkinnedWindow in the wsm class. Handle better difference with Unload (old name Stop) and Close
+
+// DO a build
+
+// MORE IMPORTANT
 // Not allow not allowed things
-// do TODOs
+// Exclusion system, don't take already overriden caption, perfectly overlap even when more difficult
 // Cleaner design with ZONES
+// indesirable windows work for most famous softwares
+// good restorer "somewhere"
+// do TODOs
+
+// LESS IMPORTANT - EXCELLENCE
 // Sync and perfs p2
 // Details like blinking, perfect sync
 // Skin wnd, I'm the app wnd, [moving/sizing briefly]
-// Exclusion system, don't take already overriden caption, perfectly overlap even when more difficult
+// Smoother resize
 // Coordinated animations
+// Cool ergonomic windows things like either sides automatic, etc...
+// Compiler advertissements
+// >>> Extrem reliability

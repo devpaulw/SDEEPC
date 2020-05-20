@@ -22,11 +22,13 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
         <framework:ClassicExecutable ExecutablePath="c:\Windows\System32\cmd.exe"></framework:ClassicExecutable>
         <framework:ClassicExecutable ExecutablePath="c:\Windows\System32\winver.exe" Grid.Column="0" Grid.Row="1"></framework:ClassicExecutable>
         <framework:ClassicExecutable ExecutablePath="c:\Windows\System32\dccw.exe" Grid.Column="1" Grid.Row="0"></framework:ClassicExecutable>
         <framework:ClassicExecutable ExecutablePath="c:\Windows\notepad.exe" Grid.Column="1" Grid.Row="1"></framework:ClassicExecutable>
+        <framework:ClassicExecutable ExecutablePath="c:\Windows\System32\mspaint.exe" Grid.Column="1" Grid.Row="2"></framework:ClassicExecutable>
     </Grid>
 </UserControl>

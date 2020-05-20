@@ -24,7 +24,6 @@ namespace SDEE.Launcher
         public MySkinWindow()
         {
             InitializeComponent();
-            tTitleLabel.Content = Title;
         }
 
         public override Rectangle PreviewAppRect => previewApplicationRect;
@@ -41,7 +40,7 @@ namespace SDEE.Launcher
 
         private void MaximizeButton_Click(object sender, RoutedEventArgs e)
         {
-            ExecuteMaximize();
+            ToggleMaximize();
         }
 
         private void TestButton_Click(object sender, RoutedEventArgs e)

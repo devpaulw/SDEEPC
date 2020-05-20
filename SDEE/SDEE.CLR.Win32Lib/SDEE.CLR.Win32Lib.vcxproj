@@ -132,6 +132,7 @@
     <ClInclude Include="Exceptions.hpp" />
     <ClInclude Include="DEWindow.h" />
     <ClInclude Include="SkinnedWindow.h" />
+    <ClInclude Include="SkinnedWindowInitEventArgs.hpp" />
     <ClInclude Include="SkinWindowControlImpl.h" />
     <ClInclude Include="TestCpp.h" />
     <ClInclude Include="WindowsSkinManager.h" />
