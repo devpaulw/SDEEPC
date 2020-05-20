@@ -24,7 +24,7 @@ namespace SDEE {
 				static const LPCWCHAR SkinEngineDllPath = TEXT("skineng32.dll");
 #endif
 
-				static const LPCSTR SkinEngineEntryFunc = "SetHooks"; 
+				static const LPCSTR SkinEngineEntryFunc = "SetHooks"; //
 
 				initonly System::Func<SkinnedWindow^>^ m_getNewSkndWnd;
 				initonly System::Collections::Generic::List<SkinnedWindow^>^ openedSkinnedWindows;
