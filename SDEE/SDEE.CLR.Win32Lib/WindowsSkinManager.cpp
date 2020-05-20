@@ -228,21 +228,18 @@ void SDEE::CLI::Win32Lib::WindowsSkinManager::CreateSharedMem()
 	}
 }
 
-// TOMORROW
-// BUG Not clean app shutdown
-// Perfs implement super good IDisposable SkinnedWindow class, and remove closed HWND from openedSkinnedWindow in the wsm class. Handle better difference with Unload (old name Stop) and Close
-
-// DO a build
-
 // MORE IMPORTANT
+// Windows 10 opti : make it work on win10: try with cmd close...
 // Not allow not allowed things
 // Exclusion system, don't take already overriden caption, perfectly overlap even when more difficult
 // Cleaner design with ZONES
 // indesirable windows work for most famous softwares
 // good restorer "somewhere"
+// Optimization so that window is not outside the screen
 // do TODOs
 
 // LESS IMPORTANT - EXCELLENCE
+// Don't let the normal window show up at all
 // Sync and perfs p2
 // Details like blinking, perfect sync
 // Skin wnd, I'm the app wnd, [moving/sizing briefly]

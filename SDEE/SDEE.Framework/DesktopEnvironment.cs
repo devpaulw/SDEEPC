@@ -207,28 +207,24 @@ namespace SDEE.Framework
 
             public static void InitWin32(Window window)
             {
-                var wih = new WindowInteropHelper(window);
-                IntPtr hWnd = wih.Handle;
-                HwndSource source = HwndSource.FromHwnd(hWnd);
-                var hsh = new HwndSourceHook(DesktopWndProc);
-                source.AddHook(hsh);
+                //var wih = new WindowInteropHelper(window);
+                //IntPtr hWnd = wih.Handle;
+                //HwndSource source = HwndSource.FromHwnd(hWnd);
+                //var hsh = new HwndSourceHook(DesktopWndProc);
+                //source.AddHook(hsh);
 
-                User32.SetWindowLong(hWnd, User32.GWL_EXSTYLE, User32.WS_EX_TOOLWINDOW); // Window no longer in Alt-Tab
+                //User32.SetWindowLong(hWnd, User32.GWL_EXSTYLE, User32.WS_EX_TOOLWINDOW); // Window no longer in Alt-Tab
             }
 
-            private static IntPtr DesktopWndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
-            {
-                switch (msg)
-                {
-                    case User32.WM_WINDOWPOSCHANGING:
-                        unsafe
-                        {
-                            ((WINDOWPOS*)lParam)->flags |= User32.SWP_NOZORDER;
-                        }
-                        break;
-                }
-                return IntPtr.Zero;
-            }
+            //private static IntPtr DesktopWndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+            //{
+            //    switch (msg)
+            //    {
+            //        case User32.WM_WINDOWPOSCHANGING:
+            //            break;
+            //    }
+            //    return IntPtr.Zero;
+            //}
         }
     }
 }

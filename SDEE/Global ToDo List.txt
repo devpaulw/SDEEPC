@@ -1,0 +1,1 @@
+- Make the desktop environment invincible to Alt F4
