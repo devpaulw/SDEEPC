@@ -45,7 +45,9 @@ namespace SDEE.Launcher
 
         private void TestButton_Click(object sender, RoutedEventArgs e)
         {
+#if DEBUG
             ExecuteShowInfos();
+#endif
         }
     }
 }

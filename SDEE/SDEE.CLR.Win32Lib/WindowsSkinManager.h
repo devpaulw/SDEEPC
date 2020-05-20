@@ -16,19 +16,12 @@ namespace SDEE {
 				void StopEngine();
 
 			private:
-#ifdef _DEBUG
-#ifdef _WIN64 // x64
-				static const LPCWCHAR SkinEngineRun32Path = TEXT("..\\..\\..\\..\\Debug\\Win32\\skineng_run32.exe");
-				static const LPCWCHAR SkinEngineDllPath = TEXT("..\\..\\..\\..\\Debug\\x64\\skineng.dll");
-#else // Win32
-				static const LPCWCHAR SkinEngineDllPath = TEXT("..\\..\\..\\..\\Debug\\Win32\\skineng.dll");
-#endif
-#else
+
 #ifdef _WIN64 // x64
 				static const LPCWCHAR SkinEngineRun32Path = TEXT("skineng_run32.exe");
-#else // Win32
-#endif
 				static const LPCWCHAR SkinEngineDllPath = TEXT("skineng.dll");
+#else // Win32
+				static const LPCWCHAR SkinEngineDllPath = TEXT("skineng32.dll");
 #endif
 
 				static const LPCSTR SkinEngineEntryFunc = "SetHooks"; 

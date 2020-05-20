@@ -1,7 +1,7 @@
 #include <windows.h>
 #include "skineng_ext.h"
 
-#define SkinEngine32DllPath TEXT("skineng.dll")
+#define SkinEngine32DllPath TEXT("skineng32.dll")
 #define SkinEngine32EntryFunc "SetHooks"
 
 BOOL(*skinEngSetHooks)(BOOL);
