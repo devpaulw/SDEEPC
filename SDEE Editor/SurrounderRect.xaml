@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="SDEE_Editor.SurrounderRect"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SDEE_Editor"
+             mc:Ignorable="d" 
+             d:DesignHeight="90" d:DesignWidth="160" Focusable="True"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    
+    <Rectangle x:Name="surroundingRect" Visibility="Collapsed" Fill="Transparent"
+                   Stroke="{Binding Color}" StrokeThickness="{Binding Size}" >
+        <Rectangle.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Remove" Click="ContextMenuRemoveMenuItem_Click"/>
+            </ContextMenu>
+        </Rectangle.ContextMenu>
+    </Rectangle>
+</UserControl>

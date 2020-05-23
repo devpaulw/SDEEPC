@@ -5,9 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SDEE_Editor"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-	<Grid>
-		<Label Content="Toolbox" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="1.037,1.121"/>
-		<TreeView Margin="0,31,622,0" x:Name="_tree" Width="150"/>
-	</Grid>
+             d:DesignHeight="450" d:DesignWidth="200">
+    <UserControl.Resources>
+        <Style x:Key="toolStyle" TargetType="TreeViewItem">
+            <EventSetter Event="MouseMove" Handler="Tool_MouseMove"/>
+            <EventSetter Event="MouseDoubleClick" Handler="Tool_MouseDoubleClick"/>
+        </Style>
+    </UserControl.Resources>
+    
+        <TreeView x:Name="_tree" Width="NaN"/>
 </UserControl>
