@@ -41,7 +41,7 @@ namespace SDEE_Editor
         //        surrounderRect.Focus();
         //}
 
-        public PreviewEnvironmentGridCollection GridElements { get; private set; }
+        public PreviewEnvironmentGridCollection Elements { get; private set; }
 
         public PreviewEnvironment()
         {
@@ -51,14 +51,14 @@ namespace SDEE_Editor
 
         private void PrevGrid_Loaded(object sender, RoutedEventArgs e)
         {
-            GridElements = new PreviewEnvironmentGridCollection(prevGrid);
-            GridElements.CollectionChanged += Grid_CollectionChanged;
+            Elements = new PreviewEnvironmentGridCollection(prevGrid);
+            Elements.CollectionChanged += Grid_CollectionChanged;
         }
 
         private void SurrounderRect_Loaded(object sender, RoutedEventArgs e)
         {
             SelectedElementChanged += OnSelectedElementChanged;
-            surrounderRect.RemoveSelectedElement = () => GridElements.Remove(SelectedElement);
+            surrounderRect.RemoveSelectedElement = () => Elements.Remove(SelectedElement);
         }
 
         private void OnSelectedElementChanged(object sender, EventArgs e)
@@ -88,7 +88,7 @@ namespace SDEE_Editor
             {
                 if (e.Data.GetData(typeof(FrameworkElement)) is FrameworkElement elem)
                 {
-                    GridElements.Add(elem);
+                    Elements.Add(elem);
                     previewDraggingElem = elem;
                 }
             }
@@ -109,7 +109,7 @@ namespace SDEE_Editor
 
             if (previewDraggingElem != null)
             {
-                GridElements.Remove(previewDraggingElem);
+                Elements.Remove(previewDraggingElem);
                 previewDraggingElem = null;
             }
         }
@@ -123,9 +123,34 @@ namespace SDEE_Editor
 
         private void PrevGrid_ElementClicked(object sender, FrameworkElement elementClicked)
         {
-            SelectedElement = elementClicked;
             
             //SelectElement(elementClicked, true);
+        }
+
+
+
+        protected override void OnMouseDown(MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed || e.RightButton == MouseButtonState.Pressed)
+            {
+                // Find clicked element
+                Point mPos = e.GetPosition(this);
+                FrameworkElement elementClicked = null;
+
+                foreach (FrameworkElement ctrl in Elements)
+                {
+                    Rect ctrlRect = ctrl.TransformToVisual(this).TransformBounds(new Rect(ctrl.RenderSize));
+                    if (mPos.X >= ctrlRect.Left && mPos.X <= ctrlRect.Right && mPos.Y >= ctrlRect.Top && mPos.Y <= ctrlRect.Bottom) // if Mouse Position is inside control bounds
+                        elementClicked = ctrl;
+
+
+                }
+
+                // Element clicked
+                SelectedElement = elementClicked;
+            }
+
+            base.OnMouseDown(e);
         }
 
         // UNDONE finish this , SelectedElement = ? ; When I use OnSelectedElement event? How can I implement well OutlineTreeview itemTemplate ?

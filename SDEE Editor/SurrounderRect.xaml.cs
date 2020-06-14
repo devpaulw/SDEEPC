@@ -18,18 +18,13 @@ namespace SDEE_Editor
     public partial class SurrounderRect : UserControl
     {
         public static readonly DependencyProperty ColorProperty = DependencyProperty.Register("Color", typeof(Brush), typeof(SurrounderRect));
-        public static readonly DependencyProperty ColorWhenSelectedProperty = DependencyProperty.Register("ColorWhenSelecgted", typeof(Brush), typeof(SurrounderRect));
         public static readonly DependencyProperty SizeProperty = DependencyProperty.Register("Size", typeof(double), typeof(SurrounderRect));
 
         public Brush Color {
             get => (Brush)GetValue(ColorProperty);
             set => SetValue(ColorProperty, value);
         }
-        public Brush ColorWhenSelected
-        {
-            get => (Brush)GetValue(ColorWhenSelectedProperty);
-            set => SetValue(ColorWhenSelectedProperty, value);
-        }
+
         public double Size {
             get => (double)GetValue(SizeProperty);
             set => SetValue(SizeProperty, value);
@@ -49,8 +44,6 @@ namespace SDEE_Editor
             Color = color;
             Size = size;
             Gap = gap;
-
-            ColorWhenSelected = Brushes.DarkBlue;
         }
 
         public void SurroundElement(FrameworkElement elem)

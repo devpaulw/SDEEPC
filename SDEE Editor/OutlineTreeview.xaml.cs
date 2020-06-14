@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -24,49 +26,66 @@ namespace SDEE_Editor
     /// </summary>
     public partial class OutlineTreeview : UserControl
     {
-        public static readonly DependencyProperty PreviewEnvironmentProperty = DependencyProperty.Register(nameof(PreviewEnvironment),  typeof(PreviewEnvironment), typeof(OutlineTreeview));
-        public PreviewEnvironment PreviewEnvironment { get => (PreviewEnvironment)GetValue(PreviewEnvironmentProperty); set => SetValue(PreviewEnvironmentProperty, value); }
-
         public OutlineTreeview()
         {
             InitializeComponent();
         }
 
+        public static readonly DependencyProperty PreviewEnvironmentProperty
+            = DependencyProperty.Register(nameof(PreviewEnvironment),
+            typeof(PreviewEnvironment),
+            typeof(OutlineTreeview));
+
+        public PreviewEnvironment PreviewEnvironment
+        {
+            get => (PreviewEnvironment)GetValue(PreviewEnvironmentProperty);
+            set => SetValue(PreviewEnvironmentProperty, value);
+        }
+
+        private bool isReseting;
+
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            if (PreviewEnvironment.GridElements == null)
-                throw new ArgumentNullException(nameof(PreviewEnvironment.GridElements));
+            if (PreviewEnvironment.Elements == null)
+                throw new ArgumentNullException(nameof(PreviewEnvironment.Elements));
 
-            PreviewEnvironment.GridElements.CollectionChanged += PreviewEnvironment_GridElements_CollectionChanged;
-            PreviewEnvironment.SelectedElementChanged += OnElementSelected;
+            PreviewEnvironment.Elements.CollectionChanged += PreviewEnvironment_GridElements_CollectionChanged;
+            PreviewEnvironment.SelectedElementChanged += PrevEnv_SelectedElementChanged;
         }
 
-        private void OnElementSelected(object sender, EventArgs e)
+        private void PrevEnv_SelectedElementChanged(object sender, EventArgs e)
         {
-            SelectPrevEnvSelectedElement();
+            SelectSelectedElementFromPrevEnv();
+        }
+        /// <summary>
+        /// Select in this treeview, the current selected element of the Preview Environment
+        /// </summary>
+        private void SelectSelectedElementFromPrevEnv()
+        {
+            var tvi = outlineTreeview.Items.SourceCollection
+                .OfType<TreeViewItem>()
+                .Where(ptvi => ptvi.Tag == PreviewEnvironment.SelectedElement)
+                .FirstOrDefault();
+
+            if (tvi != null)
+                tvi.IsSelected = true;
         }
 
-        private void PreviewEnvironment_GridElements_CollectionChanged(object sender, EventArgs e)
+
+        private void PreviewEnvironment_GridElements_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            isReseting = true;
             outlineTreeview.Items.Clear();
 
-            foreach (FrameworkElement element in PreviewEnvironment.GridElements)
+            foreach (FrameworkElement element in PreviewEnvironment.Elements.Reverse())
             {
-                outlineTreeview.Items.Add(GetTviFromElem(element));
+                TreeViewItem tvi = GetTviFromElem(element);
+                outlineTreeview.Items.Add(tvi);
+
+                if (element == PreviewEnvironment.SelectedElement) // Select the right element just as it appears
+                    tvi.IsSelected = true;
             }
-
-            SelectPrevEnvSelectedElement();
-        }
-
-        private void SelectPrevEnvSelectedElement()
-        {
-            //var tvi = outlineTreeview.Items.SourceCollection
-            //    .OfType<TreeViewItem>()
-            //    .Where(ptvi => ptvi.Tag == PreviewEnvironment.SelectedElement)
-            //    .FirstOrDefault();
-
-            //if (tvi != null)
-            //    tvi.IsSelected = true;
+            isReseting = false;
         }
 
 
@@ -75,12 +94,8 @@ namespace SDEE_Editor
             if (outlineTreeview.SelectedItem is TreeViewItem tvi)
                 if (tvi.Tag is FrameworkElement elem)
                 {
-                    int index = PreviewEnvironment.GridElements.IndexOf(elem);
-                    try
-                    {
-                        PreviewEnvironment.GridElements.Move(index, index + 1);
-                    }
-                    catch (ArgumentOutOfRangeException) { }
+                    int index = PreviewEnvironment.Elements.IndexOf(elem);
+                    PreviewEnvironment.Elements.TryMove(index, index - 1);
                 }
         }
 
@@ -89,18 +104,20 @@ namespace SDEE_Editor
             if (outlineTreeview.SelectedItem is TreeViewItem tvi)
                 if (tvi.Tag is FrameworkElement elem)
                 {
-                    int index = PreviewEnvironment.GridElements.IndexOf(elem);
-                    try
-                    {
-                        PreviewEnvironment.GridElements.Move(index, index - 1);
-                    }
-                    catch (ArgumentOutOfRangeException) { new Action(() => { }).Invoke(); /*Troll*/ }
+                    int index = PreviewEnvironment.Elements.IndexOf(elem);
+                    PreviewEnvironment.Elements.TryMove(index, index + 1);
                 }
         }
 
         private void OutlineTreeview_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            PreviewEnvironment.SelectedElement = e.NewValue is TreeViewItem tvi ? tvi.Tag as FrameworkElement : null;
+            if (e.NewValue != null)
+            {
+                if (e.NewValue is TreeViewItem tvi)
+                    PreviewEnvironment.SelectedElement = tvi.Tag as FrameworkElement;
+            }
+            else if (!isReseting) // A null value has been selected whereas this is not reseting.
+                throw new NullReferenceException("An incorrect item has been selected.");
         }
 
         // TODO Make it more "WPF"

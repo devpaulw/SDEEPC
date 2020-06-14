@@ -11,15 +11,18 @@ using System.Windows.Controls;
 
 namespace SDEE_Editor
 {
+    /// <summary>
+    /// The collection of elements in a Preview Environment
+    /// </summary>
     public class PreviewEnvironmentGridCollection : IList<FrameworkElement>, INotifyCollectionChanged
     {
-        readonly PreviewEnvironmentGrid m_peGrid;
+        private readonly Grid m_peGrid;
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
-        public PreviewEnvironmentGridCollection(PreviewEnvironmentGrid peGrid)
+        public PreviewEnvironmentGridCollection(Grid previewEnvironmentGrid)
         {
-            m_peGrid = peGrid;
+            m_peGrid = previewEnvironmentGrid;
         }
 
         public FrameworkElement this[int index]
@@ -34,6 +37,9 @@ namespace SDEE_Editor
 
         public void Add(FrameworkElement item)
         {
+            // Disable run-time features on the control added
+            item.IsHitTestVisible = false;
+
             m_peGrid.Children.Add(item);
             RaiseCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
         }
@@ -51,13 +57,15 @@ namespace SDEE_Editor
         }
 
         public void CopyTo(FrameworkElement[] array, int arrayIndex)
-            => m_peGrid.Children.CopyTo(array, arrayIndex);
+        {
+            m_peGrid.Children.CopyTo(array, arrayIndex);
+        }
 
         public IEnumerator<FrameworkElement> GetEnumerator()
         {
-            //return m_peGrid.Children.Cast<FrameworkElement>().GetEnumerator();
+            //return m_peGrid.Children.Cast<FrameworkElement>().GetEnumerator(); // Fact: this could work too.
 
-            IEnumerator iterator = m_peGrid.Children.GetEnumerator(); // TODO Try with my cast above
+            IEnumerator iterator = m_peGrid.Children.GetEnumerator();
             while (iterator.MoveNext())
                 yield return iterator.Current as FrameworkElement;
         }
@@ -78,19 +86,23 @@ namespace SDEE_Editor
             if (!m_peGrid.Children.Contains(item))
                 return false;
 
-            RaiseCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
             m_peGrid.Children.Remove(item);
+
+            RaiseCollectionChanged(new NotifyCollectionChangedEventArgs(
+                NotifyCollectionChangedAction.Remove, item));
 
             return true;
         }
 
         public void RemoveAt(int index)
         {
-            RaiseCollectionChanged(new NotifyCollectionChangedEventArgs(
-                NotifyCollectionChangedAction.Remove, 
-                m_peGrid.Children.Cast<UIElement>().ElementAt(index), index));
+            UIElement removedItem = m_peGrid.Children.Cast<UIElement>().ElementAt(index);
 
             m_peGrid.Children.RemoveAt(index);
+
+            RaiseCollectionChanged(new NotifyCollectionChangedEventArgs(
+                NotifyCollectionChangedAction.Remove,
+                removedItem, index));
         }
 
         public void Move(int oldIndex, int newIndex)
@@ -99,6 +111,19 @@ namespace SDEE_Editor
                 throw new ArgumentOutOfRangeException(nameof(oldIndex));
             if (newIndex < 0 || newIndex >= m_peGrid.Children.Count)
                 throw new ArgumentOutOfRangeException(nameof(newIndex));
+
+            var item = this[oldIndex];
+            m_peGrid.Children.RemoveAt(oldIndex);
+            m_peGrid.Children.Insert(newIndex, item);
+
+            RaiseCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, item, newIndex, oldIndex));
+        }
+
+        public void TryMove(int oldIndex, int newIndex)
+        {
+            if (oldIndex < 0 || oldIndex >= m_peGrid.Children.Count 
+                || newIndex < 0 || newIndex >= m_peGrid.Children.Count)
+                return;
 
             var item = this[oldIndex];
             m_peGrid.Children.RemoveAt(oldIndex);

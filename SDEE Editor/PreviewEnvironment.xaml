@@ -25,11 +25,11 @@
             </Rectangle.Fill>
         </Rectangle>
 
-        <local:PreviewEnvironmentGrid x:Name="prevGrid" AllowDrop="True" Background="Transparent" Loaded="PrevGrid_Loaded" ElementClicked="PrevGrid_ElementClicked">
+        <Grid x:Name="prevGrid" AllowDrop="True" Background="Transparent" Loaded="PrevGrid_Loaded">
             <!--This part will be filled in run-time-->
-        </local:PreviewEnvironmentGrid>
+        </Grid>
         
-        <local:SurrounderRect x:Name="surrounderRect" Color="Red" Gap="5" Size="3" Loaded="SurrounderRect_Loaded"/>
+        <local:SurrounderRect x:Name="surrounderRect" Color="Red" Gap="3" Size="2" Loaded="SurrounderRect_Loaded"/>
 
 
 

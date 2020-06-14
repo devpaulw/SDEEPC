@@ -39,7 +39,7 @@ namespace SDEE_Editor
 
         private void Toolbox_ElementClicked(object sender, FrameworkElement e) // TODO Why it says unusued
         {
-            prevEnv.GridElements.Add(e);
+            prevEnv.Elements.Add(e);
         }
 
         private void Menu_Help_About_Click(object sender, RoutedEventArgs e)

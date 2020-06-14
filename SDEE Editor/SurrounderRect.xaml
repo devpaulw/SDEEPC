@@ -15,12 +15,6 @@
             <Setter Property="Visibility" Value="Collapsed"/>
             <Setter Property="Fill" Value="Transparent"/>
             <Setter Property="StrokeThickness" Value="{Binding Size}"/>
-
-            <Style.Triggers>
-                <Trigger Property="IsFocused" Value="True">
-                    <Setter Property="Stroke" Value="{Binding ColorWhenSelected}"/>
-                </Trigger>
-            </Style.Triggers>
         </Style>
         
     </UserControl.Resources>
