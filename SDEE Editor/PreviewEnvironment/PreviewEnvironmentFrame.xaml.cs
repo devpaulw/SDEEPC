@@ -10,13 +10,14 @@ using System.Windows.Input;
 using System.Linq;
 using System.Collections;
 using System.Windows.Media.Animation;
+using SDEE_Editor.PreviewEnvironment;
 
-namespace SDEE_Editor
+namespace SDEE_Editor.PreviewEnvironment
 {
     /// <summary>
     /// Interaction logic for PreviewEnvironmentControl.xaml
     /// </summary>
-    public partial class PreviewEnvironment : UserControl
+    public partial class PreviewEnvironmentFrame : UserControl
     {
         /// <summary>
         /// Current selected element on your preview environment, a null value indicates that no element is selected.
@@ -39,11 +40,11 @@ namespace SDEE_Editor
         //    SelectedElement = element;
         //    if (focus && element != null)
         //        surrounderRect.Focus();
-        //}
+       //}
 
         public PreviewEnvironmentGridCollection Elements { get; private set; }
 
-        public PreviewEnvironment()
+        public PreviewEnvironmentFrame()
         {
             InitializeComponent();
             // TODO When this control lose the focus, deselect selected element
@@ -57,7 +58,7 @@ namespace SDEE_Editor
 
         private void SurrounderRect_Loaded(object sender, RoutedEventArgs e)
         {
-            SelectedElementChanged += OnSelectedElementChanged;
+            SelectedElementChanged += OnSelectedElementChanged; // We add it here in order to be sure that the surrounder rect has been initialized
             surrounderRect.RemoveSelectedElement = () => Elements.Remove(SelectedElement);
         }
 
@@ -142,7 +143,6 @@ namespace SDEE_Editor
                     Rect ctrlRect = ctrl.TransformToVisual(this).TransformBounds(new Rect(ctrl.RenderSize));
                     if (mPos.X >= ctrlRect.Left && mPos.X <= ctrlRect.Right && mPos.Y >= ctrlRect.Top && mPos.Y <= ctrlRect.Bottom) // if Mouse Position is inside control bounds
                         elementClicked = ctrl;
-
 
                 }
 

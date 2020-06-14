@@ -33,12 +33,12 @@ namespace SDEE_Editor
 
         public static readonly DependencyProperty PreviewEnvironmentProperty
             = DependencyProperty.Register(nameof(PreviewEnvironment),
-            typeof(PreviewEnvironment),
+            typeof(PreviewEnvironmentFrame),
             typeof(OutlineTreeview));
 
-        public PreviewEnvironment PreviewEnvironment
+        public PreviewEnvironmentFrame PreviewEnvironment
         {
-            get => (PreviewEnvironment)GetValue(PreviewEnvironmentProperty);
+            get => (PreviewEnvironmentFrame)GetValue(PreviewEnvironmentProperty);
             set => SetValue(PreviewEnvironmentProperty, value);
         }
 

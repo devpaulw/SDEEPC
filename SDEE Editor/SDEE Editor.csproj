@@ -61,13 +61,12 @@
     <Compile Include="OutlineTreeview.xaml.cs">
       <DependentUpon>OutlineTreeview.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PreviewEnvironment.xaml.cs">
-      <DependentUpon>PreviewEnvironment.xaml</DependentUpon>
+    <Compile Include="PreviewEnvironment\PreviewEnvironmentFrame.xaml.cs">
+      <DependentUpon>PreviewEnvironmentFrame.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PreviewEnvironmentGrid.cs" />
-    <Compile Include="PreviewEnvironmentGridCollection.cs" />
-    <Compile Include="SurrounderRect.xaml.cs">
-      <DependentUpon>SurrounderRect.xaml</DependentUpon>
+    <Compile Include="PreviewEnvironment\PreviewEnvironmentGridCollection.cs" />
+    <Compile Include="PreviewEnvironment\ElementSelector.xaml.cs">
+      <DependentUpon>ElementSelector.xaml</DependentUpon>
     </Compile>
     <Compile Include="Toolbox.xaml.cs">
       <DependentUpon>Toolbox.xaml</DependentUpon>
@@ -88,11 +87,11 @@
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
-    <Page Include="PreviewEnvironment.xaml">
+    <Page Include="PreviewEnvironment\PreviewEnvironmentFrame.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SurrounderRect.xaml">
+    <Page Include="PreviewEnvironment\ElementSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -13,12 +13,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SDEE_Editor
+namespace SDEE_Editor.PreviewEnvironment
 {
-    public partial class SurrounderRect : UserControl
+    public partial class ElementSelector : UserControl
     {
-        public static readonly DependencyProperty ColorProperty = DependencyProperty.Register("Color", typeof(Brush), typeof(SurrounderRect));
-        public static readonly DependencyProperty SizeProperty = DependencyProperty.Register("Size", typeof(double), typeof(SurrounderRect));
+        public static readonly DependencyProperty ColorProperty = DependencyProperty.Register("Color", typeof(Brush), typeof(ElementSelector));
+        public static readonly DependencyProperty SizeProperty = DependencyProperty.Register("Size", typeof(double), typeof(ElementSelector));
 
         public Brush Color {
             get => (Brush)GetValue(ColorProperty);
@@ -34,12 +34,12 @@ namespace SDEE_Editor
 
         public Action RemoveSelectedElement { get; set; }
 
-        public SurrounderRect()
+        public ElementSelector()
         {
             InitializeComponent();
         }
 
-        public SurrounderRect(Brush color, double size, double gap) : this()
+        public ElementSelector(Brush color, double size, double gap) : this()
         {
             Color = color;
             Size = size;
@@ -48,8 +48,9 @@ namespace SDEE_Editor
 
         public void SurroundElement(FrameworkElement elem)
         {
-            if (elem == null)
+            if (elem == null) 
             {
+                // When unsurround
                 if (surroundingRect.Visibility == Visibility.Visible)
                 {
                     surroundingRect.Visibility = Visibility.Collapsed;
@@ -84,7 +85,10 @@ namespace SDEE_Editor
 
         private void ContextMenuRemoveMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            RemoveSelectedElement?.Invoke();
+            if (RemoveSelectedElement == null)
+                throw new NullReferenceException("The remove element operation wasn't linked to any delegate.");
+            else
+            RemoveSelectedElement.Invoke();
         }
     }
 }

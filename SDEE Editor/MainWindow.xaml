@@ -27,7 +27,7 @@
 
         <Grid Margin="155,35,292,139">
             <Rectangle Stroke="Black" StrokeThickness="3"  />
-            <local:PreviewEnvironment x:Name="prevEnv" AllowDrop="True" Margin="3"/>
+            <local:PreviewEnvironmentFrame x:Name="prevEnv" AllowDrop="True" Margin="3"/>
         </Grid>
 
         <local:OutlineTreeview Margin="10,39,908,139" PreviewEnvironment="{Binding ElementName=prevEnv}"/>

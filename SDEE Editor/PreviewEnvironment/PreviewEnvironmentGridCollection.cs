@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace SDEE_Editor
+namespace SDEE_Editor.PreviewEnvironment
 {
     /// <summary>
     /// The collection of elements in a Preview Environment
@@ -28,7 +28,7 @@ namespace SDEE_Editor
         public FrameworkElement this[int index]
         {
             get => m_peGrid.Children[index] as FrameworkElement;
-            set => m_peGrid.Children[index] = value; 
+            set => m_peGrid.Children[index] = value;
         }
 
         public int Count => m_peGrid.Children.Count;
@@ -121,7 +121,7 @@ namespace SDEE_Editor
 
         public void TryMove(int oldIndex, int newIndex)
         {
-            if (oldIndex < 0 || oldIndex >= m_peGrid.Children.Count 
+            if (oldIndex < 0 || oldIndex >= m_peGrid.Children.Count
                 || newIndex < 0 || newIndex >= m_peGrid.Children.Count)
                 return;
 
@@ -134,7 +134,7 @@ namespace SDEE_Editor
 
         IEnumerator IEnumerable.GetEnumerator() => m_peGrid.Children.GetEnumerator();
 
-        private void RaiseCollectionChanged(NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs) 
+        private void RaiseCollectionChanged(NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
         {
             CollectionChanged?.Invoke(this, notifyCollectionChangedEventArgs);
         }
