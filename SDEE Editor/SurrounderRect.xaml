@@ -7,9 +7,25 @@
              mc:Ignorable="d" 
              d:DesignHeight="90" d:DesignWidth="160" Focusable="True"
              DataContext="{Binding RelativeSource={RelativeSource Self}}">
-    
-    <Rectangle x:Name="surroundingRect" Visibility="Collapsed" Fill="Transparent"
-                   Stroke="{Binding Color}" StrokeThickness="{Binding Size}" >
+
+    <UserControl.Resources>
+        
+        <Style x:Key="rectStrokeStyle" TargetType="Rectangle">
+            <Setter Property="Stroke" Value="{Binding Color}"/>
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Setter Property="Fill" Value="Transparent"/>
+            <Setter Property="StrokeThickness" Value="{Binding Size}"/>
+
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="Stroke" Value="{Binding ColorWhenSelected}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+    </UserControl.Resources>
+
+    <Rectangle x:Name="surroundingRect" Style="{StaticResource rectStrokeStyle}">
         <Rectangle.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="Remove" Click="ContextMenuRemoveMenuItem_Click"/>

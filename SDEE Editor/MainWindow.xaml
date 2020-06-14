@@ -7,10 +7,20 @@
         mc:Ignorable="d"
         Height="600" Width="1066"
         ResizeMode="CanMinimize" Title="SDEE Project CodeName Editor (Prototype Release)">
-    <Grid>
+    
+    <Grid DataContext="{Binding RelativeSource={RelativeSource AncestorType=local:MainWindow}}" >
+        <Menu IsMainMenu="True">
+            <MenuItem Header="_File">
+                <MenuItem Header="Exit" Click="Menu_File_Exit_Click"/>
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="About SDEE Project CodeName..." Click="Menu_Help_About_Click"/>
+            </MenuItem>
+        </Menu>
+
         <Label Content="Toolbox" Margin="10,430,0,0"/>
-        <Label Content="Preview Environment" Margin="155,10,0,0"/>
         <Label Content="Outline" Margin="10,10,0,0"/>
+        <Label Content="Preview Environment" Margin="155,10,0,0"/>
         <Label Content="Property Manager" Margin="771,10,0,0"/>
 
         <local:Toolbox HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="756" Margin="10,455,0,13" ElementClicked="Toolbox_ElementClicked" />
@@ -20,7 +30,8 @@
             <local:PreviewEnvironment x:Name="prevEnv" AllowDrop="True" Margin="3"/>
         </Grid>
 
-        <TreeView Margin="10,39,908,139"/>
+        <local:OutlineTreeview Margin="10,39,908,139" PreviewEnvironment="{Binding ElementName=prevEnv}"/>
+        
         <!--Test-->
         <TreeView Margin="771,35,16,10"/>
         <!--Test-->

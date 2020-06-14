@@ -13,5 +13,5 @@
         </Style>
     </UserControl.Resources>
     
-        <TreeView x:Name="_tree" Width="NaN"/>
+    <TreeView x:Name="_tree" Width="NaN"/>
 </UserControl>

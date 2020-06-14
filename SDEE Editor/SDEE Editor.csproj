@@ -58,10 +58,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="OutlineTreeview.xaml.cs">
+      <DependentUpon>OutlineTreeview.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PreviewEnvironment.xaml.cs">
       <DependentUpon>PreviewEnvironment.xaml</DependentUpon>
     </Compile>
     <Compile Include="PreviewEnvironmentGrid.cs" />
+    <Compile Include="PreviewEnvironmentGridCollection.cs" />
     <Compile Include="SurrounderRect.xaml.cs">
       <DependentUpon>SurrounderRect.xaml</DependentUpon>
     </Compile>
@@ -80,6 +84,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="OutlineTreeview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
     <Page Include="PreviewEnvironment.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

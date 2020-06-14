@@ -62,6 +62,7 @@ namespace SDEE_Editor
                 Style = Resources["toolStyle"] as Style,
                 Tag = new Rectangle
                 {
+                    Name = "SpongeTaskbar",
                     Fill = Brushes.Blue,
                     Height = 50,
                     VerticalAlignment = VerticalAlignment.Bottom,
@@ -75,6 +76,7 @@ namespace SDEE_Editor
                 Style = Resources["toolStyle"] as Style,
                 Tag = new Rectangle
                 {
+                    Name = "SpongeDesktop",
                     Fill = Brushes.Green,
                     VerticalAlignment = VerticalAlignment.Stretch,
                     HorizontalAlignment = HorizontalAlignment.Stretch
@@ -87,9 +89,10 @@ namespace SDEE_Editor
                 Style = Resources["toolStyle"] as Style,
                 Tag = new Button
                 {
+                    Name = "SpongeButton",
                     Content = "Do you know the way?\n=> Sponge bob.",
-                    Height=50,
-                    Width=150,
+                    Height = 50,
+                    Width = 150,
                     VerticalAlignment = VerticalAlignment.Center,
                     HorizontalAlignment = HorizontalAlignment.Center
                 }
@@ -97,6 +100,7 @@ namespace SDEE_Editor
         }
 
         public event EventHandler<FrameworkElement> ElementClicked;
+
         private void Tool_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)

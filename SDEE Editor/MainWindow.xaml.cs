@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -24,26 +26,30 @@ namespace SDEE_Editor
     /// </summary>
     public partial class MainWindow : Window
     {
-
         public MainWindow()
         {
             InitializeComponent();
+            Loaded += OnLoaded;
         }
 
-        private void TreeViewItem_MouseMove(object sender, MouseEventArgs e)
+        private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed)
-                if (sender is TreeViewItem tvi)
-                    if (tvi.Tag is UIElement elem)
-                    {
-                        DataObject dObj = new DataObject(typeof(UIElement), elem);
-                        DragDrop.DoDragDrop(tvi, dObj, DragDropEffects.Copy);
-                    }
+
         }
 
-        private void Toolbox_ElementClicked(object sender, FrameworkElement e)
+        private void Toolbox_ElementClicked(object sender, FrameworkElement e) // TODO Why it says unusued
         {
-            prevEnv.AddElement(e);
+            prevEnv.GridElements.Add(e);
+        }
+
+        private void Menu_Help_About_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Developed by Paul and Thomas Wacquet.", "Software Desktop Environment Editor (SDEE) Project CodeName", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void Menu_File_Exit_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown(0);
         }
 
         //UIElement previewDraggingElem;
