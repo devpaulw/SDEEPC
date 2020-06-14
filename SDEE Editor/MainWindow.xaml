@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SDEE_Editor"
+        xmlns:prevenv="clr-namespace:SDEE_Editor.PreviewEnvironment"
         mc:Ignorable="d"
         Height="600" Width="1066"
         ResizeMode="CanMinimize" Title="SDEE Project CodeName Editor (Prototype Release)">
@@ -27,7 +28,7 @@
 
         <Grid Margin="155,35,292,139">
             <Rectangle Stroke="Black" StrokeThickness="3"  />
-            <local:PreviewEnvironmentFrame x:Name="prevEnv" AllowDrop="True" Margin="3"/>
+            <prevenv:PreviewEnvironmentFrame x:Name="prevEnv" AllowDrop="True" Margin="3"/>
         </Grid>
 
         <local:OutlineTreeview Margin="10,39,908,139" PreviewEnvironment="{Binding ElementName=prevEnv}"/>
