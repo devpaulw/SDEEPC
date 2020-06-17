@@ -11,6 +11,8 @@ using System.Linq;
 using System.Collections;
 using System.Windows.Media.Animation;
 using SDEE_Editor.PreviewEnvironment;
+using System.ComponentModel.Design;
+using System.Diagnostics;
 
 namespace SDEE_Editor.PreviewEnvironment
 {
@@ -20,75 +22,89 @@ namespace SDEE_Editor.PreviewEnvironment
     public partial class PreviewEnvironmentFrame : UserControl
     {
         /// <summary>
+        /// When PreviewEnvironment.SelectedElement value changed
+        /// </summary>
+        public event EventHandler SelectedElementChanged;
+
+        private EditorElement selectedElement;
+
+        /// <summary>
         /// Current selected element on your preview environment, a null value indicates that no element is selected.
         /// </summary>
-        public FrameworkElement SelectedElement
-        { 
-            get => selectedElement; 
+        public EditorElement SelectedElement
+        {
+            get => selectedElement;
             set
             {
-                if (SelectedElement != value) // When this element is not already selected/deselected (so that in particular we don't invoke again the event)
+                if (selectedElement != value) // When this element is not already selected/deselected (so that in particular we don't invoke again the event)
                 {
                     selectedElement = value;
                     SelectedElementChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
-        
+
         //public void SelectElement(FrameworkElement element, bool focus)
         //{
         //    SelectedElement = element;
         //    if (focus && element != null)
         //        surrounderRect.Focus();
-       //}
+        //}
 
-        public PreviewEnvironmentGridCollection Elements { get; private set; }
+        public ObservableCollection<EditorElement> Elements { get; }
 
         public PreviewEnvironmentFrame()
         {
             InitializeComponent();
+
+            Elements = new ObservableCollection<EditorElement>();
+            Elements.CollectionChanged += Elements_CollectionChanged;
+
             // TODO When this control lose the focus, deselect selected element
         }
 
         private void PrevGrid_Loaded(object sender, RoutedEventArgs e)
         {
-            Elements = new PreviewEnvironmentGridCollection(prevGrid);
-            Elements.CollectionChanged += Grid_CollectionChanged;
         }
 
         private void SurrounderRect_Loaded(object sender, RoutedEventArgs e)
         {
             SelectedElementChanged += OnSelectedElementChanged; // We add it here in order to be sure that the surrounder rect has been initialized
-            surrounderRect.RemoveSelectedElement = () => Elements.Remove(SelectedElement);
+
+            //surrounderRect.RemoveSelectedElement = () => Elements.Remove(SelectedElement);
         }
 
         private void OnSelectedElementChanged(object sender, EventArgs e)
         {
-            surrounderRect.SurroundElement(SelectedElement);
+            elemSelector.SelectElement(SelectedElement);
         }
 
-        private void Grid_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void Elements_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (e.Action != NotifyCollectionChangedAction.Move) // When we move, we don't unsurround any selected element
+            prevGrid.Children.Clear();
+            foreach (EditorElement element in Elements)
+            {
+                prevGrid.Children.Add(element);
+            } // HTBD Optimize this since we can know the action.
+
+            if (e.Action != NotifyCollectionChangedAction.Move) // When we move, we don't deselect any selected element
                 SelectedElement = null;
         }
 
-        /// <summary>
-        /// When PreviewEnvironment.SelectedItem value changed
-        /// </summary>
-        public event EventHandler SelectedElementChanged;
 
-        FrameworkElement previewDraggingElem;
-        private FrameworkElement selectedElement;
+        private EditorElement previewDraggingElem;
 
         protected override void OnDragEnter(DragEventArgs e)
         {
             base.OnDragEnter(e);
 
-            if (e.Data.GetDataPresent(typeof(FrameworkElement)))
+            if (e.Data.GetDataPresent(typeof(EditorElement)))
             {
-                if (e.Data.GetData(typeof(FrameworkElement)) is FrameworkElement elem)
+                if (e.Data.GetData(typeof(EditorElement)) is EditorElement elem)
                 {
+                    ////////EditorElement instancedElement = (elem ?? throw new NullReferenceException()).Invoke();
+                    ////////// OPTI Don't always instance it, keep a copy during the drag
+
                     Elements.Add(elem);
                     previewDraggingElem = elem;
                 }
@@ -122,23 +138,17 @@ namespace SDEE_Editor.PreviewEnvironment
             previewDraggingElem = null;
         }
 
-        private void PrevGrid_ElementClicked(object sender, FrameworkElement elementClicked)
-        {
-            
-            //SelectElement(elementClicked, true);
-        }
-
-
-
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
+            // UNDONE TODO IMPORTANT Change this system
+
             if (e.LeftButton == MouseButtonState.Pressed || e.RightButton == MouseButtonState.Pressed)
             {
                 // Find clicked element
                 Point mPos = e.GetPosition(this);
-                FrameworkElement elementClicked = null;
+                EditorElement elementClicked = null;
 
-                foreach (FrameworkElement ctrl in Elements)
+                foreach (EditorElement ctrl in Elements)
                 {
                     Rect ctrlRect = ctrl.TransformToVisual(this).TransformBounds(new Rect(ctrl.RenderSize));
                     if (mPos.X >= ctrlRect.Left && mPos.X <= ctrlRect.Right && mPos.Y >= ctrlRect.Top && mPos.Y <= ctrlRect.Bottom) // if Mouse Position is inside control bounds
@@ -153,9 +163,15 @@ namespace SDEE_Editor.PreviewEnvironment
             base.OnMouseDown(e);
         }
 
-        // UNDONE finish this , SelectedElement = ? ; When I use OnSelectedElement event? How can I implement well OutlineTreeview itemTemplate ?
-        // Fix bugs like we can't select items above, can we select nothing without bad focus and is focus properly installed.
-        // And then:
-        // TODO good move in outline treeview, keep it.
+        private void RemoveSelectedElement_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Elements.Remove(SelectedElement);
+           
+        }
+
+        private void RemoveSelectedElement_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = SelectedElement != null;
+        }
     }
 }

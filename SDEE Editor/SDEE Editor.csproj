@@ -58,17 +58,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="OutlineTreeview.xaml.cs">
-      <DependentUpon>OutlineTreeview.xaml</DependentUpon>
+    <Compile Include="Library\LibraryElement.cs" />
+    <Compile Include="Outline.xaml.cs">
+      <DependentUpon>Outline.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EditorElement.cs" />
     <Compile Include="PreviewEnvironment\PreviewEnvironmentFrame.xaml.cs">
       <DependentUpon>PreviewEnvironmentFrame.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PreviewEnvironment\PreviewEnvironmentCommands.cs" />
     <Compile Include="PreviewEnvironment\PreviewEnvironmentGridCollection.cs" />
     <Compile Include="PreviewEnvironment\ElementSelector.xaml.cs">
       <DependentUpon>ElementSelector.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Toolbox.xaml.cs">
+    <Compile Include="Library\Toolbox.xaml.cs">
       <DependentUpon>Toolbox.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
@@ -83,7 +86,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="OutlineTreeview.xaml">
+    <Page Include="Outline.xaml">
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
@@ -95,7 +98,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Toolbox.xaml">
+    <Page Include="Library\Toolbox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

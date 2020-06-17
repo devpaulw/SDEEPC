@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,8 +18,10 @@ namespace SDEE_Editor.PreviewEnvironment
 {
     public partial class ElementSelector : UserControl
     {
+
         public static readonly DependencyProperty ColorProperty = DependencyProperty.Register("Color", typeof(Brush), typeof(ElementSelector));
         public static readonly DependencyProperty SizeProperty = DependencyProperty.Register("Size", typeof(double), typeof(ElementSelector));
+        public static readonly DependencyProperty PreviewEnvironmentFrameProperty = DependencyProperty.Register("PreviewEnvironmentFrame", typeof(PreviewEnvironmentFrame), typeof(ElementSelector));
 
         public Brush Color {
             get => (Brush)GetValue(ColorProperty);
@@ -30,14 +33,23 @@ namespace SDEE_Editor.PreviewEnvironment
             set => SetValue(SizeProperty, value);
         }
 
+        public PreviewEnvironmentFrame PreviewEnvironmentFrame
+        {
+            get { return (PreviewEnvironmentFrame)GetValue(PreviewEnvironmentFrameProperty); }
+            set { SetValue(PreviewEnvironmentFrameProperty, value); }
+        }
+
+
         public double Gap { get; set; }
 
-        public Action RemoveSelectedElement { get; set; }
+        //public Action RemoveSelectedElement { get; set; }
 
         public ElementSelector()
         {
             InitializeComponent();
         }
+
+        // TODO When loaded, check if values DPs have been filled
 
         public ElementSelector(Brush color, double size, double gap) : this()
         {
@@ -46,11 +58,11 @@ namespace SDEE_Editor.PreviewEnvironment
             Gap = gap;
         }
 
-        public void SurroundElement(FrameworkElement elem)
+        public void SelectElement(EditorElement element)
         {
-            if (elem == null) 
-            {
-                // When unsurround
+            if (element == null) // Is going to be deselected, unsurrounded
+            { 
+
                 if (surroundingRect.Visibility == Visibility.Visible)
                 {
                     surroundingRect.Visibility = Visibility.Collapsed;
@@ -59,11 +71,13 @@ namespace SDEE_Editor.PreviewEnvironment
             else
             {
                 surroundingRect.Visibility = Visibility.Visible;
-                surroundingRect.HorizontalAlignment = elem.HorizontalAlignment;
-                surroundingRect.VerticalAlignment = elem.VerticalAlignment;
-                surroundingRect.Margin = elem.Margin;
-                surroundingRect.Width = elem.Width + surroundingRect.StrokeThickness + Gap;
-                surroundingRect.Height = elem.Height + surroundingRect.StrokeThickness + Gap;
+                surroundingRect.HorizontalAlignment = element.HorizontalAlignment;
+                surroundingRect.VerticalAlignment = element.VerticalAlignment;
+                surroundingRect.Margin = element.Margin;
+                surroundingRect.Width = element.Width + surroundingRect.StrokeThickness + Gap;
+                surroundingRect.Height = element.Height + surroundingRect.StrokeThickness + Gap;
+
+                Focus(); // TEMP !
             }
         }
 
@@ -75,20 +89,20 @@ namespace SDEE_Editor.PreviewEnvironment
         //    Focus();// Focus for key inputs
         //}
 
-        protected override void OnKeyDown(KeyEventArgs e)
-        {
-            base.OnKeyDown(e);
+        //protected override void OnKeyDown(KeyEventArgs e)
+        //{
+        //    base.OnKeyDown(e);
 
-            if (e.Key == Key.Delete)
-                RemoveSelectedElement?.Invoke();
-        }
+        //    if (e.Key == Key.Delete)
+        //        RemoveSelectedElement?.Invoke();
+        //}
 
-        private void ContextMenuRemoveMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            if (RemoveSelectedElement == null)
-                throw new NullReferenceException("The remove element operation wasn't linked to any delegate.");
-            else
-            RemoveSelectedElement.Invoke();
-        }
+        //private void ContextMenuRemoveMenuItem_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (RemoveSelectedElement == null)
+        //        throw new NullReferenceException("The remove element operation wasn't linked to any delegate.");
+        //    else
+        //    RemoveSelectedElement.Invoke();
+        //}
     }
 }

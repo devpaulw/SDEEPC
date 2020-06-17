@@ -14,20 +14,22 @@
 
 
     <UserControl.Resources>
+        <ResourceDictionary>
 
-        <Style x:Key="rectStrokeStyle" TargetType="Rectangle">
-            <Setter Property="Stroke" Value="{Binding Color}"/>
-            <Setter Property="Visibility" Value="Collapsed"/>
-            <Setter Property="Fill" Value="Transparent"/>
-            <Setter Property="StrokeThickness" Value="{Binding Size}"/>
-        </Style>
-        
+            <Style x:Key="rectStrokeStyle" TargetType="Rectangle">
+                <Setter Property="Stroke" Value="{Binding Color}"/>
+                <Setter Property="Visibility" Value="Collapsed"/>
+                <Setter Property="Fill" Value="Transparent"/>
+                <Setter Property="StrokeThickness" Value="{Binding Size}"/>
+            </Style>
+        </ResourceDictionary>
+
     </UserControl.Resources>
 
     <Rectangle x:Name="surroundingRect" Style="{StaticResource rectStrokeStyle}">
         <Rectangle.ContextMenu>
             <ContextMenu>
-                <MenuItem Header="Remove" Click="ContextMenuRemoveMenuItem_Click"/>
+                <MenuItem Command="local:PreviewEnvironmentCommands.RemoveSelectedElement" CommandTarget="{Binding PreviewEnvironmentFrame}"/>
             </ContextMenu>
         </Rectangle.ContextMenu>
     </Rectangle>

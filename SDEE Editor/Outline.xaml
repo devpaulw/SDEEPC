@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="SDEE_Editor.Outline"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SDEE_Editor"
+             xmlns:prevenv="clr-namespace:SDEE_Editor.PreviewEnvironment"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="200"
+             Focusable="True" Loaded="OnLoaded">
+
+    <UserControl.DataContext>
+        <Binding RelativeSource="{RelativeSource Self}"/>
+    </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <ContextMenu x:Key="elementSelectionContextMenu">
+            <MenuItem Command="prevenv:PreviewEnvironmentCommands.RemoveSelectedElement" 
+                      CommandTarget="{Binding PreviewEnvironmentFrame}"/>
+        </ContextMenu>
+
+        <CollectionViewSource x:Key="peElems" Source="{ Binding PreviewEnvironmentFrame.Elements }"
+                              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="" Direction="Descending"/>
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+        
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <ListBox x:Name="listBox" Grid.Row="2" Focusable="True" SelectionChanged="ListBox_SelectionChanged" 
+                 ItemsSource="{ Binding PreviewEnvironmentFrame.Elements }" SelectionMode="Single">
+
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="ContextMenu" Value="{StaticResource elementSelectionContextMenu}"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
+
+            <ListBox.ItemTemplate >
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+
+        </ListBox>
+
+        <Button Focusable="False" Content="↓" HorizontalAlignment="Left" Grid.RowSpan="1"  Width="36" FontSize="15" Margin="10,0,0,0" Click="DownArrowButton_Click"/>
+        <Button Focusable="False" Content="↑" HorizontalAlignment="Left" Grid.RowSpan="1"  Width="36" FontSize="15" Margin="51,0,0,0" Click="UpArrowButton_Click"/>
+    </Grid>
+</UserControl>

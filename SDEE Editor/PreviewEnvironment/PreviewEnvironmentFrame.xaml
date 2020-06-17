@@ -6,8 +6,13 @@
              xmlns:local="clr-namespace:SDEE_Editor.PreviewEnvironment"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             AllowDrop="True" Focusable="True">
+             AllowDrop="True" Focusable="True"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}">
 
+    <UserControl.CommandBindings>
+        <CommandBinding Command="local:PreviewEnvironmentCommands.RemoveSelectedElement" CanExecute="RemoveSelectedElement_CanExecute" Executed="RemoveSelectedElement_Executed"/>
+    </UserControl.CommandBindings>
+        
     <Grid x:Name="mainGrid">
         
         <Rectangle>
@@ -28,8 +33,9 @@
         <Grid x:Name="prevGrid" AllowDrop="True" Background="Transparent" Loaded="PrevGrid_Loaded">
             <!--This part will be filled in run-time-->
         </Grid>
-        
-        <local:ElementSelector x:Name="surrounderRect" Color="Red" Gap="3" Size="2" Loaded="SurrounderRect_Loaded"/>
+
+        <local:ElementSelector x:Name="elemSelector" Color="Red" Gap="3" Size="2" Loaded="SurrounderRect_Loaded" 
+                               PreviewEnvironmentFrame="{Binding}"/>
 
 
 

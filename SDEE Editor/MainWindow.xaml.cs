@@ -37,7 +37,7 @@ namespace SDEE_Editor
 
         }
 
-        private void Toolbox_ElementClicked(object sender, FrameworkElement e) // TODO Why it says unusued
+        private void Toolbox_ElementClicked(object sender, EditorElement e) // TODO Why it says unusued
         {
             prevEnv.Elements.Add(e);
         }
