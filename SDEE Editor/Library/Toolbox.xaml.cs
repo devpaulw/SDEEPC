@@ -61,7 +61,7 @@ namespace SDEE_Editor
             _tree.Items.Add(new TreeViewItem
             {
                 Header = spongeTaskbarName,
-                Style = Resources["toolStyle"] as Style,
+                Style = Resources["toolStyle"] as Style, // TODO This should be in the ItemTemplate of ItemContainerStyle
                 Tag = new LibraryElement(() => new EditorElement(spongeTaskbarName, 
                 new Rectangle
                 {

@@ -63,7 +63,11 @@ namespace SDEE_Editor
             {
                 int index = PreviewEnvironmentFrame.Elements.IndexOf(elem);
 
+                try
+                {
                     PreviewEnvironmentFrame.Elements.Move(index, index - 1);
+                }
+                catch (ArgumentOutOfRangeException) { }
             }
         }
 
@@ -83,11 +87,11 @@ namespace SDEE_Editor
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            object selectedObject = listBox.SelectedItem; // HTBD, TEMP: Currently we can handle one item, so it's normal if we take the last one.
+            EditorElement selectedObject = listBox.SelectedItem as EditorElement; // HTBD, TEMP: Currently we can handle one item, so it's normal if we take the last one.
 
             if (selectedObject != null)
             {
-                PreviewEnvironmentFrame.SelectedElement = selectedObject as EditorElement;
+                PreviewEnvironmentFrame.SelectedElement = selectedObject;
             }
             //else if (!isReseting) // A null value has been selected whereas this is not reseting.
             //    throw new NullReferenceException("An incorrect item has been selected.");
