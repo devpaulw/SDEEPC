@@ -59,6 +59,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Library\LibraryElement.cs" />
+    <Compile Include="Miscellaneous\ObservableCollectionExtension.cs" />
     <Compile Include="Outline.xaml.cs">
       <DependentUpon>Outline.xaml</DependentUpon>
     </Compile>

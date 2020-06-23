@@ -1,3 +1,4 @@
+using SDEE_Editor.Miscellaneous;
 using SDEE_Editor.PreviewEnvironment;
 using System;
 using System.Collections.Generic;
@@ -61,13 +62,7 @@ namespace SDEE_Editor
         {
             if (listBox.SelectedItem is EditorElement elem)
             {
-                int index = PreviewEnvironmentFrame.Elements.IndexOf(elem);
-
-                try
-                {
-                    PreviewEnvironmentFrame.Elements.Move(index, index - 1);
-                }
-                catch (ArgumentOutOfRangeException) { }
+                PreviewEnvironmentFrame.Elements.TryMoveElementBy(elem, -1);
             }
         }
 
@@ -75,13 +70,7 @@ namespace SDEE_Editor
         {
             if (listBox.SelectedItem is EditorElement elem)
             {
-                int index = PreviewEnvironmentFrame.Elements.IndexOf(elem);
-                
-                try
-                {
-                    PreviewEnvironmentFrame.Elements.Move(index, index + 1);
-                }
-                catch (ArgumentOutOfRangeException) { }
+                PreviewEnvironmentFrame.Elements.TryMoveElementBy(elem, 1);
             }
         }
 
