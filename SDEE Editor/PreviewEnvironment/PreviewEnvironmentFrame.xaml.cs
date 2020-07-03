@@ -19,19 +19,19 @@ namespace SDEE_Editor.PreviewEnvironment
     /// <summary>
     /// Interaction logic for PreviewEnvironmentControl.xaml
     /// </summary>
-    public partial class PreviewEnvironmentFrame : UserControl
+    public partial class PreviewEnvironmentFrame : UserControl /*HTBD Make it a Selector*/
     {
         /// <summary>
         /// When PreviewEnvironment.SelectedElement value changed
         /// </summary>
         public event EventHandler SelectedElementChanged;
 
-        private EditorElement selectedElement;
+        private FrameworkElement selectedElement;
 
         /// <summary>
         /// Current selected element on your preview environment, a null value indicates that no element is selected.
         /// </summary>
-        public EditorElement SelectedElement
+        public FrameworkElement SelectedElement
         {
             get => selectedElement;
             set
@@ -44,23 +44,24 @@ namespace SDEE_Editor.PreviewEnvironment
             }
         }
 
-        //public void SelectElement(FrameworkElement element, bool focus)
-        //{
-        //    SelectedElement = element;
-        //    if (focus && element != null)
-        //        surrounderRect.Focus();
-        //}
-
-        public ObservableCollection<EditorElement> Elements { get; }
+        public ObservableCollection<FrameworkElement> Elements { get; }
 
         public PreviewEnvironmentFrame()
         {
             InitializeComponent();
 
-            Elements = new ObservableCollection<EditorElement>();
+            Elements = new ObservableCollection<FrameworkElement>();
             Elements.CollectionChanged += Elements_CollectionChanged;
 
             // TODO When this control lose the focus, deselect selected element
+        }
+
+        private PreviewEnvironmentElement GetContainerFromElement(FrameworkElement element)
+        {
+            return prevGrid.Children
+                .OfType<PreviewEnvironmentElement>()
+                .Where(peElem => peElem.ElementValue == element)
+                .FirstOrDefault(); // OPTI
         }
 
         private void PrevGrid_Loaded(object sender, RoutedEventArgs e)
@@ -76,15 +77,22 @@ namespace SDEE_Editor.PreviewEnvironment
 
         private void OnSelectedElementChanged(object sender, EventArgs e)
         {
-            elemSelector.SelectElement(SelectedElement);
+            elemSelector.SurroundElement(SelectedElement);
         }
 
         private void Elements_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            // Set elements to the real grid
             prevGrid.Children.Clear();
-            foreach (EditorElement element in Elements)
+            foreach (FrameworkElement element in Elements)
             {
-                prevGrid.Children.Add(element);
+                PreviewEnvironmentElement peElem = new PreviewEnvironmentElement(element)
+                {
+                };
+
+                peElem.MouseDown += PeElem_MouseDown;
+
+                prevGrid.Children.Add(peElem);
             } // HTBD Optimize this since we can know the action.
 
             if (e.Action != NotifyCollectionChangedAction.Move) // When we move, we don't deselect any selected element
@@ -92,21 +100,44 @@ namespace SDEE_Editor.PreviewEnvironment
         }
 
 
-        private EditorElement previewDraggingElem;
+        private void PeElem_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            PreviewEnvironmentElement selectedPeElem = sender as PreviewEnvironmentElement;
+            SelectedElement = selectedPeElem.ElementValue;
+            e.Handled = true; // Any parent that try to receive a MouseDown will be cancelled so that we focus on this.
+        }
 
+        protected override void OnMouseDown(MouseButtonEventArgs e) // Preview (Tunneling) means: First on higher level elements while Buble (without 'Preview') means the contrary ; Anyway, it's a matter of order.
+        {
+            base.OnPreviewMouseDown(e);
+
+            SelectedElement = null; // When select nothing
+        }
+
+        private FrameworkElement previewDraggingElem;
+
+        // BUG Twice objects added at the same time
         protected override void OnDragEnter(DragEventArgs e)
         {
             base.OnDragEnter(e);
 
-            if (e.Data.GetDataPresent(typeof(EditorElement)))
+            if (e.Data.GetDataPresent(typeof(FrameworkElement)))
             {
-                if (e.Data.GetData(typeof(EditorElement)) is EditorElement elem)
+                if (e.Data.GetData(typeof(FrameworkElement)) is FrameworkElement elem)
                 {
-                    ////////EditorElement instancedElement = (elem ?? throw new NullReferenceException()).Invoke();
-                    ////////// OPTI Don't always instance it, keep a copy during the drag
+                    if (e.OriginalSource == prevGrid) // Make sure that we do not Drag Enter directly through an element, but rather when to reach the higher pe-grid
+                    {
+                        if (Elements.Contains(elem)) // Add it only when the Elements don't already contains it, otherwise there is a bug somewhere.
+                            throw new PreviewEnvironmentException("The preview environment grid already contains this element.");
 
-                    Elements.Add(elem);
-                    previewDraggingElem = elem;
+                        if (previewDraggingElem != null) // When an element is already supposed to be dragging, there is a bug somewhere.
+                            throw new PreviewEnvironmentException("Can't drag two elements at the same time.");
+
+                        Elements.Add(elem);
+                        previewDraggingElem = elem;
+                    }
+
+                    MakeElementsHitTestVisible(false);
                 }
             }
         }
@@ -128,6 +159,7 @@ namespace SDEE_Editor.PreviewEnvironment
             {
                 Elements.Remove(previewDraggingElem);
                 previewDraggingElem = null;
+                MakeElementsHitTestVisible(true);
             }
         }
 
@@ -136,37 +168,19 @@ namespace SDEE_Editor.PreviewEnvironment
             base.OnDrop(e);
 
             previewDraggingElem = null;
+            MakeElementsHitTestVisible(true);
         }
 
-        protected override void OnMouseDown(MouseButtonEventArgs e)
+        private void MakeElementsHitTestVisible(bool visible)
         {
-            // UNDONE TODO IMPORTANT Change this system
-
-            if (e.LeftButton == MouseButtonState.Pressed || e.RightButton == MouseButtonState.Pressed)
-            {
-                // Find clicked element
-                Point mPos = e.GetPosition(this);
-                EditorElement elementClicked = null;
-
-                foreach (EditorElement ctrl in Elements)
-                {
-                    Rect ctrlRect = ctrl.TransformToVisual(this).TransformBounds(new Rect(ctrl.RenderSize));
-                    if (mPos.X >= ctrlRect.Left && mPos.X <= ctrlRect.Right && mPos.Y >= ctrlRect.Top && mPos.Y <= ctrlRect.Bottom) // if Mouse Position is inside control bounds
-                        elementClicked = ctrl;
-
-                }
-
-                // Element clicked
-                SelectedElement = elementClicked;
-            }
-
-            base.OnMouseDown(e);
+            foreach (UIElement elem in prevGrid.Children)
+                elem.IsHitTestVisible = visible;
         }
 
         private void RemoveSelectedElement_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             Elements.Remove(SelectedElement);
-           
+
         }
 
         private void RemoveSelectedElement_CanExecute(object sender, CanExecuteRoutedEventArgs e)

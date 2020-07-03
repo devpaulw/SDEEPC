@@ -25,7 +25,7 @@
                 <scm:SortDescription PropertyName="" Direction="Descending"/>
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
-        
+
     </UserControl.Resources>
 
     <Grid>
@@ -35,8 +35,16 @@
         </Grid.RowDefinitions>
 
         <ListBox x:Name="listBox" Grid.Row="2" Focusable="True" SelectionChanged="ListBox_SelectionChanged" 
-                 ItemsSource="{ Binding PreviewEnvironmentFrame.Elements }" SelectionMode="Single">
+                 
+                 
+                 
+                 SelectionMode="Single">
 
+            <ListBox.ItemsSource>
+                <Binding Path="PreviewEnvironmentFrame.Elements" Converter="{local:ObservableCollectionFrameworkElementReverseConverter}">
+                </Binding>
+            </ListBox.ItemsSource>
+            
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="ContextMenu" Value="{StaticResource elementSelectionContextMenu}"/>
@@ -52,6 +60,6 @@
         </ListBox>
 
         <Button Focusable="False" Content="↓" HorizontalAlignment="Left" Grid.RowSpan="1"  Width="36" FontSize="15" Margin="10,0,0,0" Click="DownArrowButton_Click"/>
-        <Button Focusable="False" Content="↑" HorizontalAlignment="Left" Grid.RowSpan="1"  Width="36" FontSize="15" Margin="51,0,0,0" Click="UpArrowButton_Click"/>
+        <Button Focusable="False" Content="↑" HorizontalAlignment="Left" Grid.RowSpan="1"  Width="39" FontSize="15" Margin="51,0,0,0" Click="UpArrowButton_Click"/>
     </Grid>
 </UserControl>

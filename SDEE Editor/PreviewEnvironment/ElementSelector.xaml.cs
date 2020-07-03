@@ -16,12 +16,15 @@ using System.Windows.Shapes;
 
 namespace SDEE_Editor.PreviewEnvironment
 {
-    public partial class ElementSelector : UserControl
+    /// <summary>
+    /// Takes charge of selecting PreviewEnvironmentFrame Selected Element with a surrounding rectangle
+    /// </summary>
+    public partial class PreviewEnvironmentElementSelector : UserControl
     {
 
-        public static readonly DependencyProperty ColorProperty = DependencyProperty.Register("Color", typeof(Brush), typeof(ElementSelector));
-        public static readonly DependencyProperty SizeProperty = DependencyProperty.Register("Size", typeof(double), typeof(ElementSelector));
-        public static readonly DependencyProperty PreviewEnvironmentFrameProperty = DependencyProperty.Register("PreviewEnvironmentFrame", typeof(PreviewEnvironmentFrame), typeof(ElementSelector));
+        public static readonly DependencyProperty ColorProperty = DependencyProperty.Register("Color", typeof(Brush), typeof(PreviewEnvironmentElementSelector));
+        public static readonly DependencyProperty SizeProperty = DependencyProperty.Register("Size", typeof(double), typeof(PreviewEnvironmentElementSelector));
+        public static readonly DependencyProperty PreviewEnvironmentFrameProperty = DependencyProperty.Register("PreviewEnvironmentFrame", typeof(PreviewEnvironmentFrame), typeof(PreviewEnvironmentElementSelector));
 
         public Brush Color {
             get => (Brush)GetValue(ColorProperty);
@@ -32,37 +35,37 @@ namespace SDEE_Editor.PreviewEnvironment
             get => (double)GetValue(SizeProperty);
             set => SetValue(SizeProperty, value);
         }
-
         public PreviewEnvironmentFrame PreviewEnvironmentFrame
         {
-            get { return (PreviewEnvironmentFrame)GetValue(PreviewEnvironmentFrameProperty); }
-            set { SetValue(PreviewEnvironmentFrameProperty, value); }
+            get => (PreviewEnvironmentFrame)GetValue(PreviewEnvironmentFrameProperty);
+            set => SetValue(PreviewEnvironmentFrameProperty, value);
         }
-
 
         public double Gap { get; set; }
 
         //public Action RemoveSelectedElement { get; set; }
 
-        public ElementSelector()
+
+        public PreviewEnvironmentElementSelector()
         {
             InitializeComponent();
         }
 
         // TODO When loaded, check if values DPs have been filled
 
-        public ElementSelector(Brush color, double size, double gap) : this()
+        public PreviewEnvironmentElementSelector(Brush color, double size, double gap) : this()
         {
             Color = color;
             Size = size;
             Gap = gap;
         }
 
-        public void SelectElement(EditorElement element)
+
+
+        public void SurroundElement(FrameworkElement element)
         {
             if (element == null) // Is going to be deselected, unsurrounded
-            { 
-
+            {
                 if (surroundingRect.Visibility == Visibility.Visible)
                 {
                     surroundingRect.Visibility = Visibility.Collapsed;
@@ -77,7 +80,7 @@ namespace SDEE_Editor.PreviewEnvironment
                 surroundingRect.Width = element.Width + surroundingRect.StrokeThickness + Gap;
                 surroundingRect.Height = element.Height + surroundingRect.StrokeThickness + Gap;
 
-                Focus(); // TEMP !
+                //Focus(); // TEMP !
             }
         }
 

@@ -58,12 +58,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ObservableCollectionReverseConverter.cs" />
+    <Compile Include="PreviewEnvironment\PreviewEnvironmentElement.xaml.cs">
+      <DependentUpon>PreviewEnvironmentElement.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Library\LibraryElement.cs" />
     <Compile Include="Miscellaneous\ObservableCollectionExtension.cs" />
     <Compile Include="Outline.xaml.cs">
       <DependentUpon>Outline.xaml</DependentUpon>
     </Compile>
     <Compile Include="EditorElement.cs" />
+    <Compile Include="PreviewEnvironment\PreviewEnvironmentException.cs" />
     <Compile Include="PreviewEnvironment\PreviewEnvironmentFrame.xaml.cs">
       <DependentUpon>PreviewEnvironmentFrame.xaml</DependentUpon>
     </Compile>
@@ -75,6 +80,10 @@
     <Compile Include="Library\Toolbox.xaml.cs">
       <DependentUpon>Toolbox.xaml</DependentUpon>
     </Compile>
+    <Page Include="PreviewEnvironment\PreviewEnvironmentElement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

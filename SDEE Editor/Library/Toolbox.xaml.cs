@@ -60,29 +60,27 @@ namespace SDEE_Editor
 
             _tree.Items.Add(new TreeViewItem
             {
-                Header = spongeTaskbarName,
+                Header = spongeTaskbarName, // TODO This could be attached to LibraryElement.ElementName
                 Style = Resources["toolStyle"] as Style, // TODO This should be in the ItemTemplate of ItemContainerStyle
-                Tag = new LibraryElement(() => new EditorElement(spongeTaskbarName, 
-                new Rectangle
+                Tag = new LibraryElement(spongeTaskbarName, () => new Rectangle
                 {
                     Fill = Brushes.Blue,
                     Height = 50,
                     VerticalAlignment = VerticalAlignment.Bottom,
                     HorizontalAlignment = HorizontalAlignment.Stretch
-                }))
+                })
             });
 
             _tree.Items.Add(new TreeViewItem
             {
                 Header = "SpongeDesktop",
                 Style = Resources["toolStyle"] as Style,
-                Tag = new LibraryElement(() => new EditorElement("SpongeDesktop",
-                    new Rectangle
+                Tag = new LibraryElement("SpongeDesktop", () => new Rectangle
                 {
                     Fill = Brushes.Green,
                     VerticalAlignment = VerticalAlignment.Stretch,
                     HorizontalAlignment = HorizontalAlignment.Stretch
-                }))
+                })
             });
 
 
@@ -90,19 +88,18 @@ namespace SDEE_Editor
             {
                 Header = "SpongeButton",
                 Style = Resources["toolStyle"] as Style,
-                Tag = new LibraryElement(() => new EditorElement("SpongeButton",
-                new Button
+                Tag = new LibraryElement("SpongeButton", () => new Button
                 {
                     Content = "Do you know the way?\n=> Sponge bob.",
                     Height = 50,
                     Width = 150,
                     VerticalAlignment = VerticalAlignment.Center,
                     HorizontalAlignment = HorizontalAlignment.Center
-                }))
+                })
             });
         }
 
-        public event EventHandler<EditorElement> ElementClicked;
+        public event EventHandler<FrameworkElement> ElementClicked;
 
         private void Tool_MouseMove(object sender, MouseEventArgs e)
         {
@@ -110,7 +107,7 @@ namespace SDEE_Editor
                 if (sender is TreeViewItem tvi)
                     if (tvi.Tag is LibraryElement elem)
                     {
-                        DataObject dObj = new DataObject(typeof(EditorElement), (elem ?? throw new NullReferenceException()).Invoke() /* Extracts the EditorElement from the LibraryElement */);
+                        DataObject dObj = new DataObject(typeof(FrameworkElement), (elem ?? throw new NullReferenceException()).GetElement() /* Extracts the EditorElement from the LibraryElement */);
                         DragDrop.DoDragDrop(this, dObj, DragDropEffects.Copy);
                     }
         }
@@ -122,7 +119,7 @@ namespace SDEE_Editor
                 if (sender is TreeViewItem tvi)
                     if (tvi.Tag is LibraryElement elem)
                     {
-                        ElementClicked?.Invoke(this, (elem ?? throw new NullReferenceException()).Invoke());
+                        ElementClicked?.Invoke(this, (elem ?? throw new NullReferenceException()).GetElement());
                     }
         }
     }

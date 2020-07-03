@@ -12,6 +12,9 @@
     <UserControl.CommandBindings>
         <CommandBinding Command="local:PreviewEnvironmentCommands.RemoveSelectedElement" CanExecute="RemoveSelectedElement_CanExecute" Executed="RemoveSelectedElement_Executed"/>
     </UserControl.CommandBindings>
+
+    <UserControl.Resources>
+    </UserControl.Resources>
         
     <Grid x:Name="mainGrid">
         
@@ -34,10 +37,7 @@
             <!--This part will be filled in run-time-->
         </Grid>
 
-        <local:ElementSelector x:Name="elemSelector" Color="Red" Gap="3" Size="2" Loaded="SurrounderRect_Loaded" 
-                               PreviewEnvironmentFrame="{Binding}"/>
-
-
+        <local:PreviewEnvironmentElementSelector x:Name="elemSelector" Color="Red" Size="2" Gap="3" Loaded="SurrounderRect_Loaded"/>
 
 
     </Grid>

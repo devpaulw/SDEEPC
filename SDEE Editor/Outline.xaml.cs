@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -60,7 +62,7 @@ namespace SDEE_Editor
 
         private void DownArrowButton_Click(object sender, RoutedEventArgs e)
         {
-            if (listBox.SelectedItem is EditorElement elem)
+            if (listBox.SelectedItem is FrameworkElement elem)
             {
                 PreviewEnvironmentFrame.Elements.TryMoveElementBy(elem, -1);
             }
@@ -68,7 +70,7 @@ namespace SDEE_Editor
 
         private void UpArrowButton_Click(object sender, RoutedEventArgs e)
         {
-            if (listBox.SelectedItem is EditorElement elem)
+            if (listBox.SelectedItem is FrameworkElement elem)
             {
                 PreviewEnvironmentFrame.Elements.TryMoveElementBy(elem, 1);
             }
@@ -76,24 +78,14 @@ namespace SDEE_Editor
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            EditorElement selectedObject = listBox.SelectedItem as EditorElement; // HTBD, TEMP: Currently we can handle one item, so it's normal if we take the last one.
+            FrameworkElement selectedObject = listBox.SelectedItem as FrameworkElement; // HTBD, TEMP: Currently we can handle one item, so it's normal if we take the last one.
 
             if (selectedObject != null)
             {
                 PreviewEnvironmentFrame.SelectedElement = selectedObject;
             }
-            //else if (!isReseting) // A null value has been selected whereas this is not reseting.
-            //    throw new NullReferenceException("An incorrect item has been selected.");
         }
 
-        // TODO Make it more "WPF"
-        //private TreeViewItem GetTviFromElem(FrameworkElement element)
-        //{
-        //    return new TreeViewItem()
-        //    {
-        //        Header = element.Name,
-        //        Tag = element
-        //    };
-        //}
+
     }
 }

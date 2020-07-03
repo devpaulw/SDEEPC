@@ -23,7 +23,7 @@ namespace SDEE_Editor.Miscellaneous
         public static void TryMoveElementBy<T>(this ObservableCollection<T> obsCollection, T element, int count)
         {
             int index = obsCollection.IndexOf(element);
-            // Try Move, don't worry, it handles two issues
+            // Try Move, don't worry, it handles two issues naturally
             obsCollection.TryMove(index, index + count);
         }
     }
