@@ -67,15 +67,14 @@
     <Compile Include="Outline.xaml.cs">
       <DependentUpon>Outline.xaml</DependentUpon>
     </Compile>
-    <Compile Include="EditorElement.cs" />
     <Compile Include="PreviewEnvironment\PreviewEnvironmentException.cs" />
     <Compile Include="PreviewEnvironment\PreviewEnvironmentFrame.xaml.cs">
       <DependentUpon>PreviewEnvironmentFrame.xaml</DependentUpon>
     </Compile>
     <Compile Include="PreviewEnvironment\PreviewEnvironmentCommands.cs" />
     <Compile Include="PreviewEnvironment\PreviewEnvironmentGridCollection.cs" />
-    <Compile Include="PreviewEnvironment\ElementSelector.xaml.cs">
-      <DependentUpon>ElementSelector.xaml</DependentUpon>
+    <Compile Include="PreviewEnvironment\PreviewEnvironmentElementSelector.xaml.cs">
+      <DependentUpon>PreviewEnvironmentElementSelector.xaml</DependentUpon>
     </Compile>
     <Compile Include="Library\Toolbox.xaml.cs">
       <DependentUpon>Toolbox.xaml</DependentUpon>
@@ -104,7 +103,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PreviewEnvironment\ElementSelector.xaml">
+    <Page Include="PreviewEnvironment\PreviewEnvironmentElementSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

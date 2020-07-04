@@ -21,7 +21,6 @@ namespace SDEE_Editor.PreviewEnvironment
     /// </summary>
     public partial class PreviewEnvironmentElementSelector : UserControl
     {
-
         public static readonly DependencyProperty ColorProperty = DependencyProperty.Register("Color", typeof(Brush), typeof(PreviewEnvironmentElementSelector));
         public static readonly DependencyProperty SizeProperty = DependencyProperty.Register("Size", typeof(double), typeof(PreviewEnvironmentElementSelector));
         public static readonly DependencyProperty PreviewEnvironmentFrameProperty = DependencyProperty.Register("PreviewEnvironmentFrame", typeof(PreviewEnvironmentFrame), typeof(PreviewEnvironmentElementSelector));
@@ -52,13 +51,6 @@ namespace SDEE_Editor.PreviewEnvironment
         }
 
         // TODO When loaded, check if values DPs have been filled
-
-        public PreviewEnvironmentElementSelector(Brush color, double size, double gap) : this()
-        {
-            Color = color;
-            Size = size;
-            Gap = gap;
-        }
 
 
 

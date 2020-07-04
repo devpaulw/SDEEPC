@@ -8,6 +8,7 @@
              xmlns:mis="clr-namespace:SDEE_Editor.Miscellaneous"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="200"
+             KeyboardNavigation.TabNavigation="None"
              Loaded="OnLoaded">
 
     <UserControl.DataContext>
@@ -15,7 +16,7 @@
     </UserControl.DataContext>
 
     <UserControl.InputBindings>
-        <KeyBinding Command="{x:Static prevenv:PreviewEnvironmentCommands.RemoveSelectedElement}" 
+        <KeyBinding Command="{x:Static prevenv:PreviewEnvironmentCommands.RemoveSelectedElement}"
                     CommandTarget="{Binding PreviewEnvironmentFrame}"
                     Gesture="Delete"/>
         <KeyBinding Command="{x:Static prevenv:PreviewEnvironmentCommands.DeselectAll}" 
@@ -37,7 +38,8 @@
         </Grid.RowDefinitions>
 
         <ListBox x:Name="listBox" Grid.Row="2"
-                 SelectionChanged="ListBox_SelectionChanged" SelectionMode="Single" ItemsSource="{Binding PreviewEnvironmentFrame.Elements, Converter={mis:ObservableCollectionFrameworkElementReverseConverter}}">
+                 SelectionChanged="ListBox_SelectionChanged" SelectionMode="Single"
+                 ItemsSource="{Binding PreviewEnvironmentFrame.Elements, Converter={mis:ObservableCollectionFrameworkElementReverseConverter}}">
 
             <ListBox.ItemContainerStyle>
                 <Style TargetType="{x:Type ListBoxItem}">
@@ -50,7 +52,8 @@
                             <ControlTemplate TargetType="{x:Type ListBoxItem}">
                                 <Border x:Name="Border"
                                         Padding="3"
-                                        SnapsToDevicePixels="true" Background="Transparent">
+                                        SnapsToDevicePixels="true" 
+                                        Background="Transparent">
                                     <Border.Resources>
                                         <Storyboard x:Key="lbiSelectionStoryboard">
                                             <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
@@ -68,6 +71,7 @@
                                         </VisualStateGroup>
                                     </VisualStateManager.VisualStateGroups>
                                     <ContentPresenter />
+                                    <!--HTBD Do it with triggers (easier) and see this link https://stackoverflow.com/questions/11238824/c-sharp-visualstatemanager-what-is-the-equivalent-in-wpf-for-selectedpointerov-->
                                 </Border>
                             </ControlTemplate>
                         </Setter.Value>
@@ -79,6 +83,7 @@
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Foreground" Value="White"/>
                         </Trigger>
+
                     </Style.Triggers>
                 </Style>
             </ListBox.ItemContainerStyle>

@@ -9,9 +9,14 @@
         Height="600" Width="1066"
         ResizeMode="CanMinimize" 
         Title="SDEE Project CodeName Editor (Prototype Release)">
-    
+
     <Grid DataContext="{Binding RelativeSource={RelativeSource Self}}" >
-        <Menu IsMainMenu="True">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="63*"/>
+            <ColumnDefinition Width="997*"/>
+        </Grid.ColumnDefinitions>
+        
+        <Menu IsMainMenu="True" Grid.ColumnSpan="2">
             <MenuItem Header="_File">
                 <MenuItem Header="Exit" Click="Menu_File_Exit_Click"/>
             </MenuItem>
@@ -20,23 +25,20 @@
             </MenuItem>
         </Menu>
 
-        <Label Content="Toolbox" Margin="10,430,0,0"/>
-        <Label Content="Outline" Margin="10,10,0,0"/>
-        <Label Content="Preview Environment" Margin="155,10,0,0"/>
-        <Label Content="Property Manager" Margin="771,10,0,0"/>
+        <Label Content="Toolbox" Margin="10,430,0,0" Grid.ColumnSpan="2"/>
+        <Label Content="Outline" Margin="10,10,0,0" Grid.ColumnSpan="2"/>
+        <Label Content="Preview Environment" Margin="92,10,0,0" Grid.Column="1"/>
+        <Label Content="Property Manager" Margin="708,10,0,0" Grid.Column="1"/>
 
-        <local:Toolbox HorizontalAlignment="Left" Width="756" Margin="10,455,0,13" ElementClicked="Toolbox_ElementClicked" />
+        <local:Toolbox HorizontalAlignment="Left" Width="756" Margin="10,455,0,13" ElementClicked="Toolbox_ElementClicked" 
+        KeyboardNavigation.TabNavigation="None" Grid.ColumnSpan="2"/>
 
-        <Grid Margin="155,35,292,139">
-            <Rectangle Stroke="Black" StrokeThickness="3"  />
+            <prevenv:PreviewEnvironmentFrame x:Name="prevEnv" AllowDrop="True" Margin="88,32,289,136" Grid.Column="1"/>
 
-            <prevenv:PreviewEnvironmentFrame x:Name="prevEnv" AllowDrop="True" Margin="3"/>
-        </Grid>
-
-        <local:Outline Margin="10,39,908,139" PreviewEnvironmentFrame="{Binding ElementName=prevEnv}"/>
+            <local:Outline Margin="10,39,908,139" PreviewEnvironmentFrame="{Binding ElementName=prevEnv}" Grid.ColumnSpan="2"/>
 
         <!--Test-->
-        <TreeView Margin="771,35,16,10">
+        <TreeView Margin="708,35,16,10" Grid.Column="1">
         </TreeView>
         <!--Test-->
     </Grid>

@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:SDEE_Editor.PreviewEnvironment"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             AllowDrop="True" Focusable="True"
+             Focusable="True"
+             KeyboardNavigation.TabNavigation="None"
              DataContext="{Binding RelativeSource={RelativeSource Self}}">
 
     <UserControl.CommandBindings>
@@ -16,33 +17,34 @@
 
     <UserControl.Resources>
     </UserControl.Resources>
-        
-    <Grid x:Name="mainGrid">
-        
-        <Rectangle>
-            <Rectangle.Fill>
-                
-                <VisualBrush  TileMode="Tile" Viewport="0,0,15,15" ViewportUnits="Absolute" Viewbox="0,0,15,15" ViewboxUnits="Absolute">
-                    <VisualBrush.Visual>
-                        <Grid Background="LightGray">
-                            <Path Data="M 0 15 L 15 0" Stroke="Gray" />
-                            <Path Data="M 0 0 L 15 15" Stroke="Gray" />
-                        </Grid>
-                    </VisualBrush.Visual>
-                </VisualBrush>
-                
-            </Rectangle.Fill>
-        </Rectangle>
 
-        <Grid x:Name="prevGrid" AllowDrop="True" Background="Transparent" Loaded="PrevGrid_Loaded">
-            <!--This part will be filled in run-time-->
+    <Grid>
+
+        <Grid>
+            <Rectangle Stroke="#EE000000" StrokeThickness="3" AllowDrop="False"/>
+
+            <Grid AllowDrop="True" Margin="3">
+                <Rectangle>
+                    <Rectangle.Fill>
+                        <VisualBrush  TileMode="Tile" Viewport="0,0,15,15" ViewportUnits="Absolute" Viewbox="0,0,15,15" ViewboxUnits="Absolute">
+                            <VisualBrush.Visual>
+                                <Grid Background="LightGray">
+                                    <Path Data="M 0 15 L 15 0" Stroke="Gray" />
+                                    <Path Data="M 0 0 L 15 15" Stroke="Gray" />
+                                </Grid>
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+
+                    </Rectangle.Fill>
+                </Rectangle>
+
+                <Grid x:Name="prevGrid" AllowDrop="True" Background="Transparent" Loaded="PrevGrid_Loaded" 
+                  DragEnter="PrevGrid_DragEnter" DragLeave="PrevGrid_DragLeave" DragOver="PrevGrid_DragOver" Drop="PrevGrid_Drop">
+                    <!--This part will be filled in run-time-->
+                </Grid>
+            </Grid>
         </Grid>
-
+        
         <local:PreviewEnvironmentElementSelector x:Name="elemSelector" Color="Red" Size="2" Gap="3" Loaded="SurrounderRect_Loaded"/>
-
-
     </Grid>
-    <!--<Grid>
-        <Rectangle  Stroke="Red" StrokeThickness="5"  AllowDrop="True" />
-    </Grid>-->
 </UserControl>

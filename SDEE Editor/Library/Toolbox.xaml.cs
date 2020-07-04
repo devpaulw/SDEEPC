@@ -64,7 +64,7 @@ namespace SDEE_Editor
                 Style = Resources["toolStyle"] as Style, // TODO This should be in the ItemTemplate of ItemContainerStyle
                 Tag = new LibraryElement(spongeTaskbarName, () => new Rectangle
                 {
-                    Fill = Brushes.Blue,
+                    Fill = Brushes.DeepSkyBlue,
                     Height = 50,
                     VerticalAlignment = VerticalAlignment.Bottom,
                     HorizontalAlignment = HorizontalAlignment.Stretch

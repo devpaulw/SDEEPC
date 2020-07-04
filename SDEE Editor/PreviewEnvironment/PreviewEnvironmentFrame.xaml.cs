@@ -21,6 +21,7 @@ namespace SDEE_Editor.PreviewEnvironment
     /// </summary>
     public partial class PreviewEnvironmentFrame : UserControl /*HTBD Make it a Selector*/
     {
+        // TODO Make a PreviewEnvironmentGrid instead of a Frame directly but keep Frame for background and stroke
         public PreviewEnvironmentFrame()
         {
             InitializeComponent();
@@ -71,8 +72,6 @@ namespace SDEE_Editor.PreviewEnvironment
         private void SurrounderRect_Loaded(object sender, RoutedEventArgs e)
         {
             SelectedElementChanged += OnSelectedElementChanged; // We add it here in order to be sure that the surrounder rect has been initialized
-
-            //surrounderRect.RemoveSelectedElement = () => Elements.Remove(SelectedElement);
         }
 
         private void OnSelectedElementChanged(object sender, EventArgs e)
@@ -123,10 +122,8 @@ namespace SDEE_Editor.PreviewEnvironment
 
         private FrameworkElement previewDraggingElem;
 
-        protected override void OnDragEnter(DragEventArgs e)
+        private void PrevGrid_DragEnter(object sender, DragEventArgs e)
         {
-            base.OnDragEnter(e);
-
             if (e.Data.GetDataPresent(typeof(FrameworkElement)))
             {
                 if (e.Data.GetData(typeof(FrameworkElement)) is FrameworkElement elem)
@@ -148,19 +145,15 @@ namespace SDEE_Editor.PreviewEnvironment
             }
         }
 
-        protected override void OnDragOver(DragEventArgs e)
+        private void PrevGrid_DragOver(object sender, DragEventArgs e)
         {
-            base.OnDragOver(e);
-
             e.Effects = DragDropEffects.None;
             if (previewDraggingElem != null)
                 e.Effects = DragDropEffects.Copy;
         }
 
-        protected override void OnDragLeave(DragEventArgs e)
+        private void PrevGrid_DragLeave(object sender, DragEventArgs e)
         {
-            base.OnDragLeave(e);
-
             if (previewDraggingElem != null)
             {
                 Elements.Remove(previewDraggingElem);
@@ -169,10 +162,8 @@ namespace SDEE_Editor.PreviewEnvironment
             }
         }
 
-        protected override void OnDrop(DragEventArgs e)
+        private void PrevGrid_Drop(object sender, DragEventArgs e)
         {
-            base.OnDrop(e);
-
             previewDraggingElem = null;
             MakeGridElementsHitTestVisible(true);
         }
@@ -183,7 +174,7 @@ namespace SDEE_Editor.PreviewEnvironment
                 elem.IsHitTestVisible = visible;
         }
 
-        #region Command Bindings management
+        #region Command Bindings execution management
         private void RemoveSelectedElement_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = SelectedElement != null;
