@@ -5,27 +5,29 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SDEE_Editor"
              xmlns:prevenv="clr-namespace:SDEE_Editor.PreviewEnvironment"
+             xmlns:mis="clr-namespace:SDEE_Editor.Miscellaneous"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="200"
-             Focusable="True" Loaded="OnLoaded">
+             Loaded="OnLoaded">
 
     <UserControl.DataContext>
         <Binding RelativeSource="{RelativeSource Self}"/>
     </UserControl.DataContext>
 
+    <UserControl.InputBindings>
+        <KeyBinding Command="{x:Static prevenv:PreviewEnvironmentCommands.RemoveSelectedElement}" 
+                    CommandTarget="{Binding PreviewEnvironmentFrame}"
+                    Gesture="Delete"/>
+        <KeyBinding Command="{x:Static prevenv:PreviewEnvironmentCommands.DeselectAll}" 
+                    CommandTarget="{Binding PreviewEnvironmentFrame}"
+                    Gesture="Escape"/>
+    </UserControl.InputBindings>
+    
     <UserControl.Resources>
-        <ContextMenu x:Key="elementSelectionContextMenu">
-            <MenuItem Command="prevenv:PreviewEnvironmentCommands.RemoveSelectedElement" 
-                      CommandTarget="{Binding PreviewEnvironmentFrame}"/>
+        <ContextMenu x:Key="elementSelectionContextMenu"
+                     DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Outline}}}">
+            <MenuItem Command="{x:Static prevenv:PreviewEnvironmentCommands.RemoveSelectedElement}" CommandTarget="{Binding PreviewEnvironmentFrame}"/>
         </ContextMenu>
-
-        <CollectionViewSource x:Key="peElems" Source="{ Binding PreviewEnvironmentFrame.Elements }"
-                              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase">
-            <CollectionViewSource.SortDescriptions>
-                <scm:SortDescription PropertyName="" Direction="Descending"/>
-            </CollectionViewSource.SortDescriptions>
-        </CollectionViewSource>
-
     </UserControl.Resources>
 
     <Grid>
@@ -34,20 +36,18 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <ListBox x:Name="listBox" Grid.Row="2" Focusable="True" SelectionChanged="ListBox_SelectionChanged" 
-                 
-                 
-                 
+        <ListBox x:Name="listBox" Grid.Row="2" SelectionChanged="ListBox_SelectionChanged"
                  SelectionMode="Single">
 
             <ListBox.ItemsSource>
-                <Binding Path="PreviewEnvironmentFrame.Elements" Converter="{local:ObservableCollectionFrameworkElementReverseConverter}">
-                </Binding>
+                <Binding Path="PreviewEnvironmentFrame.Elements" Converter="{mis:ObservableCollectionFrameworkElementReverseConverter}"/>
             </ListBox.ItemsSource>
             
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="ContextMenu" Value="{StaticResource elementSelectionContextMenu}"/>
+                    <!--<Setter Property="Focusable" Value="False"/>-->
+                    <EventSetter Event="PreviewMouseDown" Handler="ListBoxItem_PreviewMouseDown"/>
                 </Style>
             </ListBox.ItemContainerStyle>
 

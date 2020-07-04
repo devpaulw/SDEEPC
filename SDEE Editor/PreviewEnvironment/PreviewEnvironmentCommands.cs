@@ -14,5 +14,9 @@ namespace SDEE_Editor.PreviewEnvironment
         public static readonly RoutedUICommand RemoveSelectedElement // TODO Try with {get;}
             = new RoutedUICommand("Remove", "RemoveSelectedElement", typeof(PreviewEnvironmentFrame),
                         new InputGestureCollection { new KeyGesture(Key.Delete, ModifierKeys.None) });
+
+        public static readonly RoutedUICommand DeselectAll // TODO Try with {get;}
+            = new RoutedUICommand("Deselect all", "DeselectAll", typeof(PreviewEnvironmentFrame),
+                        new InputGestureCollection { new KeyGesture(Key.Escape, ModifierKeys.None) });
     }
 }

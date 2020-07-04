@@ -12,13 +12,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+// TODO Unselect command
 namespace SDEE_Editor.PreviewEnvironment
 {
     /// </summary>
     /// Interaction logic for EditorElement.xaml <br/>
     /// Represents an element that is a FrameworkElement that is not HitTestVisible but still supports Mouse and Keyboard input.
-    /// 
     /// </summary>
     public partial class PreviewEnvironmentElement : ContentControl
     {
@@ -30,6 +29,5 @@ namespace SDEE_Editor.PreviewEnvironment
         }
 
         public FrameworkElement ElementValue { get; }
-
     }
 }

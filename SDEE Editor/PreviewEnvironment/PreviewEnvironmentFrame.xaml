@@ -10,7 +10,8 @@
              DataContext="{Binding RelativeSource={RelativeSource Self}}">
 
     <UserControl.CommandBindings>
-        <CommandBinding Command="local:PreviewEnvironmentCommands.RemoveSelectedElement" CanExecute="RemoveSelectedElement_CanExecute" Executed="RemoveSelectedElement_Executed"/>
+        <CommandBinding Command="{x:Static local:PreviewEnvironmentCommands.RemoveSelectedElement}" CanExecute="RemoveSelectedElement_CanExecute" Executed="RemoveSelectedElement_Executed"/>
+        <CommandBinding Command="{x:Static local:PreviewEnvironmentCommands.DeselectAll}" CanExecute="DeselectAll_CanExecute" Executed="DeselectAll_Executed"/>
     </UserControl.CommandBindings>
 
     <UserControl.Resources>

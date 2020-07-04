@@ -97,6 +97,19 @@ namespace SDEE_Editor
                     HorizontalAlignment = HorizontalAlignment.Center
                 })
             });
+
+            _tree.Items.Add(new TreeViewItem
+            {
+                Header = "SpongeLargeButton",
+                Style = Resources["toolStyle"] as Style,
+                Tag = new LibraryElement("SpongeLargeButton", () => new Button
+                {
+                    Content = "Hello Mr. Gates",
+                    Width = 100,
+                    VerticalAlignment = VerticalAlignment.Stretch,
+                    HorizontalAlignment = HorizontalAlignment.Left
+                })
+            });
         }
 
         public event EventHandler<FrameworkElement> ElementClicked;
@@ -107,7 +120,7 @@ namespace SDEE_Editor
                 if (sender is TreeViewItem tvi)
                     if (tvi.Tag is LibraryElement elem)
                     {
-                        DataObject dObj = new DataObject(typeof(FrameworkElement), (elem ?? throw new NullReferenceException()).GetElement() /* Extracts the EditorElement from the LibraryElement */);
+                        DataObject dObj = new DataObject(typeof(FrameworkElement), (elem ?? throw new NullReferenceException()).GetElement() /* Extracts the element from the LibraryElement */);
                         DragDrop.DoDragDrop(this, dObj, DragDropEffects.Copy);
                     }
         }

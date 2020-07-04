@@ -58,7 +58,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ObservableCollectionReverseConverter.cs" />
+    <Compile Include="Miscellaneous\ObservableCollectionReverseConverter.cs" />
     <Compile Include="PreviewEnvironment\PreviewEnvironmentElement.xaml.cs">
       <DependentUpon>PreviewEnvironmentElement.xaml</DependentUpon>
     </Compile>

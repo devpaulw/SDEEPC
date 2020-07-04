@@ -10,10 +10,11 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace SDEE_Editor
+namespace SDEE_Editor.Miscellaneous
 {
     /// <summary>
-    /// Only supports FrameworkElement yet
+    /// Only supports FrameworkElement<br/>
+    /// Created to be used in XAML
     /// </summary>
     public class ObservableCollectionFrameworkElementReverseConverter : ObservableCollectionReverseConverter<FrameworkElement> { }
 

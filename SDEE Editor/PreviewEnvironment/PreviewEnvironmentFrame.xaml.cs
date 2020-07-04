@@ -21,6 +21,16 @@ namespace SDEE_Editor.PreviewEnvironment
     /// </summary>
     public partial class PreviewEnvironmentFrame : UserControl /*HTBD Make it a Selector*/
     {
+        public PreviewEnvironmentFrame()
+        {
+            InitializeComponent();
+
+            Elements = new ObservableCollection<FrameworkElement>();
+            Elements.CollectionChanged += Elements_CollectionChanged;
+
+            // TODO When this control lose the focus, deselect selected element
+        }
+
         /// <summary>
         /// When PreviewEnvironment.SelectedElement value changed
         /// </summary>
@@ -45,16 +55,6 @@ namespace SDEE_Editor.PreviewEnvironment
         }
 
         public ObservableCollection<FrameworkElement> Elements { get; }
-
-        public PreviewEnvironmentFrame()
-        {
-            InitializeComponent();
-
-            Elements = new ObservableCollection<FrameworkElement>();
-            Elements.CollectionChanged += Elements_CollectionChanged;
-
-            // TODO When this control lose the focus, deselect selected element
-        }
 
         private PreviewEnvironmentElement GetContainerFromElement(FrameworkElement element)
         {
@@ -104,7 +104,14 @@ namespace SDEE_Editor.PreviewEnvironment
         {
             PreviewEnvironmentElement selectedPeElem = sender as PreviewEnvironmentElement;
             SelectedElement = selectedPeElem.ElementValue;
-            e.Handled = true; // Any parent that try to receive a MouseDown will be cancelled so that we focus on this.
+            e.Handled = true; // Any parent (supposed to be this PEFrame) that try to receive a MouseDown will be cancelled so that we focus on this.
+        }
+
+        protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
+        {
+            base.OnPreviewMouseDown(e);
+            //FocusManager.SetIsFocusScope(this, true);
+            Focus();
         }
 
         protected override void OnMouseDown(MouseButtonEventArgs e) // Preview (Tunneling) means: First on higher level elements while Buble (without 'Preview') means the contrary ; Anyway, it's a matter of order.
@@ -116,7 +123,6 @@ namespace SDEE_Editor.PreviewEnvironment
 
         private FrameworkElement previewDraggingElem;
 
-        // BUG Twice objects added at the same time
         protected override void OnDragEnter(DragEventArgs e)
         {
             base.OnDragEnter(e);
@@ -137,7 +143,7 @@ namespace SDEE_Editor.PreviewEnvironment
                         previewDraggingElem = elem;
                     }
 
-                    MakeElementsHitTestVisible(false);
+                    MakeGridElementsHitTestVisible(false);
                 }
             }
         }
@@ -159,7 +165,7 @@ namespace SDEE_Editor.PreviewEnvironment
             {
                 Elements.Remove(previewDraggingElem);
                 previewDraggingElem = null;
-                MakeElementsHitTestVisible(true);
+                MakeGridElementsHitTestVisible(true);
             }
         }
 
@@ -168,24 +174,35 @@ namespace SDEE_Editor.PreviewEnvironment
             base.OnDrop(e);
 
             previewDraggingElem = null;
-            MakeElementsHitTestVisible(true);
+            MakeGridElementsHitTestVisible(true);
         }
 
-        private void MakeElementsHitTestVisible(bool visible)
+        private void MakeGridElementsHitTestVisible(bool visible)
         {
             foreach (UIElement elem in prevGrid.Children)
                 elem.IsHitTestVisible = visible;
         }
 
-        private void RemoveSelectedElement_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            Elements.Remove(SelectedElement);
-
-        }
-
+        #region Command Bindings management
         private void RemoveSelectedElement_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = SelectedElement != null;
         }
+        private void RemoveSelectedElement_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Elements.Remove(SelectedElement);
+        }
+
+        private void DeselectAll_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = SelectedElement != null; // Only when there is one element selected
+        }
+
+        private void DeselectAll_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            SelectedElement = null;
+        }
+        #endregion
+
     }
 }

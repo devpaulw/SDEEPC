@@ -79,8 +79,6 @@ namespace SDEE_Editor.PreviewEnvironment
                 surroundingRect.Margin = element.Margin;
                 surroundingRect.Width = element.Width + surroundingRect.StrokeThickness + Gap;
                 surroundingRect.Height = element.Height + surroundingRect.StrokeThickness + Gap;
-
-                //Focus(); // TEMP !
             }
         }
 

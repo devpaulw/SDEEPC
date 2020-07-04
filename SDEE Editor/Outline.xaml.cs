@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -19,6 +20,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -33,6 +35,7 @@ namespace SDEE_Editor
         public Outline()
         {
             InitializeComponent();
+            //CommandBindings.Add(new CommandBinding(PreviewEnvironmentCommands.RemoveSelectedElement));
         }
 
         public static readonly DependencyProperty PreviewEnvironmentProperty
@@ -48,9 +51,6 @@ namespace SDEE_Editor
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            if (PreviewEnvironmentFrame.Elements == null)
-                throw new ArgumentNullException(nameof(PreviewEnvironmentFrame.Elements));
-
             PreviewEnvironmentFrame.SelectedElementChanged += PrevEnv_SelectedElementChanged;
         }
 
@@ -78,14 +78,22 @@ namespace SDEE_Editor
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            FrameworkElement selectedObject = listBox.SelectedItem as FrameworkElement; // HTBD, TEMP: Currently we can handle one item, so it's normal if we take the last one.
-
-            if (selectedObject != null)
+            if (listBox.SelectedItem is FrameworkElement selectedObject)
             {
                 PreviewEnvironmentFrame.SelectedElement = selectedObject;
             }
         }
 
+        protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
+        {
+            base.OnPreviewMouseDown(e);
+        }
 
+        private void ListBoxItem_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            // Shallow selection without focus
+            //ListBoxItem lbi = sender as ListBoxItem;
+            //lbi.IsSelected = true;
+        }
     }
 }

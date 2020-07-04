@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:SDEE_Editor"
              xmlns:prevenv="clr-namespace:SDEE_Editor.PreviewEnvironment"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
+             d:DesignHeight="50" d:DesignWidth="50"
              DataContext="{Binding RelativeSource={RelativeSource Self}}"
                 
                 HorizontalAlignment="{Binding ElementValue.HorizontalAlignment}"
@@ -16,21 +16,23 @@
                 Height="{Binding ElementValue.Height}"
                 Visibility="{Binding ElementValue.Visibility}">
 
+    <ContentControl.Resources>
+        <ContextMenu x:Key="elementSelectionContextMenu"
+                            DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type prevenv:PreviewEnvironmentFrame}}}">
+            <MenuItem Command="prevenv:PreviewEnvironmentCommands.RemoveSelectedElement" CommandTarget="{Binding}"/>
+        </ContextMenu>
+    </ContentControl.Resources>
+
+    <ContentControl.Style>
+        <Style TargetType="ContentControl">
+            <Setter Property="ContextMenu" Value="{StaticResource elementSelectionContextMenu}"/>
+        </Style>
+    </ContentControl.Style>
+
     <Grid>
+
         <ContentControl Content="{Binding ElementValue}" IsHitTestVisible="False"/>
         <Rectangle x:Name="inputDetectionRect" Fill="Transparent" />
-        
-        
-        <!--<Rectangle x:Name="surroundingRect" 
-                   Stroke="{Binding SelectionRectColor}"
-                   Visibility="Collapsed"
-                   Fill="Transparent"
-                   StrokeThickness="{Binding SelectionRectSize}"/>-->
     </Grid>
 
-    <ContentControl.ContextMenu>
-        <ContextMenu>
-            <MenuItem Command="prevenv:PreviewEnvironmentCommands.RemoveSelectedElement" CommandTarget="{Binding PreviewEnvironmentFrame}"/>
-        </ContextMenu>
-    </ContentControl.ContextMenu>
 </ContentControl>
