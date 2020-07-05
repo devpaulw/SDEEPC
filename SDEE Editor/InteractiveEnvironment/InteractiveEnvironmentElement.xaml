@@ -1,0 +1,38 @@
+﻿<ContentControl x:Class="SDEE_Editor.InteractiveEnvironment.InteractiveEnvironmentElement"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SDEE_Editor"
+             xmlns:prevenv="clr-namespace:SDEE_Editor.InteractiveEnvironment"
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="50"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
+                
+                HorizontalAlignment="{Binding ElementValue.HorizontalAlignment}"
+                VerticalAlignment="{Binding ElementValue.VerticalAlignment}"
+                Margin="{Binding ElementValue.Margin}"
+                Width="{Binding ElementValue.Width}"
+                Height="{Binding ElementValue.Height}"
+                Visibility="{Binding ElementValue.Visibility}">
+
+    <ContentControl.Resources>
+        <ContextMenu x:Key="elementSelectionContextMenu"
+                            DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type prevenv:InteractiveEnvironmentGrid}}}">
+            <MenuItem Command="prevenv:InteractiveEnvironmentCommands.RemoveSelectedElement" CommandTarget="{Binding}"/>
+        </ContextMenu>
+    </ContentControl.Resources>
+
+    <ContentControl.Style>
+        <Style TargetType="ContentControl">
+            <Setter Property="ContextMenu" Value="{StaticResource elementSelectionContextMenu}"/>
+        </Style>
+    </ContentControl.Style>
+
+    <Grid>
+
+        <ContentControl Content="{Binding ElementValue}" IsHitTestVisible="False"/>
+        <Rectangle x:Name="inputDetectionRect" Fill="Transparent" />
+    </Grid>
+
+</ContentControl>

@@ -1,0 +1,54 @@
+﻿<Window x:Class="SDEE_Editor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SDEE_Editor"
+        xmlns:prevenv="clr-namespace:SDEE_Editor.InteractiveEnvironment"
+        mc:Ignorable="d"
+        Height="720" Width="1200" MinHeight="500" MinWidth="900"
+        Title="SDEE Project CodeName Editor (Prototype Release)"
+        Loaded="OnLoaded">
+
+    <Grid DataContext="{Binding RelativeSource={RelativeSource Self}}" Background="#e3e3e3">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="180"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="300"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="175"/>
+        </Grid.RowDefinitions>
+        <Grid.Resources>
+            <Thickness x:Key="textUsualMargin" Left="7" Top="1" Right="0" Bottom="0"/>
+            <Thickness x:Key="caseUsualMargin" Left="7" Top="28" Right="7" Bottom="7"/>
+        </Grid.Resources>
+
+        <Menu IsMainMenu="True" Grid.ColumnSpan="3">
+            <MenuItem Header="_File">
+                <MenuItem Header="Exit" Click="Menu_File_Exit_Click"/>
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="About SDEE Project CodeName..." Click="Menu_Help_About_Click"/>
+            </MenuItem>
+        </Menu>
+
+        <Label Grid.Column="0" Grid.Row="2" Content="Toolbox" Margin="{StaticResource textUsualMargin}"/>
+        <local:Toolbox Grid.ColumnSpan="2" Grid.Row="3" Margin="{StaticResource caseUsualMargin}"
+                       ElementClicked="Toolbox_ElementClicked"/>
+
+        <Label Content="Interactive Environment" Grid.Row="1" Grid.Column="1" Margin="{StaticResource textUsualMargin}"/>
+        <prevenv:InteractiveEnvironmentFrame Margin="{StaticResource caseUsualMargin}" Grid.Column="1" Grid.Row="1" 
+                                         x:Name="prevEnvFrame" AllowDrop="True" />
+
+        <Label Content="Outline" Grid.Column="0" Grid.Row="1" Margin="{StaticResource textUsualMargin}" />
+        <local:Outline Margin="{StaticResource caseUsualMargin}" Grid.Column="0" Grid.Row="1"
+                       InteractiveEnvironmentGrid="{Binding ElementName=prevEnvFrame, Path=Grid}" />
+
+        <Label Grid.Row="1" Grid.Column="2" Margin="{StaticResource textUsualMargin}">Property Manager</Label>
+        <TreeView Margin="{StaticResource caseUsualMargin}" Grid.Row="1" Grid.RowSpan="3" Grid.Column="3" >
+        </TreeView>
+    </Grid>
+</Window>

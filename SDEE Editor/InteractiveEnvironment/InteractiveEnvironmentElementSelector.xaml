@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="SDEE_Editor.InteractiveEnvironment.InteractiveEnvironmentElementSelector"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SDEE_Editor.InteractiveEnvironment"
+             mc:Ignorable="d" 
+             d:DesignHeight="90" d:DesignWidth="160"
+             IsHitTestVisible="False">
+
+    <UserControl.DataContext>
+        <Binding RelativeSource="{RelativeSource Self}"/>
+    </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style x:Key="rectStrokeStyle" TargetType="Rectangle">
+                <Setter Property="Stroke" Value="{Binding Color}"/>
+                <Setter Property="Visibility" Value="Collapsed"/>
+                <Setter Property="Fill" Value="Transparent"/>
+                <Setter Property="StrokeThickness" Value="{Binding Size}"/>
+                <Setter Property="IsHitTestVisible" Value="False"/>
+            </Style>
+        </ResourceDictionary>
+
+    </UserControl.Resources>
+
+    <Rectangle x:Name="surroundingRect" Style="{StaticResource rectStrokeStyle}">
+
+    </Rectangle>
+</UserControl>
