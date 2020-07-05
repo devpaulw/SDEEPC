@@ -6,18 +6,27 @@
         xmlns:local="clr-namespace:SDEE_Editor"
         xmlns:prevenv="clr-namespace:SDEE_Editor.PreviewEnvironment"
         mc:Ignorable="d"
-        Height="600" Width="1066"
-        ResizeMode="CanMinimize" 
+        Height="720" Width="1200" MinHeight="500" MinWidth="900"
         Title="SDEE Project CodeName Editor (Prototype Release)"
         Loaded="OnLoaded">
 
-    <Grid DataContext="{Binding RelativeSource={RelativeSource Self}}" >
+    <Grid DataContext="{Binding RelativeSource={RelativeSource Self}}" Background="#e3e3e3">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="63*"/>
-            <ColumnDefinition Width="997*"/>
+            <ColumnDefinition Width="180"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="300"/>
         </Grid.ColumnDefinitions>
-        
-        <Menu IsMainMenu="True" Grid.ColumnSpan="2">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="175"/>
+        </Grid.RowDefinitions>
+        <Grid.Resources>
+            <Thickness x:Key="textUsualMargin" Left="7" Top="1" Right="0" Bottom="0"/>
+            <Thickness x:Key="caseUsualMargin" Left="7" Top="28" Right="7" Bottom="7"/>
+        </Grid.Resources>
+
+        <Menu IsMainMenu="True" Grid.ColumnSpan="3">
             <MenuItem Header="_File">
                 <MenuItem Header="Exit" Click="Menu_File_Exit_Click"/>
             </MenuItem>
@@ -26,21 +35,20 @@
             </MenuItem>
         </Menu>
 
-        <Label Content="Toolbox" Margin="10,430,0,0" Grid.ColumnSpan="2"/>
-        <Label Content="Outline" Margin="10,10,0,0" Grid.ColumnSpan="2"/>
-        <Label Content="Preview Environment" Margin="92,10,0,0" Grid.Column="1"/>
-        <Label Content="Property Manager" Margin="708,10,0,0" Grid.Column="1"/>
+        <Label Grid.Column="0" Grid.Row="2" Content="Toolbox" Margin="{StaticResource textUsualMargin}"/>
+        <local:Toolbox Grid.ColumnSpan="2" Grid.Row="3" Margin="{StaticResource caseUsualMargin}"
+                       ElementClicked="Toolbox_ElementClicked"/>
 
-        <local:Toolbox HorizontalAlignment="Left" Width="756" Margin="10,455,0,13" ElementClicked="Toolbox_ElementClicked" 
-                       KeyboardNavigation.TabNavigation="None" Grid.ColumnSpan="2"/>
-        
-        <prevenv:PreviewEnvironmentFrame x:Name="prevEnvFrame" AllowDrop="True" Margin="88,32,289,136" Grid.Column="1"/>
+        <Label Content="Preview Environment" Grid.Row="1" Grid.Column="1" Margin="{StaticResource textUsualMargin}"/>
+        <prevenv:PreviewEnvironmentFrame Margin="{StaticResource caseUsualMargin}" Grid.Column="1" Grid.Row="1" 
+                                         x:Name="prevEnvFrame" AllowDrop="True" />
 
-        <local:Outline Margin="10,39,908,139" PreviewEnvironmentGrid="{Binding ElementName=prevEnvFrame, Path=Grid}" Grid.ColumnSpan="2"/>
+        <Label Content="Outline" Grid.Column="0" Grid.Row="1" Margin="{StaticResource textUsualMargin}" />
+        <local:Outline Margin="{StaticResource caseUsualMargin}" Grid.Column="0" Grid.Row="1"
+                       PreviewEnvironmentGrid="{Binding ElementName=prevEnvFrame, Path=Grid}" />
 
-        <!--Test-->
-        <TreeView Margin="708,35,16,10" Grid.Column="1">
+        <Label Grid.Row="1" Grid.Column="2" Margin="{StaticResource textUsualMargin}">Property Manager</Label>
+        <TreeView Margin="{StaticResource caseUsualMargin}" Grid.Row="1" Grid.RowSpan="3" Grid.Column="3" >
         </TreeView>
-        <!--Test-->
     </Grid>
 </Window>
