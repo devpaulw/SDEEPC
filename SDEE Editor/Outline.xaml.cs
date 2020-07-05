@@ -1,5 +1,5 @@
 using SDEE_Editor.Miscellaneous;
-using SDEE_Editor.PreviewEnvironment;
+using SDEE_Editor.InteractiveEnvironment;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -35,36 +35,36 @@ namespace SDEE_Editor
         public Outline()
         {
             InitializeComponent();
-            //CommandBindings.Add(new CommandBinding(PreviewEnvironmentCommands.RemoveSelectedElement));
+            //CommandBindings.Add(new CommandBinding(InteractiveEnvironmentCommands.RemoveSelectedElement));
         }
 
-        public static readonly DependencyProperty PreviewEnvironmentGridProperty
-            = DependencyProperty.Register(nameof(PreviewEnvironmentGrid),
-            typeof(PreviewEnvironmentGrid),
+        public static readonly DependencyProperty InteractiveEnvironmentGridProperty
+            = DependencyProperty.Register(nameof(InteractiveEnvironmentGrid),
+            typeof(InteractiveEnvironmentGrid),
             typeof(Outline));
 
-        public PreviewEnvironmentGrid PreviewEnvironmentGrid
+        public InteractiveEnvironmentGrid InteractiveEnvironmentGrid
         {
-            get => (PreviewEnvironmentGrid)GetValue(PreviewEnvironmentGridProperty);
-            set => SetValue(PreviewEnvironmentGridProperty, value);
+            get => (InteractiveEnvironmentGrid)GetValue(InteractiveEnvironmentGridProperty);
+            set => SetValue(InteractiveEnvironmentGridProperty, value);
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            PreviewEnvironmentGrid.SelectedElementChanged += PrevEnv_SelectedElementChanged;
+            InteractiveEnvironmentGrid.SelectedElementChanged += PrevEnv_SelectedElementChanged;
         }
 
         private void PrevEnv_SelectedElementChanged(object sender, EventArgs e)
         {
             // Select in the listBox, the current selected element of the Preview Environment
-            listBox.SelectedItem = PreviewEnvironmentGrid.SelectedElement;
+            listBox.SelectedItem = InteractiveEnvironmentGrid.SelectedElement;
         }
 
         private void DownArrowButton_Click(object sender, RoutedEventArgs e)
         {
             if (listBox.SelectedItem is FrameworkElement elem)
             {
-                PreviewEnvironmentGrid.Elements.TryMoveElementBy(elem, -1);
+                InteractiveEnvironmentGrid.Elements.TryMoveElementBy(elem, -1);
             }
         }
 
@@ -72,7 +72,7 @@ namespace SDEE_Editor
         {
             if (listBox.SelectedItem is FrameworkElement elem)
             {
-                PreviewEnvironmentGrid.Elements.TryMoveElementBy(elem, 1);
+                InteractiveEnvironmentGrid.Elements.TryMoveElementBy(elem, 1);
             }
         }
 
@@ -80,7 +80,7 @@ namespace SDEE_Editor
         {
             if (listBox.SelectedItem is FrameworkElement selectedObject)
             {
-                PreviewEnvironmentGrid.SelectedElement = selectedObject;
+                InteractiveEnvironmentGrid.SelectedElement = selectedObject;
             }
         }
     }

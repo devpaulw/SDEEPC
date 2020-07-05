@@ -10,20 +10,20 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace SDEE_Editor.PreviewEnvironment
+namespace SDEE_Editor.InteractiveEnvironment
 {
     /// <summary>
     /// The collection of elements in a Preview Environment
     /// </summary>
-    public class PreviewEnvironmentGridCollection : IList<FrameworkElement>, INotifyCollectionChanged
+    public class InteractiveEnvironmentGridCollection : IList<FrameworkElement>, INotifyCollectionChanged
     {
         private readonly Grid m_peGrid;
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
-        public PreviewEnvironmentGridCollection(Grid previewEnvironmentGrid)
+        public InteractiveEnvironmentGridCollection(Grid InteractiveEnvironmentGrid)
         {
-            m_peGrid = previewEnvironmentGrid;
+            m_peGrid = InteractiveEnvironmentGrid;
         }
 
         public FrameworkElement this[int index]

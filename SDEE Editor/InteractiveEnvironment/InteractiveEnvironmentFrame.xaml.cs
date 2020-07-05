@@ -13,22 +13,22 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SDEE_Editor.PreviewEnvironment
+namespace SDEE_Editor.InteractiveEnvironment
 {
     /// <summary>
-    /// Supports the background style and selection style of <seealso cref="PreviewEnvironmentGrid"/><br/>
-    /// Interaction logic for PreviewEnvironmentFrame.xaml
+    /// Supports the background style and selection style of <seealso cref="InteractiveEnvironmentGrid"/><br/>
+    /// Interaction logic for InteractiveEnvironmentFrame.xaml
     /// </summary>
-    public partial class PreviewEnvironmentFrame : UserControl
+    public partial class InteractiveEnvironmentFrame : UserControl
     {
-        public PreviewEnvironmentFrame()
+        public InteractiveEnvironmentFrame()
         {
             InitializeComponent();
 
             
         }
 
-        public PreviewEnvironmentGrid Grid { get => prevGrid; }
+        public InteractiveEnvironmentGrid Grid { get => prevGrid; }
 
         private void Grid_SelectedElementChanged(object sender, EventArgs e)
         {

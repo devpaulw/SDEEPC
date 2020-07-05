@@ -10,19 +10,19 @@ using System.Windows.Input;
 using System.Linq;
 using System.Collections;
 using System.Windows.Media.Animation;
-using SDEE_Editor.PreviewEnvironment;
+using SDEE_Editor.InteractiveEnvironment;
 using System.ComponentModel.Design;
 using System.Diagnostics;
 
-namespace SDEE_Editor.PreviewEnvironment
+namespace SDEE_Editor.InteractiveEnvironment
 {
     /// <summary>
-    /// Interaction logic for PreviewEnvironmentControl.xaml
+    /// Interaction logic for InteractiveEnvironmentControl.xaml
     /// </summary>
-    public partial class PreviewEnvironmentGrid : Grid /*HTBD Perhaps make it a Selector*/
+    public partial class InteractiveEnvironmentGrid : Grid /*HTBD Perhaps make it a Selector*/
     {
-        // TODO Make a PreviewEnvironmentGrid instead of a Frame directly but keep Frame for background and stroke
-        public PreviewEnvironmentGrid()
+        // TODO Make a InteractiveEnvironmentGrid instead of a Frame directly but keep Frame for background and stroke
+        public InteractiveEnvironmentGrid()
         {
             InitializeComponent();
 
@@ -33,7 +33,7 @@ namespace SDEE_Editor.PreviewEnvironment
         }
 
         /// <summary>
-        /// When PreviewEnvironment.SelectedElement value changed
+        /// When InteractiveEnvironment.SelectedElement value changed
         /// </summary>
         public event EventHandler SelectedElementChanged;
 
@@ -57,10 +57,10 @@ namespace SDEE_Editor.PreviewEnvironment
 
         public ObservableCollection<FrameworkElement> Elements { get; }
 
-        private PreviewEnvironmentElement GetContainerFromElement(FrameworkElement element)
+        private InteractiveEnvironmentElement GetContainerFromElement(FrameworkElement element)
         {
             return Children
-                .OfType<PreviewEnvironmentElement>()
+                .OfType<InteractiveEnvironmentElement>()
                 .Where(peElem => peElem.ElementValue == element)
                 .FirstOrDefault(); // OPTI
         }
@@ -71,7 +71,7 @@ namespace SDEE_Editor.PreviewEnvironment
             Children.Clear();
             foreach (FrameworkElement element in Elements)
             {
-                PreviewEnvironmentElement peElem = new PreviewEnvironmentElement(element)
+                InteractiveEnvironmentElement peElem = new InteractiveEnvironmentElement(element)
                 {
                 };
 
@@ -87,7 +87,7 @@ namespace SDEE_Editor.PreviewEnvironment
 
         private void PeElem_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            PreviewEnvironmentElement selectedPeElem = sender as PreviewEnvironmentElement;
+            InteractiveEnvironmentElement selectedPeElem = sender as InteractiveEnvironmentElement;
             SelectedElement = selectedPeElem.ElementValue;
             e.Handled = true; // Any parent (supposed to be this PEFrame) that try to receive a MouseDown will be cancelled so that we focus on this.
         }
@@ -119,10 +119,10 @@ namespace SDEE_Editor.PreviewEnvironment
                     if (e.OriginalSource == this) // Make sure that we do not Drag Enter directly through an element, but rather when to reach the higher pe-grid
                     {
                         if (Elements.Contains(elem)) // Add it only when the Elements don't already contains it, otherwise there is a bug somewhere.
-                            throw new PreviewEnvironmentException("The preview environment grid already contains this element.");
+                            throw new InteractiveEnvironmentException("The preview environment grid already contains this element.");
 
                         if (previewDraggingElem != null) // When an element is already supposed to be dragging, there is a bug somewhere.
-                            throw new PreviewEnvironmentException("Can't drag two elements at the same time.");
+                            throw new InteractiveEnvironmentException("Can't drag two elements at the same time.");
 
                         Elements.Add(elem);
                         previewDraggingElem = elem;

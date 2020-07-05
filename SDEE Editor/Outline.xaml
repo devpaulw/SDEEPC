@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SDEE_Editor"
-             xmlns:prevenv="clr-namespace:SDEE_Editor.PreviewEnvironment"
+             xmlns:prevenv="clr-namespace:SDEE_Editor.InteractiveEnvironment"
              xmlns:mis="clr-namespace:SDEE_Editor.Miscellaneous"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="200"
@@ -16,18 +16,18 @@
     </UserControl.DataContext>
 
     <UserControl.InputBindings>
-        <KeyBinding Command="{x:Static prevenv:PreviewEnvironmentCommands.RemoveSelectedElement}"
-                    CommandTarget="{Binding Path=PreviewEnvironmentGrid}"
+        <KeyBinding Command="{x:Static prevenv:InteractiveEnvironmentCommands.RemoveSelectedElement}"
+                    CommandTarget="{Binding Path=InteractiveEnvironmentGrid}"
                     Gesture="Delete"/>
-        <KeyBinding Command="{x:Static prevenv:PreviewEnvironmentCommands.DeselectAll}" 
-                    CommandTarget="{Binding Path=PreviewEnvironmentGrid}"
+        <KeyBinding Command="{x:Static prevenv:InteractiveEnvironmentCommands.DeselectAll}" 
+                    CommandTarget="{Binding Path=InteractiveEnvironmentGrid}"
                     Gesture="Escape"/>
     </UserControl.InputBindings>
 
     <UserControl.Resources>
         <ContextMenu x:Key="elementSelectionContextMenu"
                      DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Outline}}}">
-            <MenuItem Command="{x:Static prevenv:PreviewEnvironmentCommands.RemoveSelectedElement}" CommandTarget="{Binding Path=PreviewEnvironmentGrid}"/>
+            <MenuItem Command="{x:Static prevenv:InteractiveEnvironmentCommands.RemoveSelectedElement}" CommandTarget="{Binding Path=InteractiveEnvironmentGrid}"/>
         </ContextMenu>
     </UserControl.Resources>
 
@@ -39,7 +39,7 @@
 
         <ListBox x:Name="listBox" Grid.Row="2"
                  SelectionChanged="ListBox_SelectionChanged" SelectionMode="Single"
-                 ItemsSource="{Binding PreviewEnvironmentGrid.Elements, Converter={mis:ObservableCollectionFrameworkElementReverseConverter}}">
+                 ItemsSource="{Binding InteractiveEnvironmentGrid.Elements, Converter={mis:ObservableCollectionFrameworkElementReverseConverter}}">
 
             <ListBox.ItemContainerStyle>
                 <Style TargetType="{x:Type ListBoxItem}">

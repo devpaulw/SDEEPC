@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SDEE_Editor"
-        xmlns:prevenv="clr-namespace:SDEE_Editor.PreviewEnvironment"
+        xmlns:prevenv="clr-namespace:SDEE_Editor.InteractiveEnvironment"
         mc:Ignorable="d"
         Height="720" Width="1200" MinHeight="500" MinWidth="900"
         Title="SDEE Project CodeName Editor (Prototype Release)"
@@ -39,13 +39,13 @@
         <local:Toolbox Grid.ColumnSpan="2" Grid.Row="3" Margin="{StaticResource caseUsualMargin}"
                        ElementClicked="Toolbox_ElementClicked"/>
 
-        <Label Content="Preview Environment" Grid.Row="1" Grid.Column="1" Margin="{StaticResource textUsualMargin}"/>
-        <prevenv:PreviewEnvironmentFrame Margin="{StaticResource caseUsualMargin}" Grid.Column="1" Grid.Row="1" 
+        <Label Content="Interactive Environment" Grid.Row="1" Grid.Column="1" Margin="{StaticResource textUsualMargin}"/>
+        <prevenv:InteractiveEnvironmentFrame Margin="{StaticResource caseUsualMargin}" Grid.Column="1" Grid.Row="1" 
                                          x:Name="prevEnvFrame" AllowDrop="True" />
 
         <Label Content="Outline" Grid.Column="0" Grid.Row="1" Margin="{StaticResource textUsualMargin}" />
         <local:Outline Margin="{StaticResource caseUsualMargin}" Grid.Column="0" Grid.Row="1"
-                       PreviewEnvironmentGrid="{Binding ElementName=prevEnvFrame, Path=Grid}" />
+                       InteractiveEnvironmentGrid="{Binding ElementName=prevEnvFrame, Path=Grid}" />
 
         <Label Grid.Row="1" Grid.Column="2" Margin="{StaticResource textUsualMargin}">Property Manager</Label>
         <TreeView Margin="{StaticResource caseUsualMargin}" Grid.Row="1" Grid.RowSpan="3" Grid.Column="3" >

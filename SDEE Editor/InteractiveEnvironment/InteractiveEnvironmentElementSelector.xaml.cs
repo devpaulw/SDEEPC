@@ -14,15 +14,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SDEE_Editor.PreviewEnvironment
+namespace SDEE_Editor.InteractiveEnvironment
 {
     /// <summary>
-    /// Takes charge of selecting PreviewEnvironmentGrid Selected Element with a surrounding rectangle
+    /// Takes charge of selecting InteractiveEnvironmentGrid Selected Element with a surrounding rectangle
     /// </summary>
-    public partial class PreviewEnvironmentElementSelector : UserControl
+    public partial class InteractiveEnvironmentElementSelector : UserControl
     {
-        public static readonly DependencyProperty ColorProperty = DependencyProperty.Register("Color", typeof(Brush), typeof(PreviewEnvironmentElementSelector));
-        public static readonly DependencyProperty SizeProperty = DependencyProperty.Register("Size", typeof(double), typeof(PreviewEnvironmentElementSelector));
+        public static readonly DependencyProperty ColorProperty = DependencyProperty.Register("Color", typeof(Brush), typeof(InteractiveEnvironmentElementSelector));
+        public static readonly DependencyProperty SizeProperty = DependencyProperty.Register("Size", typeof(double), typeof(InteractiveEnvironmentElementSelector));
 
         public Brush Color {
             get => (Brush)GetValue(ColorProperty);
@@ -39,7 +39,7 @@ namespace SDEE_Editor.PreviewEnvironment
         //public Action RemoveSelectedElement { get; set; }
 
 
-        public PreviewEnvironmentElementSelector()
+        public InteractiveEnvironmentElementSelector()
         {
             InitializeComponent();
         }

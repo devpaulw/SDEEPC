@@ -13,15 +13,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 // TODO Unselect command
-namespace SDEE_Editor.PreviewEnvironment
+namespace SDEE_Editor.InteractiveEnvironment
 {
     /// </summary>
     /// Interaction logic for EditorElement.xaml <br/>
     /// Represents an element that is a FrameworkElement that is not HitTestVisible but still supports Mouse and Keyboard input.
     /// </summary>
-    public partial class PreviewEnvironmentElement : ContentControl
+    public partial class InteractiveEnvironmentElement : ContentControl
     {
-        public PreviewEnvironmentElement(FrameworkElement elementValue)
+        public InteractiveEnvironmentElement(FrameworkElement elementValue)
         {
             ElementValue = elementValue ?? throw new ArgumentNullException(nameof(elementValue));
 

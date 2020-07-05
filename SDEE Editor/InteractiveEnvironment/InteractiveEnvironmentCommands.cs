@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 using System.Windows.Documents;
 using System.Windows.Input;
 
-namespace SDEE_Editor.PreviewEnvironment
+namespace SDEE_Editor.InteractiveEnvironment
 {
-    class PreviewEnvironmentCommands
+    class InteractiveEnvironmentCommands
     {
         public static RoutedUICommand RemoveSelectedElement { get; }
-            = new RoutedUICommand("Remove", "RemoveSelectedElement", typeof(PreviewEnvironmentGrid),
+            = new RoutedUICommand("Remove", "RemoveSelectedElement", typeof(InteractiveEnvironmentGrid),
                         new InputGestureCollection { new KeyGesture(Key.Delete, ModifierKeys.None) });
             
 
         public static RoutedUICommand DeselectAll { get; }
-            = new RoutedUICommand("Deselect all", "DeselectAll", typeof(PreviewEnvironmentGrid),
+            = new RoutedUICommand("Deselect all", "DeselectAll", typeof(InteractiveEnvironmentGrid),
                         new InputGestureCollection { new KeyGesture(Key.Escape, ModifierKeys.None) });
     }
 }
