@@ -76,6 +76,7 @@
       <DependentUpon>ClassicExecutable.xaml</DependentUpon>
     </Compile>
     <Compile Include="DesktopEnvironment.cs" />
+    <Compile Include="DesktopEnvironmentStorer.cs" />
     <Compile Include="MoveGrip.xaml.cs">
       <DependentUpon>MoveGrip.xaml</DependentUpon>
     </Compile>
