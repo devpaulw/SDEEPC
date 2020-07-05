@@ -29,7 +29,6 @@ namespace SDEE_Editor
         public MainWindow()
         {
             InitializeComponent();
-            Loaded += OnLoaded;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
@@ -39,7 +38,7 @@ namespace SDEE_Editor
 
         private void Toolbox_ElementClicked(object sender, FrameworkElement e) // TODO Why it says unusued
         {
-            prevEnv.Elements.Add(e);
+            prevEnvFrame.Grid.Elements.Add(e);
         }
 
         private void Menu_Help_About_Click(object sender, RoutedEventArgs e)

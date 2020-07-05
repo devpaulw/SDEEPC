@@ -17,17 +17,17 @@
 
     <UserControl.InputBindings>
         <KeyBinding Command="{x:Static prevenv:PreviewEnvironmentCommands.RemoveSelectedElement}"
-                    CommandTarget="{Binding PreviewEnvironmentFrame}"
+                    CommandTarget="{Binding Path=PreviewEnvironmentGrid}"
                     Gesture="Delete"/>
         <KeyBinding Command="{x:Static prevenv:PreviewEnvironmentCommands.DeselectAll}" 
-                    CommandTarget="{Binding PreviewEnvironmentFrame}"
+                    CommandTarget="{Binding Path=PreviewEnvironmentGrid}"
                     Gesture="Escape"/>
     </UserControl.InputBindings>
 
     <UserControl.Resources>
         <ContextMenu x:Key="elementSelectionContextMenu"
                      DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Outline}}}">
-            <MenuItem Command="{x:Static prevenv:PreviewEnvironmentCommands.RemoveSelectedElement}" CommandTarget="{Binding PreviewEnvironmentFrame}"/>
+            <MenuItem Command="{x:Static prevenv:PreviewEnvironmentCommands.RemoveSelectedElement}" CommandTarget="{Binding Path=PreviewEnvironmentGrid}"/>
         </ContextMenu>
     </UserControl.Resources>
 
@@ -39,7 +39,7 @@
 
         <ListBox x:Name="listBox" Grid.Row="2"
                  SelectionChanged="ListBox_SelectionChanged" SelectionMode="Single"
-                 ItemsSource="{Binding PreviewEnvironmentFrame.Elements, Converter={mis:ObservableCollectionFrameworkElementReverseConverter}}">
+                 ItemsSource="{Binding PreviewEnvironmentGrid.Elements, Converter={mis:ObservableCollectionFrameworkElementReverseConverter}}">
 
             <ListBox.ItemContainerStyle>
                 <Style TargetType="{x:Type ListBoxItem}">
@@ -76,8 +76,6 @@
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
-
-                    <EventSetter Event="PreviewMouseDown" Handler="ListBoxItem_PreviewMouseDown"/>
 
                     <Style.Triggers>
                         <Trigger Property="IsSelected" Value="True">

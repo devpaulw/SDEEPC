@@ -38,33 +38,33 @@ namespace SDEE_Editor
             //CommandBindings.Add(new CommandBinding(PreviewEnvironmentCommands.RemoveSelectedElement));
         }
 
-        public static readonly DependencyProperty PreviewEnvironmentProperty
-            = DependencyProperty.Register(nameof(PreviewEnvironmentFrame),
-            typeof(PreviewEnvironmentFrame),
+        public static readonly DependencyProperty PreviewEnvironmentGridProperty
+            = DependencyProperty.Register(nameof(PreviewEnvironmentGrid),
+            typeof(PreviewEnvironmentGrid),
             typeof(Outline));
 
-        public PreviewEnvironmentFrame PreviewEnvironmentFrame
+        public PreviewEnvironmentGrid PreviewEnvironmentGrid
         {
-            get => (PreviewEnvironmentFrame)GetValue(PreviewEnvironmentProperty);
-            set => SetValue(PreviewEnvironmentProperty, value);
+            get => (PreviewEnvironmentGrid)GetValue(PreviewEnvironmentGridProperty);
+            set => SetValue(PreviewEnvironmentGridProperty, value);
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            PreviewEnvironmentFrame.SelectedElementChanged += PrevEnv_SelectedElementChanged;
+            PreviewEnvironmentGrid.SelectedElementChanged += PrevEnv_SelectedElementChanged;
         }
 
         private void PrevEnv_SelectedElementChanged(object sender, EventArgs e)
         {
             // Select in the listBox, the current selected element of the Preview Environment
-            listBox.SelectedItem = PreviewEnvironmentFrame.SelectedElement;
+            listBox.SelectedItem = PreviewEnvironmentGrid.SelectedElement;
         }
 
         private void DownArrowButton_Click(object sender, RoutedEventArgs e)
         {
             if (listBox.SelectedItem is FrameworkElement elem)
             {
-                PreviewEnvironmentFrame.Elements.TryMoveElementBy(elem, -1);
+                PreviewEnvironmentGrid.Elements.TryMoveElementBy(elem, -1);
             }
         }
 
@@ -72,7 +72,7 @@ namespace SDEE_Editor
         {
             if (listBox.SelectedItem is FrameworkElement elem)
             {
-                PreviewEnvironmentFrame.Elements.TryMoveElementBy(elem, 1);
+                PreviewEnvironmentGrid.Elements.TryMoveElementBy(elem, 1);
             }
         }
 
@@ -80,20 +80,8 @@ namespace SDEE_Editor
         {
             if (listBox.SelectedItem is FrameworkElement selectedObject)
             {
-                PreviewEnvironmentFrame.SelectedElement = selectedObject;
+                PreviewEnvironmentGrid.SelectedElement = selectedObject;
             }
-        }
-
-        protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
-        {
-            base.OnPreviewMouseDown(e);
-        }
-
-        private void ListBoxItem_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            // Shallow selection without focus
-            //ListBoxItem lbi = sender as ListBoxItem;
-            //lbi.IsSelected = true;
         }
     }
 }

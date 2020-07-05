@@ -71,6 +71,9 @@
     <Compile Include="PreviewEnvironment\PreviewEnvironmentFrame.xaml.cs">
       <DependentUpon>PreviewEnvironmentFrame.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PreviewEnvironment\PreviewEnvironmentGrid.xaml.cs">
+      <DependentUpon>PreviewEnvironmentGrid.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PreviewEnvironment\PreviewEnvironmentCommands.cs" />
     <Compile Include="PreviewEnvironment\PreviewEnvironmentGridCollection.cs" />
     <Compile Include="PreviewEnvironment\PreviewEnvironmentElementSelector.xaml.cs">
@@ -100,6 +103,10 @@
       <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
     <Page Include="PreviewEnvironment\PreviewEnvironmentFrame.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PreviewEnvironment\PreviewEnvironmentGrid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

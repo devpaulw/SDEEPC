@@ -8,7 +8,8 @@
         mc:Ignorable="d"
         Height="600" Width="1066"
         ResizeMode="CanMinimize" 
-        Title="SDEE Project CodeName Editor (Prototype Release)">
+        Title="SDEE Project CodeName Editor (Prototype Release)"
+        Loaded="OnLoaded">
 
     <Grid DataContext="{Binding RelativeSource={RelativeSource Self}}" >
         <Grid.ColumnDefinitions>
@@ -31,11 +32,11 @@
         <Label Content="Property Manager" Margin="708,10,0,0" Grid.Column="1"/>
 
         <local:Toolbox HorizontalAlignment="Left" Width="756" Margin="10,455,0,13" ElementClicked="Toolbox_ElementClicked" 
-        KeyboardNavigation.TabNavigation="None" Grid.ColumnSpan="2"/>
+                       KeyboardNavigation.TabNavigation="None" Grid.ColumnSpan="2"/>
+        
+        <prevenv:PreviewEnvironmentFrame x:Name="prevEnvFrame" AllowDrop="True" Margin="88,32,289,136" Grid.Column="1"/>
 
-            <prevenv:PreviewEnvironmentFrame x:Name="prevEnv" AllowDrop="True" Margin="88,32,289,136" Grid.Column="1"/>
-
-            <local:Outline Margin="10,39,908,139" PreviewEnvironmentFrame="{Binding ElementName=prevEnv}" Grid.ColumnSpan="2"/>
+        <local:Outline Margin="10,39,908,139" PreviewEnvironmentGrid="{Binding ElementName=prevEnvFrame, Path=Grid}" Grid.ColumnSpan="2"/>
 
         <!--Test-->
         <TreeView Margin="708,35,16,10" Grid.Column="1">

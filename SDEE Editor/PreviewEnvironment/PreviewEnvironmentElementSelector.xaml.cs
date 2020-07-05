@@ -17,13 +17,12 @@ using System.Windows.Shapes;
 namespace SDEE_Editor.PreviewEnvironment
 {
     /// <summary>
-    /// Takes charge of selecting PreviewEnvironmentFrame Selected Element with a surrounding rectangle
+    /// Takes charge of selecting PreviewEnvironmentGrid Selected Element with a surrounding rectangle
     /// </summary>
     public partial class PreviewEnvironmentElementSelector : UserControl
     {
         public static readonly DependencyProperty ColorProperty = DependencyProperty.Register("Color", typeof(Brush), typeof(PreviewEnvironmentElementSelector));
         public static readonly DependencyProperty SizeProperty = DependencyProperty.Register("Size", typeof(double), typeof(PreviewEnvironmentElementSelector));
-        public static readonly DependencyProperty PreviewEnvironmentFrameProperty = DependencyProperty.Register("PreviewEnvironmentFrame", typeof(PreviewEnvironmentFrame), typeof(PreviewEnvironmentElementSelector));
 
         public Brush Color {
             get => (Brush)GetValue(ColorProperty);
@@ -33,11 +32,6 @@ namespace SDEE_Editor.PreviewEnvironment
         public double Size {
             get => (double)GetValue(SizeProperty);
             set => SetValue(SizeProperty, value);
-        }
-        public PreviewEnvironmentFrame PreviewEnvironmentFrame
-        {
-            get => (PreviewEnvironmentFrame)GetValue(PreviewEnvironmentFrameProperty);
-            set => SetValue(PreviewEnvironmentFrameProperty, value);
         }
 
         public double Gap { get; set; }
@@ -51,8 +45,6 @@ namespace SDEE_Editor.PreviewEnvironment
         }
 
         // TODO When loaded, check if values DPs have been filled
-
-
 
         public void SurroundElement(FrameworkElement element)
         {

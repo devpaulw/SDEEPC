@@ -18,7 +18,7 @@
 
     <ContentControl.Resources>
         <ContextMenu x:Key="elementSelectionContextMenu"
-                            DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type prevenv:PreviewEnvironmentFrame}}}">
+                            DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type prevenv:PreviewEnvironmentGrid}}}">
             <MenuItem Command="prevenv:PreviewEnvironmentCommands.RemoveSelectedElement" CommandTarget="{Binding}"/>
         </ContextMenu>
     </ContentControl.Resources>
