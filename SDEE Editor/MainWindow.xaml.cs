@@ -43,7 +43,7 @@ namespace SDEE_Editor
 
         private void Menu_Help_About_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Developed by Paul and Thomas Wacquet.", "Software Desktop Environment Editor (SDEE) Project CodeName", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Developed by Paul Wacquet and Thomas Wacquet.", "Software Desktop Environment Editor (SDEE) Project CodeName", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void Menu_File_Exit_Click(object sender, RoutedEventArgs e)

@@ -25,7 +25,8 @@
 
     </UserControl.Resources>
 
-    <Rectangle x:Name="surroundingRect" Style="{StaticResource rectStrokeStyle}">
-
-    </Rectangle>
+    <Canvas x:Name="canvas">
+        <Rectangle x:Name="surroundingRect" Style="{StaticResource rectStrokeStyle}"
+                   SnapsToDevicePixels="True"/>
+    </Canvas>
 </UserControl>

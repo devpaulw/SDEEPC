@@ -21,15 +21,12 @@ namespace SDEE_Editor.InteractiveEnvironment
     /// </summary>
     public partial class InteractiveEnvironmentGrid : Grid /*HTBD Perhaps make it a Selector*/
     {
-        // TODO Make a InteractiveEnvironmentGrid instead of a Frame directly but keep Frame for background and stroke
         public InteractiveEnvironmentGrid()
         {
             InitializeComponent();
 
             Elements = new ObservableCollection<FrameworkElement>();
             Elements.CollectionChanged += Elements_CollectionChanged;
-
-            // TODO When this control lose the focus, deselect selected element
         }
 
         /// <summary>
@@ -57,7 +54,7 @@ namespace SDEE_Editor.InteractiveEnvironment
 
         public ObservableCollection<FrameworkElement> Elements { get; }
 
-        private InteractiveEnvironmentElement GetContainerFromElement(FrameworkElement element)
+        public InteractiveEnvironmentElement GetContainerFromElement(FrameworkElement element)
         {
             return Children
                 .OfType<InteractiveEnvironmentElement>()
@@ -78,7 +75,7 @@ namespace SDEE_Editor.InteractiveEnvironment
                 peElem.MouseDown += PeElem_MouseDown;
 
                 Children.Add(peElem);
-            } // HTBD Optimize this since we can know the action.
+            } // OPTI Optimize this since we can know the action.
 
             if (e.Action != NotifyCollectionChangedAction.Move) // When we move, we don't deselect any selected element
                 SelectedElement = null;

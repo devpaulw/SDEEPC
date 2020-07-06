@@ -56,81 +56,66 @@ namespace SDEE_Editor
 
         public void InitializeTest()
         {
-            const string spongeTaskbarName = "SpongeTaskbar";
-
-            _tree.Items.Add(new TreeViewItem
+            _tree.Items.Add(new LibraryElement("SpongeTaskbar", () => new Rectangle
             {
-                Header = spongeTaskbarName, // TODO This could be attached to LibraryElement.ElementName
-                Style = Resources["toolStyle"] as Style, // TODO This should be in the ItemTemplate of ItemContainerStyle
-                Tag = new LibraryElement(spongeTaskbarName, () => new Rectangle
-                {
-                    Fill = Brushes.DeepSkyBlue,
-                    Height = 50,
-                    VerticalAlignment = VerticalAlignment.Bottom,
-                    HorizontalAlignment = HorizontalAlignment.Stretch
-                })
-            });
-
-            _tree.Items.Add(new TreeViewItem
+                Fill = Brushes.DeepSkyBlue,
+                Height = 50,
+                VerticalAlignment = VerticalAlignment.Bottom,
+                HorizontalAlignment = HorizontalAlignment.Stretch
+            }));            
+            
+            _tree.Items.Add(new LibraryElement("SpongeGatesButton", () => new Button
             {
-                Header = "SpongeDesktop",
-                Style = Resources["toolStyle"] as Style,
-                Tag = new LibraryElement("SpongeDesktop", () => new Rectangle
-                {
-                    Fill = Brushes.Green,
-                    VerticalAlignment = VerticalAlignment.Stretch,
-                    HorizontalAlignment = HorizontalAlignment.Stretch
-                })
-            });
+                Content = "Hello Mr. Gates",
+                Width = 100,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Margin = new Thickness(20, 35, 50, 35)
+            }));
 
-
-            _tree.Items.Add(new TreeViewItem
+            _tree.Items.Add(new LibraryElement("SpongeButton", () => new Button
             {
-                Header = "SpongeButton",
-                Style = Resources["toolStyle"] as Style,
-                Tag = new LibraryElement("SpongeButton", () => new Button
-                {
-                    Content = "Do you know the way?\n=> Sponge bob.",
-                    Height = 50,
-                    Width = 150,
-                    VerticalAlignment = VerticalAlignment.Center,
-                    HorizontalAlignment = HorizontalAlignment.Center
-                })
-            });
+                Content = "Do you know the way?\n=> Sponge bob.",
+                Height = 50,
+                Width = 150,
+                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Center
+            }));
 
-            _tree.Items.Add(new TreeViewItem
+            _tree.Items.Add(new LibraryElement("SpongeDesktop", () => new Rectangle
             {
-                Header = "SpongeLargeButton",
-                Style = Resources["toolStyle"] as Style,
-                Tag = new LibraryElement("SpongeLargeButton", () => new Button
-                {
-                    Content = "Hello Mr. Gates",
-                    Width = 100,
-                    VerticalAlignment = VerticalAlignment.Stretch,
-                    HorizontalAlignment = HorizontalAlignment.Left
-                })
-            });
+                Fill = Brushes.Green,
+                VerticalAlignment = VerticalAlignment.Stretch,
+                HorizontalAlignment = HorizontalAlignment.Stretch
+            }));
+
+            _tree.Items.Add(new LibraryElement("SpongeCalendar", () => new Calendar
+            {
+                HorizontalAlignment = HorizontalAlignment.Right,
+                VerticalAlignment = VerticalAlignment.Top,
+                Margin = new Thickness(5, 5, 5, 5)
+            }));
         }
 
         public event EventHandler<FrameworkElement> ElementClicked;
 
+        // Drag & Drop
         private void Tool_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
                 if (sender is TreeViewItem tvi)
-                    if (tvi.Tag is LibraryElement elem)
+                    if (tvi.Header is LibraryElement elem)
                     {
                         DataObject dObj = new DataObject(typeof(FrameworkElement), (elem ?? throw new NullReferenceException()).GetElement() /* Extracts the element from the LibraryElement */);
                         DragDrop.DoDragDrop(this, dObj, DragDropEffects.Copy);
                     }
         }
 
+        // Double-click
         private void Tool_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            // TODO Replace this by a command
             if (e.ChangedButton == MouseButton.Left)
                 if (sender is TreeViewItem tvi)
-                    if (tvi.Tag is LibraryElement elem)
+                    if (tvi.Header is LibraryElement elem)
                     {
                         ElementClicked?.Invoke(this, (elem ?? throw new NullReferenceException()).GetElement());
                     }

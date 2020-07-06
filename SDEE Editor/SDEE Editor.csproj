@@ -75,7 +75,6 @@
       <DependentUpon>InteractiveEnvironmentGrid.xaml</DependentUpon>
     </Compile>
     <Compile Include="InteractiveEnvironment\InteractiveEnvironmentCommands.cs" />
-    <Compile Include="InteractiveEnvironment\InteractiveEnvironmentGridCollection.cs" />
     <Compile Include="InteractiveEnvironment\InteractiveEnvironmentElementSelector.xaml.cs">
       <DependentUpon>InteractiveEnvironmentElementSelector.xaml</DependentUpon>
     </Compile>

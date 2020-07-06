@@ -30,7 +30,7 @@
 
         </Grid>
 
-        <local:InteractiveEnvironmentElementSelector x:Name="elemSelector" Color="Red" Size="2" Gap="3"/>
+        <local:InteractiveEnvironmentElementSelector x:Name="elemSelector" Color="Red" Size="2"/>
     </Grid>
 
 </UserControl>

@@ -30,8 +30,9 @@
     </ContentControl.Style>
 
     <Grid>
+        <ContentControl x:Name="contentCtrl"
+                        IsHitTestVisible="False"/>
 
-        <ContentControl Content="{Binding ElementValue}" IsHitTestVisible="False"/>
         <Rectangle x:Name="inputDetectionRect" Fill="Transparent" />
     </Grid>
 

@@ -32,7 +32,14 @@ namespace SDEE_Editor.InteractiveEnvironment
 
         private void Grid_SelectedElementChanged(object sender, EventArgs e)
         {
-            elemSelector.SurroundElement(Grid.SelectedElement);
+            elemSelector.SurroundElement(Grid.GetContainerFromElement(Grid.SelectedElement));
+        }
+
+        protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
+        {
+            base.OnRenderSizeChanged(sizeInfo);
+
+            elemSelector.SurroundElement(Grid.GetContainerFromElement(Grid.SelectedElement));
         }
     }
 }

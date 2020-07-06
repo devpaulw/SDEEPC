@@ -44,8 +44,6 @@ namespace SDEE_Editor.InteractiveEnvironment
             InitializeComponent();
         }
 
-        // TODO When loaded, check if values DPs have been filled
-
         public void SurroundElement(FrameworkElement element)
         {
             if (element == null) // Is going to be deselected, unsurrounded
@@ -57,37 +55,19 @@ namespace SDEE_Editor.InteractiveEnvironment
             }
             else
             {
+                Rect elementBoundsRect = element
+                    .TransformToVisual(canvas)
+                    .TransformBounds(new Rect(element.RenderSize));
+
+                double gap = surroundingRect.StrokeThickness + Gap;
+
+                Canvas.SetLeft(surroundingRect, elementBoundsRect.Left - gap);
+                Canvas.SetTop(surroundingRect, elementBoundsRect.Top - gap);
+
                 surroundingRect.Visibility = Visibility.Visible;
-                surroundingRect.HorizontalAlignment = element.HorizontalAlignment;
-                surroundingRect.VerticalAlignment = element.VerticalAlignment;
-                surroundingRect.Margin = element.Margin;
-                surroundingRect.Width = element.Width + surroundingRect.StrokeThickness + Gap;
-                surroundingRect.Height = element.Height + surroundingRect.StrokeThickness + Gap;
+                surroundingRect.Width = element.ActualWidth + gap * 2;
+                surroundingRect.Height = element.ActualHeight + gap * 2;
             }
         }
-
-        //protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
-        //{
-        //    // TODO Enable this to be always focused when PE focused too
-        //    base.OnPreviewMouseLeftButtonDown(e); 
-
-        //    Focus();// Focus for key inputs
-        //}
-
-        //protected override void OnKeyDown(KeyEventArgs e)
-        //{
-        //    base.OnKeyDown(e);
-
-        //    if (e.Key == Key.Delete)
-        //        RemoveSelectedElement?.Invoke();
-        //}
-
-        //private void ContextMenuRemoveMenuItem_Click(object sender, RoutedEventArgs e)
-        //{
-        //    if (RemoveSelectedElement == null)
-        //        throw new NullReferenceException("The remove element operation wasn't linked to any delegate.");
-        //    else
-        //    RemoveSelectedElement.Invoke();
-        //}
     }
 }
