@@ -1,6 +1,9 @@
-﻿using System;
+﻿using SDEE_Editor.Miscellaneous;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -8,11 +11,13 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-// TODO Unselect command
+using System.Xml;
+
 namespace SDEE_Editor.InteractiveEnvironment
 {
     /// </summary>
@@ -24,8 +29,23 @@ namespace SDEE_Editor.InteractiveEnvironment
         public InteractiveEnvironmentElement(FrameworkElement elementValue)
         {
             ElementValue = elementValue ?? throw new ArgumentNullException(nameof(elementValue));
-
+            
             InitializeComponent();
+
+            UpdateContentControl();
+        }
+
+        private void UpdateContentControl()
+        {
+            FrameworkElement adaptedElem = ElementValue.Clone();
+
+            adaptedElem.HorizontalAlignment = HorizontalAlignment.Stretch;
+            adaptedElem.VerticalAlignment = VerticalAlignment.Stretch;
+            adaptedElem.Margin = new Thickness(0);
+            adaptedElem.Width = double.NaN;
+            adaptedElem.Height = double.NaN;
+
+            contentCtrl.Content = adaptedElem;
         }
 
         public FrameworkElement ElementValue { get; }

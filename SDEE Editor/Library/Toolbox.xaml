@@ -10,9 +10,15 @@
     <UserControl.Resources>
         <Style x:Key="toolStyle" TargetType="TreeViewItem">
             <EventSetter Event="MouseMove" Handler="Tool_MouseMove"/>
-            <EventSetter Event="MouseDoubleClick" Handler="Tool_MouseDoubleClick"/>
+            <EventSetter Event="MouseDoubleClick" Handler="Tool_MouseDoubleClick" />
         </Style>
     </UserControl.Resources>
-    
-    <TreeView x:Name="_tree" Width="NaN"/>
+
+    <TreeView x:Name="_tree" ItemContainerStyle="{StaticResource toolStyle}">
+        <TreeView.ItemTemplate>
+            <HierarchicalDataTemplate DataType="{x:Type local:LibraryElement}">
+                <TextBlock Text="{Binding Path=ElementName}"/>
+            </HierarchicalDataTemplate>
+        </TreeView.ItemTemplate>
+    </TreeView>
 </UserControl>

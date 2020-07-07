@@ -58,26 +58,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Miscellaneous\FrameworkElementExtension.cs" />
     <Compile Include="Miscellaneous\ObservableCollectionReverseConverter.cs" />
     <Compile Include="InteractiveEnvironment\InteractiveEnvironmentElement.xaml.cs">
       <DependentUpon>InteractiveEnvironmentElement.xaml</DependentUpon>
     </Compile>
     <Compile Include="Library\LibraryElement.cs" />
     <Compile Include="Miscellaneous\ObservableCollectionExtension.cs" />
-    <Compile Include="Outline.xaml.cs">
+    <Compile Include="InteractiveEnvironment\Outline.xaml.cs">
       <DependentUpon>Outline.xaml</DependentUpon>
     </Compile>
     <Compile Include="InteractiveEnvironment\InteractiveEnvironmentException.cs" />
-    <Compile Include="InteractiveEnvironment\InteractiveEnvironmentFrame.xaml.cs">
-      <DependentUpon>InteractiveEnvironmentFrame.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="InteractiveEnvironment\InteractiveEnvironmentGrid.xaml.cs">
-      <DependentUpon>InteractiveEnvironmentGrid.xaml</DependentUpon>
+    <Compile Include="InteractiveEnvironment\InteractiveEnvironmentBox.xaml.cs">
+      <DependentUpon>InteractiveEnvironmentBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="InteractiveEnvironment\InteractiveEnvironmentCommands.cs" />
-    <Compile Include="InteractiveEnvironment\InteractiveEnvironmentGridCollection.cs" />
-    <Compile Include="InteractiveEnvironment\InteractiveEnvironmentElementSelector.xaml.cs">
-      <DependentUpon>InteractiveEnvironmentElementSelector.xaml</DependentUpon>
+    <Compile Include="InteractiveEnvironment\ElementSelector.xaml.cs">
+      <DependentUpon>ElementSelector.xaml</DependentUpon>
     </Compile>
     <Compile Include="Library\Toolbox.xaml.cs">
       <DependentUpon>Toolbox.xaml</DependentUpon>
@@ -98,19 +95,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Outline.xaml">
+    <Page Include="InteractiveEnvironment\Outline.xaml">
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
-    <Page Include="InteractiveEnvironment\InteractiveEnvironmentFrame.xaml">
+    <Page Include="InteractiveEnvironment\InteractiveEnvironmentBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="InteractiveEnvironment\InteractiveEnvironmentGrid.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="InteractiveEnvironment\InteractiveEnvironmentElementSelector.xaml">
+    <Page Include="InteractiveEnvironment\ElementSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

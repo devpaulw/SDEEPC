@@ -31,19 +31,14 @@ namespace SDEE_Editor
             InitializeComponent();
         }
 
-        private void OnLoaded(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void Toolbox_ElementClicked(object sender, FrameworkElement e) // TODO Why it says unusued
         {
-            prevEnvFrame.Grid.Elements.Add(e);
+            prevEnvBox.Elements.Add(e);
         }
 
         private void Menu_Help_About_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Developed by Paul and Thomas Wacquet.", "Software Desktop Environment Editor (SDEE) Project CodeName", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Developed by Paul Wacquet and Thomas Wacquet.", "Software Desktop Environment Editor (SDEE) Project CodeName", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void Menu_File_Exit_Click(object sender, RoutedEventArgs e)

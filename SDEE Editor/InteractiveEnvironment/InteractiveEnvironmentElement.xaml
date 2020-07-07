@@ -18,7 +18,7 @@
 
     <ContentControl.Resources>
         <ContextMenu x:Key="elementSelectionContextMenu"
-                            DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type prevenv:InteractiveEnvironmentGrid}}}">
+                            DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type prevenv:InteractiveEnvironmentBox}}}">
             <MenuItem Command="prevenv:InteractiveEnvironmentCommands.RemoveSelectedElement" CommandTarget="{Binding}"/>
         </ContextMenu>
     </ContentControl.Resources>
@@ -30,8 +30,9 @@
     </ContentControl.Style>
 
     <Grid>
+        <ContentControl x:Name="contentCtrl"
+                        IsHitTestVisible="False"/>
 
-        <ContentControl Content="{Binding ElementValue}" IsHitTestVisible="False"/>
         <Rectangle x:Name="inputDetectionRect" Fill="Transparent" />
     </Grid>
 

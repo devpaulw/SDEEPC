@@ -13,23 +13,21 @@ using System.Windows.Media.Animation;
 using SDEE_Editor.InteractiveEnvironment;
 using System.ComponentModel.Design;
 using System.Diagnostics;
-
+// TODO Gather IE-Box and IE-Frame
 namespace SDEE_Editor.InteractiveEnvironment
 {
     /// <summary>
     /// Interaction logic for InteractiveEnvironmentControl.xaml
     /// </summary>
-    public partial class InteractiveEnvironmentGrid : Grid /*HTBD Perhaps make it a Selector*/
+    public partial class InteractiveEnvironmentBox : UserControl /*HTBD Perhaps make it a Selector*/
     {
-        // TODO Make a InteractiveEnvironmentGrid instead of a Frame directly but keep Frame for background and stroke
-        public InteractiveEnvironmentGrid()
+        public InteractiveEnvironmentBox()
         {
             InitializeComponent();
 
             Elements = new ObservableCollection<FrameworkElement>();
             Elements.CollectionChanged += Elements_CollectionChanged;
-
-            // TODO When this control lose the focus, deselect selected element
+            SelectedElementChanged += OnSelectedElementChanged;
         }
 
         /// <summary>
@@ -57,9 +55,21 @@ namespace SDEE_Editor.InteractiveEnvironment
 
         public ObservableCollection<FrameworkElement> Elements { get; }
 
-        private InteractiveEnvironmentElement GetContainerFromElement(FrameworkElement element)
+        private void OnSelectedElementChanged(object sender, EventArgs e)
         {
-            return Children
+            elemSelector.SurroundElement(TryGetContainerFromElement(SelectedElement));
+        }
+
+        protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
+        {
+            base.OnRenderSizeChanged(sizeInfo);
+
+            elemSelector.SurroundElement(TryGetContainerFromElement(SelectedElement));
+        }
+
+        private InteractiveEnvironmentElement TryGetContainerFromElement(FrameworkElement element)
+        {
+            return grid.Children
                 .OfType<InteractiveEnvironmentElement>()
                 .Where(peElem => peElem.ElementValue == element)
                 .FirstOrDefault(); // OPTI
@@ -68,17 +78,16 @@ namespace SDEE_Editor.InteractiveEnvironment
         private void Elements_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             // Set elements to the real grid
-            Children.Clear();
+            grid.Children.Clear();
             foreach (FrameworkElement element in Elements)
             {
                 InteractiveEnvironmentElement peElem = new InteractiveEnvironmentElement(element)
                 {
                 };
-
                 peElem.MouseDown += PeElem_MouseDown;
 
-                Children.Add(peElem);
-            } // HTBD Optimize this since we can know the action.
+                grid.Children.Add(peElem);
+            } // OPTI Optimize this since we can know the action.
 
             if (e.Action != NotifyCollectionChangedAction.Move) // When we move, we don't deselect any selected element
                 SelectedElement = null;
@@ -108,18 +117,16 @@ namespace SDEE_Editor.InteractiveEnvironment
 
         private FrameworkElement previewDraggingElem;
 
-        protected override void OnDragEnter(DragEventArgs e)
+        private void Grid_DragEnter(object sender, DragEventArgs e)
         {
-            base.OnDragEnter(e);
-
             if (e.Data.GetDataPresent(typeof(FrameworkElement)))
             {
                 if (e.Data.GetData(typeof(FrameworkElement)) is FrameworkElement elem)
                 {
-                    if (e.OriginalSource == this) // Make sure that we do not Drag Enter directly through an element, but rather when to reach the higher pe-grid
+                    if (e.OriginalSource == sender && sender == grid) // Make sure that we do not Drag Enter directly through an element, but rather when to reach the higher pe-grid
                     {
                         if (Elements.Contains(elem)) // Add it only when the Elements don't already contains it, otherwise there is a bug somewhere.
-                            throw new InteractiveEnvironmentException("The preview environment grid already contains this element.");
+                            throw new InteractiveEnvironmentException("The interactive environment grid already contains this element.");
 
                         if (previewDraggingElem != null) // When an element is already supposed to be dragging, there is a bug somewhere.
                             throw new InteractiveEnvironmentException("Can't drag two elements at the same time.");
@@ -133,18 +140,15 @@ namespace SDEE_Editor.InteractiveEnvironment
             }
         }
 
-        protected override void OnDragOver(DragEventArgs e)
+        private void Grid_DragOver(object sender, DragEventArgs e)
         {
-            base.OnDragOver(e);
-
             e.Effects = DragDropEffects.None;
             if (previewDraggingElem != null)
                 e.Effects = DragDropEffects.Copy;
         }
 
-        protected override void OnDragLeave(DragEventArgs e)
+        private void Grid_DragLeave(object sender, DragEventArgs e)
         {
-            base.OnDragLeave(e);
 
             if (previewDraggingElem != null)
             {
@@ -154,17 +158,15 @@ namespace SDEE_Editor.InteractiveEnvironment
             }
         }
 
-        protected override void OnDrop(DragEventArgs e)
+        private void Grid_Drop(object sender, DragEventArgs e)
         {
-            base.OnDrop(e);
-
             previewDraggingElem = null;
             MakeGridElementsHitTestVisible(true);
         }
 
         private void MakeGridElementsHitTestVisible(bool visible)
         {
-            foreach (UIElement elem in Children)
+            foreach (UIElement elem in grid.Children)
                 elem.IsHitTestVisible = visible;
         }
 
