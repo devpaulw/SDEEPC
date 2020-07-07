@@ -19,10 +19,10 @@ namespace SDEE_Editor.InteractiveEnvironment
     /// <summary>
     /// Takes charge of selecting InteractiveEnvironmentGrid Selected Element with a surrounding rectangle
     /// </summary>
-    public partial class InteractiveEnvironmentElementSelector : UserControl
+    public partial class ElementSelector : UserControl
     {
-        public static readonly DependencyProperty ColorProperty = DependencyProperty.Register("Color", typeof(Brush), typeof(InteractiveEnvironmentElementSelector));
-        public static readonly DependencyProperty SizeProperty = DependencyProperty.Register("Size", typeof(double), typeof(InteractiveEnvironmentElementSelector));
+        public static readonly DependencyProperty ColorProperty = DependencyProperty.Register("Color", typeof(Brush), typeof(ElementSelector));
+        public static readonly DependencyProperty SizeProperty = DependencyProperty.Register("Size", typeof(double), typeof(ElementSelector));
 
         public Brush Color {
             get => (Brush)GetValue(ColorProperty);
@@ -39,7 +39,7 @@ namespace SDEE_Editor.InteractiveEnvironment
         //public Action RemoveSelectedElement { get; set; }
 
 
-        public InteractiveEnvironmentElementSelector()
+        public ElementSelector()
         {
             InitializeComponent();
         }

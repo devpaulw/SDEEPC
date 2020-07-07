@@ -8,7 +8,7 @@ namespace SDEE_Editor
     /// Object allowing to get a new <seealso cref="FrameworkElement"/> each time we pick it from the library.
     /// </summary>
     /// <remarks>
-    /// It must be placed into a Toolbox Library object (e.g. in a <seealso cref="TreeViewItem"/> Tag).<br/>
+    /// It must be placed into a Toolbox Library object (e.g. in a <seealso cref="TreeViewItem"/>).<br/>
     /// </remarks>
     public class LibraryElement
     {
@@ -22,6 +22,11 @@ namespace SDEE_Editor
             _instanceElement = instanceElement ?? throw new ArgumentNullException(nameof(instanceElement));
         }
 
+        public LibraryElement(string xamlTag)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// It is similar as invoking a <seealso cref="Func{TResult}"/> with <seealso cref="FrameworkElement"/> but more intuitive.
         /// </summary>
@@ -29,7 +34,7 @@ namespace SDEE_Editor
         public FrameworkElement GetElement()
         {
             FrameworkElement instancedElement = _instanceElement.Invoke();
-            instancedElement.Name = ElementName;
+            instancedElement.Name = ElementName; // TODO better name
             return instancedElement;
         }
     }

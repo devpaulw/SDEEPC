@@ -105,7 +105,7 @@ namespace SDEE_Editor
                 if (sender is TreeViewItem tvi)
                     if (tvi.Header is LibraryElement elem)
                     {
-                        DataObject dObj = new DataObject(typeof(FrameworkElement), (elem ?? throw new NullReferenceException()).GetElement() /* Extracts the element from the LibraryElement */);
+                        DataObject dObj = new DataObject(typeof(FrameworkElement), elem.GetElement() /* Extracts the element from the LibraryElement */);
                         DragDrop.DoDragDrop(this, dObj, DragDropEffects.Copy);
                     }
         }
@@ -117,7 +117,7 @@ namespace SDEE_Editor
                 if (sender is TreeViewItem tvi)
                     if (tvi.Header is LibraryElement elem)
                     {
-                        ElementClicked?.Invoke(this, (elem ?? throw new NullReferenceException()).GetElement());
+                        ElementClicked?.Invoke(this, elem.GetElement());
                     }
         }
     }

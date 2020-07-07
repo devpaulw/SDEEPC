@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SDEE_Editor.InteractiveEnvironment.InteractiveEnvironmentFrame"
+﻿<UserControl x:Class="SDEE_Editor.InteractiveEnvironment.InteractiveEnvironmentBox"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,7 +6,16 @@
              xmlns:local="clr-namespace:SDEE_Editor.InteractiveEnvironment"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             KeyboardNavigation.TabNavigation="None">
+             Focusable="True"
+             KeyboardNavigation.TabNavigation="None"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
+             AllowDrop="True" Background="Transparent" SnapsToDevicePixels="True">
+
+    <UserControl.CommandBindings>
+        <CommandBinding Command="{x:Static local:InteractiveEnvironmentCommands.RemoveSelectedElement}" CanExecute="RemoveSelectedElement_CanExecute" Executed="RemoveSelectedElement_Executed"/>
+        <CommandBinding Command="{x:Static local:InteractiveEnvironmentCommands.DeselectAll}" CanExecute="DeselectAll_CanExecute" Executed="DeselectAll_Executed"/>
+    </UserControl.CommandBindings>
+    
     <Grid>
         <Rectangle Stroke="#EE000000" StrokeThickness="3" AllowDrop="False"/>
 
@@ -26,11 +35,12 @@
                 </Rectangle.Fill>
             </Rectangle>
 
-            <local:InteractiveEnvironmentGrid x:Name="prevGrid" x:FieldModifier="private" SelectedElementChanged="Grid_SelectedElementChanged"/>
+            <Grid x:Name="grid" AllowDrop="True" PreviewDragEnter="Grid_DragEnter" DragOver="Grid_DragOver" DragLeave="Grid_DragLeave" Drop="Grid_Drop" Background="Transparent">
+                <!--It will be filled in run-time-->
+            </Grid>
 
         </Grid>
 
-        <local:InteractiveEnvironmentElementSelector x:Name="elemSelector" Color="Red" Size="2"/>
+        <local:ElementSelector x:Name="elemSelector" Color="Red" Size="2"/>
     </Grid>
-
 </UserControl>

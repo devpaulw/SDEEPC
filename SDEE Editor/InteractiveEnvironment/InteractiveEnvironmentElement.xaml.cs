@@ -1,7 +1,9 @@
-﻿using System;
+﻿using SDEE_Editor.Miscellaneous;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -31,15 +33,11 @@ namespace SDEE_Editor.InteractiveEnvironment
             InitializeComponent();
 
             UpdateContentControl();
-
         }
 
         private void UpdateContentControl()
         {
-            string elemValXaml = XamlWriter.Save(ElementValue);
-            StringReader stringReader = new StringReader(elemValXaml);
-            XmlReader xmlReader = XmlReader.Create(stringReader);
-            FrameworkElement adaptedElem = (FrameworkElement)XamlReader.Load(xmlReader);
+            FrameworkElement adaptedElem = ElementValue.Clone();
 
             adaptedElem.HorizontalAlignment = HorizontalAlignment.Stretch;
             adaptedElem.VerticalAlignment = VerticalAlignment.Stretch;

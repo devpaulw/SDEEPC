@@ -4,8 +4,9 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace SDEE_Editor
+namespace SDEE_Editor.InteractiveEnvironment
 {
+
     /// <summary>
     /// Interaction logic for Toolbox.xaml
     /// </summary>
@@ -19,12 +20,12 @@ namespace SDEE_Editor
 
         public static readonly DependencyProperty InteractiveEnvironmentGridProperty
             = DependencyProperty.Register(nameof(InteractiveEnvironmentGrid),
-            typeof(InteractiveEnvironmentGrid),
+            typeof(InteractiveEnvironmentBox),
             typeof(Outline));
 
-        public InteractiveEnvironmentGrid InteractiveEnvironmentGrid
+        public InteractiveEnvironmentBox InteractiveEnvironmentGrid
         {
-            get => (InteractiveEnvironmentGrid)GetValue(InteractiveEnvironmentGridProperty);
+            get => (InteractiveEnvironmentBox)GetValue(InteractiveEnvironmentGridProperty);
             set => SetValue(InteractiveEnvironmentGridProperty, value);
         }
 
